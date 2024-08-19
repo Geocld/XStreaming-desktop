@@ -4563,6 +4563,7 @@ dependencies = [
  "log",
  "nt-time",
  "oauth2",
+ "once_cell",
  "p256",
  "rand 0.8.5",
  "reqwest",

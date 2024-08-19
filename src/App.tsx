@@ -1,6 +1,7 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
+import { once } from "@tauri-apps/api/event";
 import "./App.css";
 
 function App() {
@@ -20,6 +21,11 @@ function App() {
   async function startOAuth() {
     await invoke('open_auth_window');
   }
+
+  once("auth-code", (event) => {
+    const params = new URLSearchParams(event.payload as string);
+    console.log('params:', params);
+  })
 
   return (
     <div className="container">
