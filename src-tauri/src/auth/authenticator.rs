@@ -34,7 +34,7 @@ impl Constants {
     // pub const OAUTH20_DESKTOP_REDIRECT_URL: &'static str =
     //     "https://login.live.com/oauth20_desktop.srf";
     pub const OAUTH20_DESKTOP_REDIRECT_URL: &'static str =
-        "ms-xal-public-beta-000000004c20a908://auth";
+        "ms-xal-000000004c20a908://auth";
     /// live.com Authorization URL
     pub const OAUTH20_AUTHORIZE_URL: &'static str = "https://login.live.com/oauth20_authorize.srf";
     /// live.com Device Authorization URL (Device Code flow)

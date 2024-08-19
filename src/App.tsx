@@ -23,8 +23,23 @@ function App() {
   }
 
   once("auth-code", (event) => {
-    const params = new URLSearchParams(event.payload as string);
-    console.log('params:', params);
+    const redirectUri = event.payload as string
+    console.log('redirectUri:', redirectUri);
+    const url = new URL(redirectUri);
+    const error = url.searchParams.get('error');
+    if (error) {
+      // const error_description = url.searchParams.get('error_description');
+      console.log('error:', error);
+      return false;
+    }
+
+    const code = url.searchParams.get('code');
+    if (code) {
+      const state = url.searchParams.get('state');
+
+      console.log('code:', code)
+      console.log('state:', state)
+    }
   })
 
   return (

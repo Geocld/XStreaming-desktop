@@ -57,7 +57,7 @@ async fn get_redirect_uri(handle: tauri::AppHandle) -> String {
       )
     .on_navigation(|url| {
         // let prefix = "ms-xal-000000004c20a908:";
-        let prefix = "ms-xal-public-beta-000000004c20a908";
+        let prefix = "ms-xal-000000004c20a908";
         let url = url.to_string();
         println!("url: {:?}", url);
         if url.starts_with(prefix) {
@@ -67,8 +67,9 @@ async fn get_redirect_uri(handle: tauri::AppHandle) -> String {
             //     window.close().unwrap();
             // }
             if let Some(app_handle) = crate::INSTANCE.get() {
-                app_handle.emit_all("auth-code", auth_code).unwrap();
+                app_handle.emit_all("auth-code", url).unwrap();
                 if let Some(window) = app_handle.get_window("oauth") {
+                    // TODO: Auth sisu token
                     window.close().unwrap();
                 }
             }
