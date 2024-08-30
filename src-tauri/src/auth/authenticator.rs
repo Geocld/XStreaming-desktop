@@ -84,7 +84,7 @@ impl Constants {
 }
 
 /// XAL Authenticator
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct XalAuthenticator {
     /// Random device id
     device_id: uuid::Uuid,
@@ -93,11 +93,8 @@ pub struct XalAuthenticator {
     /// See constants in [`crate::models::app_params]
     app_params: XalAppParameters,
     /// Client parameters
-    ///
     /// See constants in [`crate::models::client_params]
     client_params: XalClientParameters,
-    /// Correlation vector
-    ms_cv: cvlib::CorrelationVector,
     /// HTTP client instance
     client: reqwest::Client,
     /// HTTP request signer
@@ -366,7 +363,6 @@ impl XalAuthenticator {
             app_params,
             client_params,
             device_id: uuid::Uuid::new_v4(),
-            ms_cv: cvlib::CorrelationVector::new(),
             client: reqwest::Client::new(),
             request_signer: request_signer::RequestSigner::default(),
             sandbox_id: sandbox_id.to_owned(),
@@ -815,7 +811,7 @@ impl XalAuthenticator {
             .client
             .post(Constants::XBOX_SISU_AUTHENTICATE_URL)
             .header("x-xbl-contract-version", "1")
-            .add_cv(&mut self.ms_cv)?
+            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?
@@ -905,7 +901,7 @@ impl XalAuthenticator {
 
         self.client
             .post(Constants::XBOX_SISU_AUTHORIZE_URL)
-            .add_cv(&mut self.ms_cv)?
+            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?
@@ -975,7 +971,7 @@ impl XalAuthenticator {
         self.client
             .post(Constants::XBOX_DEVICE_AUTH_URL)
             .header("x-xbl-contract-version", "1")
-            .add_cv(&mut self.ms_cv)?
+            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?
@@ -1048,7 +1044,7 @@ impl XalAuthenticator {
         self.client
             .post(Constants::XBOX_USER_AUTH_URL)
             .header("x-xbl-contract-version", "1")
-            .add_cv(&mut self.ms_cv)?
+            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?
@@ -1128,7 +1124,7 @@ impl XalAuthenticator {
         self.client
             .post(Constants::XBOX_TITLE_AUTH_URL)
             .header("x-xbl-contract-version", "1")
-            .add_cv(&mut self.ms_cv)?
+            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?
@@ -1233,7 +1229,7 @@ impl XalAuthenticator {
         self.client
             .post(Constants::XBOX_XSTS_AUTH_URL)
             .header("x-xbl-contract-version", "1")
-            .add_cv(&mut self.ms_cv)?
+            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?

@@ -271,13 +271,11 @@ impl SigningReqwestBuilder for reqwest::RequestBuilder {
 /// ```
 pub trait CorrelationVectorReqwestBuilder {
     /// Add HTTP header `MS-CV` into headers
-    fn add_cv(self, cv: &mut CorrelationVector) -> Result<reqwest::RequestBuilder, Error>;
+    fn add_cv(self) -> Result<reqwest::RequestBuilder, Error>;
 }
 
 impl CorrelationVectorReqwestBuilder for reqwest::RequestBuilder {
-    fn add_cv(self, cv: &mut CorrelationVector) -> Result<reqwest::RequestBuilder, Error> {
-        cv.increment();
-        trace!("Injecting MS-CV: {}", cv);
-        Ok(self.header("MS-CV", cv.to_string()))
+    fn add_cv(self) -> Result<reqwest::RequestBuilder, Error> {
+        Ok(self.header("MS-CV", String::from("0")))
     }
 }

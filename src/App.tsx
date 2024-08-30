@@ -75,8 +75,8 @@ function App() {
         <button type="submit">Greet</button>
       </form>
 
-      <button onClick={handleRedirect}>Get redirect url</button>
-      <button onClick={startOAuth}>Open auth</button>
+      <button onClick={handleRedirect}>Login</button>
+      <button onClick={startOAuth}>Open new window</button>
 
       <p>{greetMsg}</p>
     </div>
