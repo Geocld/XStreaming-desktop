@@ -148,6 +148,23 @@ async fn get_redirect_uri(handle: tauri::AppHandle) {
     .unwrap();
 }
 
+#[tauri::command]
+async fn get_web_token() {
+    if let Some(proj_dirs) = ProjectDirs::from("com", "Geocld", "xstreaming") {
+        let config_dir = proj_dirs.config_dir();
+        let ts = TokenStore::load_from_file(config_dir.to_str().unwrap()).unwrap();
+        let mut authenticator = XalAuthenticator::from(ts.clone());
+        let xsts_mc_services = authenticator
+                                .get_xsts_token(
+                                    ts.device_token.as_ref(),
+                                    ts.title_token.as_ref(),
+                                    ts.user_token.as_ref(),
+                                    "http://xboxlive.com",
+                                )
+                                .await.unwrap();
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
