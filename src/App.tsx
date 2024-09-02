@@ -15,7 +15,12 @@ function App() {
 
   async function handleRedirect() {
     const result = await invoke('get_redirect_uri');
-    console.log('result: ', result);
+    console.log('get_redirect_uri result: ', result);
+  }
+
+  async function handleGetWebToken() {
+    const result = await invoke('get_web_token');
+    console.log('handleGetWebToken result: ', result);
   }
 
   async function startOAuth() {
@@ -76,6 +81,7 @@ function App() {
       </form>
 
       <button onClick={handleRedirect}>Login</button>
+      <button onClick={handleGetWebToken}>Get WebToken</button>
       <button onClick={startOAuth}>Open new window</button>
 
       <p>{greetMsg}</p>
