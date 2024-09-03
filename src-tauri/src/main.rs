@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod auth;
+mod api;
 
 use auth::authenticator::XalAuthenticator;
 use auth::models::{XalAppParameters, XalClientParameters};
@@ -181,90 +182,6 @@ pub struct Console {
     pub console_type: String,
 }
 
-#[tauri::command]
-async fn get_web_token() -> serde_json::Value {
-    if let Some(proj_dirs) = ProjectDirs::from("com", "Geocld", "xstreaming") {
-        let config_dir = proj_dirs.config_dir();
-        let token_path = config_dir.join("tokens.json");
-        let ts = TokenStore::load_from_file(token_path.to_str().unwrap()).unwrap();
-        let mut authenticator = XalAuthenticator::from(ts.clone());
-        let xsts_mc_services = authenticator
-                                .get_xsts_token(
-                                    ts.device_token.as_ref(),
-                                    ts.title_token.as_ref(),
-                                    ts.user_token.as_ref(),
-                                    "http://xboxlive.com",
-                                )
-                                .await.unwrap();
-        
-        let is_valid = xsts_mc_services.check_validity();
-        if let Err(e) = is_valid {
-            println!("token验证失败: {}", e);
-            serde_json::json!({
-                "code": "400",
-                "message": "token验证失败"
-            })
-        } else {
-            println!("token有效");
-            // println!("xsts_mc_services: {:?}", xsts_mc_services);
-            let identity_token = xsts_mc_services.authorization_header_value();
-            println!("identityToken: {identity_token}");
-
-            let json_value = serde_json::to_value(&xsts_mc_services).unwrap();
-            println!("json_value: {}", json_value);
-
-            // Get consoles
-            let client = reqwest::Client::new();
-
-            let mut headers = HeaderMap::new();
-            headers.insert(
-                "Authorization", identity_token.parse().unwrap()
-            );
-            headers.insert(
-                "Accept-Language", "en-US".parse().unwrap()
-            );
-            headers.insert(
-                "x-xbl-contract-version", "2".parse().unwrap()
-            );
-            headers.insert(
-                "x-xbl-client-name", "XboxApp".parse().unwrap()
-            );
-            headers.insert(
-                "x-xbl-client-type", "UWA".parse().unwrap()
-            );
-            headers.insert(
-                "x-xbl-client-version", "39.39.22001.0".parse().unwrap()
-            );
-
-            let consoles = client
-                .get("https://xccs.xboxlive.com/lists/devices?queryCurrentDevice=false&includeStorageDevices=true")
-                .headers(headers)
-                .send()
-                .await
-                .unwrap()
-                .json::<ConsolesResponse>()
-                .await
-                .unwrap_or_else(|_| ConsolesResponse {
-                    status: Status {
-                        error_code: "ERROR".to_string(),
-                        error_message: Some("Request failed".to_string()),
-                    },
-                    result: Vec::new(),
-                    agent_user_id: None,
-                });
-
-            println!("consoles: {:?}", consoles);
-
-            json_value
-        }
-    } else {
-        serde_json::json!({
-            "code": "400",
-            "message": "token.json is empty"
-        })
-    }
-}
-
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
@@ -280,7 +197,11 @@ fn main() {
             greet, 
             get_redirect_uri, 
             open_auth_window,
-            get_web_token
+            api::web::get_web_token,
+            api::xcloud::get_streaming_token,
+            api::web::get_consoles,
+            api::web::get_user_profile,
+            api::xcloud::get_stream_token,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
