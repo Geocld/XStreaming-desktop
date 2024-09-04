@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: rgb(26, 27, 30);
+  width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  overflow-y: hidden;
+}
+
+*:focus {
+  outline: 'none'
+}

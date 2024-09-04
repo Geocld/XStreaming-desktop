@@ -1,6 +1,7 @@
 use directories::ProjectDirs;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use reqwest::{header, header::HeaderMap, Client, ClientBuilder, StatusCode, Url};
+use tauri::utils::platform;
 use thiserror::Error;
 use crate::auth::tokenstore::TokenStore;
 use crate::auth::authenticator::XalAuthenticator;
@@ -100,9 +101,8 @@ pub async fn get_stream_token(offering_id: String, token: String) -> serde_json:
 }
 
 #[tauri::command]
-pub async fn start_session() {
-  // TODO
-  // let gssv_api = gssv::GssvApi::new(base_url, gssv_token, platform);
-  // gssv_api.start_session(server_id, title_id)
+pub async fn start_session(base_url: String, gssv_token: String, platform: String, server_id: String, title_id: String) {
+  let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+  gssv_api.start_session(Some(&server_id), Some(&title_id));
 
 }

@@ -202,6 +202,7 @@ fn main() {
             api::web::get_consoles,
             api::web::get_user_profile,
             api::xcloud::get_stream_token,
+            api::xcloud::start_session,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

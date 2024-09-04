@@ -2,10 +2,20 @@ use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use reqwest::{header, header::HeaderMap, Client, ClientBuilder, StatusCode, Url};
 use thiserror::Error;
 
+#[derive(Error, Debug)]
+pub enum GssvApiError {
+    #[error(transparent)]
+    HttpError(#[from] reqwest::Error),
+    #[error(transparent)]
+    Serialization(#[from] serde_json::error::Error),
+    #[error("Unknown error")]
+    Unknown,
+}
+
 pub struct GssvApi {
   client: Client,
   base_url: Url,
-  pub platform: &'static str,
+  platform: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -112,18 +122,8 @@ pub struct GssvSessionConfig {
     fallback_region_names: Vec<String>,
 }
 
-#[derive(Error, Debug)]
-pub enum GssvApiError {
-    #[error(transparent)]
-    HttpError(#[from] reqwest::Error),
-    #[error(transparent)]
-    Serialization(#[from] serde_json::error::Error),
-    #[error("Unknown error")]
-    Unknown,
-}
-
 impl GssvApi {
-  pub fn new(base_url: Url, gssv_token: &str, platform: &'static str) -> Self {
+  pub fn new(base_url: Url, gssv_token: &str, platform: String) -> Self {
     let mut headers = header::HeaderMap::new();
 
     let mut auth_value = header::HeaderValue::from_str(&format!("Bearer {}", gssv_token))
