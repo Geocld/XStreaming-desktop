@@ -30,8 +30,8 @@ pub async fn get_web_token() -> serde_json::Value {
         } else {
             println!("token有效");
             // println!("xsts_mc_services: {:?}", xsts_mc_services);
-            let identity_token = xsts_mc_services.authorization_header_value();
-            println!("identityToken: {identity_token}");
+            // let identity_token = xsts_mc_services.authorization_header_value();
+            // println!("identityToken: {identity_token}");
 
             let json_value = serde_json::to_value(&xsts_mc_services).unwrap();
             println!("json_value: {}", json_value);
@@ -73,49 +73,50 @@ pub struct Console {
 
 #[tauri::command]
 pub async fn get_consoles(identity_token: String) -> serde_json::Value {
-  let client = reqwest::Client::new();
+    println!("get_consoles: {:?}", identity_token);
+    let client = reqwest::Client::new();
 
-  let mut headers = HeaderMap::new();
-  headers.insert(
-      "Authorization", identity_token.parse().unwrap()
-  );
-  headers.insert(
-      "Accept-Language", "en-US".parse().unwrap()
-  );
-  headers.insert(
-      "x-xbl-contract-version", "2".parse().unwrap()
-  );
-  headers.insert(
-      "x-xbl-client-name", "XboxApp".parse().unwrap()
-  );
-  headers.insert(
-      "x-xbl-client-type", "UWA".parse().unwrap()
-  );
-  headers.insert(
-      "x-xbl-client-version", "39.39.22001.0".parse().unwrap()
-  );
+    let mut headers = HeaderMap::new();
+    headers.insert(
+        "Authorization", identity_token.parse().unwrap()
+    );
+    headers.insert(
+        "Accept-Language", "en-US".parse().unwrap()
+    );
+    headers.insert(
+        "x-xbl-contract-version", "2".parse().unwrap()
+    );
+    headers.insert(
+        "x-xbl-client-name", "XboxApp".parse().unwrap()
+    );
+    headers.insert(
+        "x-xbl-client-type", "UWA".parse().unwrap()
+    );
+    headers.insert(
+        "x-xbl-client-version", "39.39.22001.0".parse().unwrap()
+    );
 
-  let consoles = client
-      .get("https://xccs.xboxlive.com/lists/devices?queryCurrentDevice=false&includeStorageDevices=true")
-      .headers(headers)
-      .send()
-      .await
-      .unwrap()
-      .json::<ConsolesResponse>()
-      .await
-      .unwrap_or_else(|_| ConsolesResponse {
-          status: Status {
-              error_code: "ERROR".to_string(),
-              error_message: Some("Request failed".to_string()),
-          },
-          result: Vec::new(),
-          agent_user_id: None,
-      });
+    let consoles = client
+        .get("https://xccs.xboxlive.com/lists/devices?queryCurrentDevice=false&includeStorageDevices=true")
+        .headers(headers)
+        .send()
+        .await
+        .unwrap()
+        .json::<ConsolesResponse>()
+        .await
+        .unwrap_or_else(|_| ConsolesResponse {
+            status: Status {
+                error_code: "ERROR".to_string(),
+                error_message: Some("Request failed".to_string()),
+            },
+            result: Vec::new(),
+            agent_user_id: None,
+        });
 
-  println!("consoles: {:?}", consoles);
-  let console_json = serde_json::to_value(&consoles).unwrap();
-  println!("console_json: {}", console_json);
-  console_json
+    println!("consoles: {:?}", consoles);
+    let console_json = serde_json::to_value(&consoles).unwrap();
+    println!("console_json: {}", console_json);
+    console_json
 }
 
 #[tauri::command]

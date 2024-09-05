@@ -38,7 +38,7 @@ fn open_auth_window(app: AppHandle) {
 }
 
 #[tauri::command]
-async fn get_redirect_uri(handle: tauri::AppHandle) {
+async fn login(handle: tauri::AppHandle) {
     let mut authenticator = XalAuthenticator::new(XalAppParameters::default(), XalClientParameters::default(), "RETAIL".to_owned());
 
     let device_token = authenticator.get_device_token().await.unwrap();
@@ -195,7 +195,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             greet, 
-            get_redirect_uri, 
+            login, 
             open_auth_window,
             api::web::get_web_token,
             api::xcloud::get_streaming_token,

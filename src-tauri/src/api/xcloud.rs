@@ -19,27 +19,34 @@ pub async fn get_streaming_token() -> serde_json::Value {
                                     ts.device_token.as_ref(),
                                     ts.title_token.as_ref(),
                                     ts.user_token.as_ref(),
-                                    "http://gssv.xboxlive.com",
+                                    "http://gssv.xboxlive.com/",
                                 )
-                                .await.unwrap();
-        
-        let is_valid = xsts_mc_services.check_validity();
-        if let Err(e) = is_valid {
-            println!("token验证失败: {}", e);
-            serde_json::json!({
-                "code": "400",
-                "message": "streaming token验证失败"
-            })
-        } else {
-            println!("token有效");
-            // println!("xsts_mc_services: {:?}", xsts_mc_services);
-            let identity_token = xsts_mc_services.authorization_header_value();
-            println!("identityToken: {identity_token}");
+                                .await;
 
-            let json_value = serde_json::to_value(&xsts_mc_services).unwrap();
-            println!("json_value: {}", json_value);
+        match xsts_mc_services {
+            Ok(response) => {
+                let is_valid = response.check_validity();
+                if let Err(e) = is_valid {
+                    println!("token验证失败: {}", e);
+                    serde_json::json!({
+                        "code": "400",
+                        "message": "streaming token验证失败"
+                    })
+                } else {
+                    println!("token有效");
+                    let json_value = serde_json::to_value(&response).unwrap();
+                    println!("json_value: {}", json_value);
 
-            json_value
+                    json_value
+                }
+            }
+            Err(e) => {
+                eprintln!("Error: {:?}", e);
+                serde_json::json!({
+                    "code": "400",
+                    "message": "xsts_mc_services auth failed."
+                })
+            }
         }
     } else {
         serde_json::json!({
@@ -95,14 +102,28 @@ pub async fn get_stream_token(offering_id: String, token: String) -> serde_json:
       .await
       .unwrap();
 
-  println!("get_user_profile res: {:?}", res);
+  println!("get_stream_token res: {:?}", res);
   let json = serde_json::from_str(&res).unwrap();
   json
 }
 
 #[tauri::command]
-pub async fn start_session(base_url: String, gssv_token: String, platform: String, server_id: String, title_id: String) {
-  let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
-  gssv_api.start_session(Some(&server_id), Some(&title_id));
+pub async fn start_session(base_url: String, gssv_token: String, platform: String, server_id: String, title_id: String) -> serde_json::Value {
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.start_session(Some(&server_id), Some(&title_id)).await;
+    match result {
+        Ok(response) => {
+            let json_value = serde_json::to_value(&response).unwrap();
+            println!("json_value: {}", json_value);
 
+            json_value
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "400",
+                "message": "start_session failed."
+            })
+        }
+    }
 }

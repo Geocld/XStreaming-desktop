@@ -1229,7 +1229,6 @@ impl XalAuthenticator {
         self.client
             .post(Constants::XBOX_XSTS_AUTH_URL)
             .header("x-xbl-contract-version", "1")
-            .add_cv()?
             .json(&json_body)
             .sign(&mut self.request_signer, None)
             .await?
