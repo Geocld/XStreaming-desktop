@@ -8,6 +8,7 @@ import { NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import 'webrtc-adapter';
 import Home from './pages/home/Home.tsx'
+import Stream from './pages/stream/Stream.tsx'
 import './i18n'
 
 import './index.css'
@@ -16,6 +17,10 @@ const router = createHashRouter([
   {
     path: '/',
     element: <Home/>,
+  },
+  {
+    path: '/stream/:id',
+    element: <Stream/>,
   },
 ]);
 

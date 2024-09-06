@@ -12,11 +12,14 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 
 function Home() {
   // const { t } = useTranslation()
+  const navigate = useNavigate();
+
   const [consoles, setConsoles] = useState([]);
 
   async function handleLogin() {
@@ -69,19 +72,21 @@ function Home() {
 
   async function startSession(consoleId: string) {
     // Call after get stream token
-    let xHomeToken: any = sessionStorage.getItem('xHomeToken');
-    xHomeToken = JSON.parse(xHomeToken);
+    // let xHomeToken: any = sessionStorage.getItem('xHomeToken');
+    // xHomeToken = JSON.parse(xHomeToken);
 
-    const defaultRegion = xHomeToken.offeringSettings.regions.filter(
-      region => region.isDefault,
-    )[0];
+    // const defaultRegion = xHomeToken.offeringSettings.regions.filter(
+    //   region => region.isDefault,
+    // )[0];
 
-    const baseUrl = defaultRegion.baseUri;
-    const result: any = await invoke('start_session', { baseUrl, gssvToken: xHomeToken.gsToken, platform: 'home', serverId: consoleId, titleId: '' });
-    console.log('startSession result:', result);
-    const sessionId = result.sessionPath.split('/')[3];
-    console.log('sessionId:', sessionId)
+    // const baseUrl = defaultRegion.baseUri;
+    // const result: any = await invoke('start_session', { baseUrl, gssvToken: xHomeToken.gsToken, platform: 'home', serverId: consoleId, titleId: '' });
+    // console.log('startSession result:', result);
+    // const sessionId = result.sessionPath.split('/')[3];
+    // console.log('sessionId:', sessionId)
+    navigate('/stream/' + consoleId);
   }
+
 
   return (
     <>
@@ -115,20 +120,21 @@ function Home() {
 
       <div>
         <Button color="primary" onClick={getWebToken}>
-          getWebToken
-        </Button>
-
-        <Button color="primary" onClick={getStreamingToken}>
-        getStreamingToken
-        </Button>
-
-        <Button color="primary" onClick={getStreamToken}>
-          getStreamToken
+          1.1 getWebToken
         </Button>
 
         <Button color="primary" onClick={getConsoles}>
-          getConsoles
+          1.2 getConsoles
         </Button>
+
+        <Button color="primary" onClick={getStreamingToken}>
+          2.1 getStreamingToken
+        </Button>
+
+        <Button color="primary" onClick={getStreamToken}>
+          2.2 getStreamToken
+        </Button>
+        
       </div>
 
       <div>

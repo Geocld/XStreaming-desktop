@@ -3,6 +3,7 @@
 
 mod auth;
 mod api;
+mod utils;
 
 use auth::authenticator::XalAuthenticator;
 use auth::models::{XalAppParameters, XalClientParameters};
@@ -203,6 +204,12 @@ fn main() {
             api::web::get_user_profile,
             api::xcloud::get_stream_token,
             api::xcloud::start_session,
+            api::xcloud::get_session_config,
+            api::xcloud::get_session_state,
+            api::xcloud::send_sdp,
+            api::xcloud::get_sdp,
+            api::xcloud::send_ice,
+            api::xcloud::get_ice,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

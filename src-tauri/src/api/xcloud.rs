@@ -1,8 +1,8 @@
 use directories::ProjectDirs;
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
-use reqwest::{header, header::HeaderMap, Client, ClientBuilder, StatusCode, Url};
-use tauri::utils::platform;
+use serde::{Deserialize, Serialize};
+use reqwest::{header::HeaderMap, Url};
 use thiserror::Error;
+use crate::api::gssv::IceCandidate;
 use crate::auth::tokenstore::TokenStore;
 use crate::auth::authenticator::XalAuthenticator;
 use crate::api::gssv;
@@ -75,36 +75,36 @@ struct LoginRequest {
 
 #[tauri::command]
 pub async fn get_stream_token(offering_id: String, token: String) -> serde_json::Value {
-  let url = format!(
-    "https://{}.gssv-play-prod.xboxlive.com/v2/login/user",
-    offering_id
-  );
-  let mut headers = HeaderMap::new();
-  headers.insert(
-    "x-gssv-client", "XboxComBrowser".parse().unwrap()
-  );
+    let url = format!(
+        "https://{}.gssv-play-prod.xboxlive.com/v2/login/user",
+        offering_id
+    );
+    let mut headers = HeaderMap::new();
+    headers.insert(
+        "x-gssv-client", "XboxComBrowser".parse().unwrap()
+    );
 
-  let client = reqwest::Client::new();
-  let res = client
-      .post(url)
-      .headers(headers)
-      .json(&LoginRequest {
-          token: token.into(),
-          offering_id: offering_id.into(),
-      })
-      .send()
-      .await
-      .map_err(GssvApiError::HttpError)
-      .unwrap()
-      .error_for_status()
-      .unwrap()
-      .text()
-      .await
-      .unwrap();
+    let client = reqwest::Client::new();
+    let res = client
+        .post(url)
+        .headers(headers)
+        .json(&LoginRequest {
+            token: token.into(),
+            offering_id: offering_id.into(),
+        })
+        .send()
+        .await
+        .map_err(GssvApiError::HttpError)
+        .unwrap()
+        .error_for_status()
+        .unwrap()
+        .text()
+        .await
+        .unwrap();
 
-  println!("get_stream_token res: {:?}", res);
-  let json = serde_json::from_str(&res).unwrap();
-  json
+    println!("get_stream_token res: {:?}", res);
+    let json = serde_json::from_str(&res).unwrap();
+    json
 }
 
 #[tauri::command]
@@ -121,7 +121,134 @@ pub async fn start_session(base_url: String, gssv_token: String, platform: Strin
         Err(e) => {
             eprintln!("Error: {:?}", e);
             serde_json::json!({
-                "code": "400",
+                "code": "409",
+                "message": "start_session failed."
+            })
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_session_config(base_url: String, gssv_token: String, platform: String, session_id: String) -> serde_json::Value {
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.get_session_config(&session_id).await;
+    match result {
+        Ok(response) => {
+            let json_value = serde_json::to_value(&response).unwrap();
+            println!("json_value: {}", json_value);
+
+            json_value
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "409",
+                "message": "get_session_config failed."
+            })
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_session_state(base_url: String, gssv_token: String, platform: String, session_id: String) -> serde_json::Value {
+    println!("session_id: {}", session_id);
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.get_session_state(&session_id).await;
+    match result {
+        Ok(response) => {
+            let json_value = serde_json::to_value(&response).unwrap();
+            println!("json_value: {}", json_value);
+
+            json_value
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "409",
+                "message": "get_session_state failed."
+            })
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn send_sdp(base_url: String, gssv_token: String, platform: String, session_id: String, sdp: String) -> serde_json::Value {
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.send_sdp(&session_id, &sdp).await;
+    match result {
+        Ok(response) => {
+            let json_value = serde_json::to_value(&response).unwrap();
+            println!("json_value: {}", json_value);
+
+            json_value
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "409",
+                "message": "send_sdp failed."
+            })
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_sdp(base_url: String, gssv_token: String, platform: String, session_id: String) -> serde_json::Value {
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.get_sdp(&session_id).await;
+    match result {
+        Ok(response) => {
+            let json_value = serde_json::to_value(&response).unwrap();
+            println!("json_value: {}", json_value);
+
+            json_value
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "409",
+                "message": "get_sdp failed."
+            })
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn send_ice(base_url: String, gssv_token: String, platform: String, session_id: String, ice: Vec<IceCandidate>) -> serde_json::Value {
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.send_ice(&session_id, ice).await;
+    match result {
+        Ok(response) => {
+            let json_value = serde_json::to_value(&response).unwrap();
+            println!("json_value: {}", json_value);
+
+            json_value
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "409",
+                "message": "send_ice failed."
+            })
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_ice(base_url: String, gssv_token: String, platform: String, session_id: String) -> serde_json::Value {
+    let gssv_api = gssv::GssvApi::new(Url::parse(&base_url).unwrap(), &gssv_token, platform.clone());
+    let result = gssv_api.get_ice(&session_id).await;
+    match result {
+        Ok(response) => {
+            serde_json::json!({
+                "exchange_response": serde_json::to_value(&response.exchange_response).unwrap(),
+                "error_details": serde_json::to_value(&response.error_details).unwrap(),
+            })
+        }
+        Err(e) => {
+            eprintln!("Error: {:?}", e);
+            serde_json::json!({
+                "code": "409",
                 "message": "start_session failed."
             })
         }
