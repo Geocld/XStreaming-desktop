@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'components/Loading.css';
+
+body {
+    background: rgb(26, 27, 30);
+    width: 100vw;
+    min-height: 100vh;
+  }
+  
+  *:focus {
+    outline: 'none'
+  }
+
+div#app_body {
+    /* position: fixed; */
+    /* padding-top: 70px; */
+    /* left: 0px; */
+    width: 70vw;
+    height: 100vh;
+    /* bottom: 0px; */
+    overflow-y: auto;
+}
+
+div#app_body_container{
+    padding-top: 70px;
+    /* position: relative; */
+}

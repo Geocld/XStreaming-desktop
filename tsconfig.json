@@ -10,7 +10,6 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": true,
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
@@ -20,6 +19,10 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": [
+    "node_modules",
+    "renderer/next.config.js",
+    "app",
+    "dist"
+  ]
 }
