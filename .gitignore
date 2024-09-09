@@ -1,7 +1,11 @@
 # OSX
 #
 .DS_Store
-
+.next
+*.log
+.next
+app
+dist
 # Xcode
 #
 build/
