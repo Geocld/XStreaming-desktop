@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "main": "app/background.js",
   "scripts": {
-    "dev": "DEBUG=xstreaming:* nextron",
+    "dev": "DEBUG=xstreaming:authenticationV2 nextron",
     "build": "nextron build",
     "lint": "eslint . --ext .ts && eslint renderer/ --ext .tsx",
     "lint:fix": "eslint . --ext .ts --fix && eslint renderer/ --ext .tsx --fix",
@@ -25,10 +25,14 @@
     "express-ws": "^5.0.2",
     "framer-motion": "^11.5.4",
     "github-url-to-object": "^4.0.6",
+    "i18next": "^23.15.1",
     "ip-address": "^9.0.5",
+    "jose": "^5.1.0",
     "next-themes": "^0.3.0",
+    "react-i18next": "^15.0.1",
     "react-query": "^3.39.3",
     "uplot": "^1.6.30",
+    "uuid-1345": "^1.0.2",
     "xbox-webapi": "^1.4.1",
     "xstreaming-player": "0.1.8",
     "xvfb-maybe": "^0.2.1"

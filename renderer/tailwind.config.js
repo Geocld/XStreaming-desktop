@@ -16,7 +16,7 @@ module.exports = {
   plugins: [nextui({
     themes: {
       "xbox": {
-        extend: "light",
+        extend: "dark",
         colors: {
           primary: {
             50: "#DCF8CD",

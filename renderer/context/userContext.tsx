@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
     const [settings, setSettings] = useState(defaultSettings)
 
     function setSettingsAndSaveToLocalStorage(newSettings: any) {
+        console.log('setSettingsAndSaveToLocalStorage:', newSettings)
         setSettings(newSettings)
         Ipc.send('settings', 'setSettings', newSettings)
 

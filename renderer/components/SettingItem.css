@@ -1,0 +1,23 @@
+.setting-item {
+  margin-bottom: 25px;
+}
+
+.setting-title {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: rgb(212, 212, 216);
+}
+
+.setting-description {
+  font-size: 12px;
+  margin-bottom: 10px;
+  color: rgb(113, 113, 122);
+}
+
+.setting-select label {
+  display: none;
+}
+
+.setting-slider label {
+  opacity: 0;
+}

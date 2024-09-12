@@ -5,11 +5,7 @@ export default class IpcSettings extends IpcBase {
 
     setSettings(args:(typeof defaultSettings)){
         return new Promise((resolve) => {
-            // Check for changes which we need to take action on
-            // const settings = this._application._store.get('settings', defaultSettings) as Object
-            // const prevSettings = {...defaultSettings, ...settings}
             const newSettings = {...defaultSettings, ...args}
-
             // Perform save
             this._application._store.set('settings', newSettings)
             resolve(newSettings)

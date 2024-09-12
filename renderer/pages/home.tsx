@@ -11,12 +11,16 @@ import {
     CardFooter,
     Divider,
   } from "@nextui-org/react";
-  import { useRouter } from 'next/navigation'
-  import AuthModal from "../components/AuthModal"
-  import Ipc from "../lib/ipc";
-  import Loading from '../components/Loading'
+import { useRouter } from 'next/navigation'
+import AuthModal from "../components/AuthModal"
+import Ipc from "../lib/ipc";
+import Loading from '../components/Loading'
+
+import {useTheme} from "next-themes"
 
 function Home() {
+
+  const { theme, setTheme } = useTheme()
 
   const router = useRouter()
   const [loading, setLoading] = useState(true)
@@ -27,40 +31,40 @@ function Home() {
 
   const authInterval = useRef(null)
 
-  useEffect(() => {
-    Ipc.send('app', 'checkAuthentication').then(isLogin => {
-      if (isLogin) { // Silence login, refresh token
-        console.log('Silence login, refresh token')
-        authInterval.current = setInterval(() => {
-          console.log('Requesting AuthState...')
-          Ipc.send('app', 'getAuthState').then(args => {
-              console.log('Received AuthState:', args)
+  // useEffect(() => {
+  //   Ipc.send('app', 'checkAuthentication').then(isLogin => {
+  //     if (isLogin) { // Silence login, refresh token
+  //       console.log('Silence login, refresh token')
+  //       authInterval.current = setInterval(() => {
+  //         console.log('Requesting AuthState...')
+  //         Ipc.send('app', 'getAuthState').then(args => {
+  //             console.log('Received AuthState:', args)
       
-              if(args.isAuthenticating === true){
-                  setLoading(true)
-              } else if(args.isAuthenticated === true && args.user.signedIn === true){
-                  clearInterval(authInterval.current)
-                  setLoginState(true)
+  //             if(args.isAuthenticating === true){
+  //                 setLoading(true)
+  //             } else if(args.isAuthenticated === true && args.user.signedIn === true){
+  //                 clearInterval(authInterval.current)
+  //                 setLoginState(true)
   
-                  // Get Consoles
-                  Ipc.send('consoles', 'get').then(res => {
-                    console.log('consoles:', res)
-                    setConsoles(res)
-                    setLoading(false)
-                  })
-              }
-          })
-        }, 500)
-      } else {
-        console.log('Full auth flow')
-        setShowLoginModal(true)
-      }
-    })
+  //                 // Get Consoles
+  //                 Ipc.send('consoles', 'get').then(res => {
+  //                   console.log('consoles:', res)
+  //                   setConsoles(res)
+  //                   setLoading(false)
+  //                 })
+  //             }
+  //         })
+  //       }, 500)
+  //     } else {
+  //       console.log('Full auth flow')
+  //       setShowLoginModal(true)
+  //     }
+  //   })
     
-    return () => {
-      if(authInterval.current) clearInterval(authInterval.current)
-    }
-  }, [])
+  //   return () => {
+  //     if(authInterval.current) clearInterval(authInterval.current)
+  //   }
+  // }, [])
 
   const handleLogin = () => {
     Ipc.send('app', 'login').then(() => {
@@ -97,33 +101,30 @@ function Home() {
   return (
     <>
       <Navbar>
-        <NavbarBrand>
-          <p className="font-bold text-inherit"></p>
-        </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Features
-            </Link>
-          </NavbarItem>
           <NavbarItem isActive>
-            <Link href="#" aria-current="page">
-              Customers
+            <Link aria-current="page">
+              Consoles
             </Link>
           </NavbarItem>
           <NavbarItem>
             <Link color="foreground" href="#">
-              Integrations
+              Xcloud
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link color="foreground" href="/settings">
+              Settings
             </Link>
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem className="hidden lg:flex">
-            <Link href="#">Login</Link>
-          </NavbarItem>
           <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
-              Sign Up
+            <Button color="primary" href="#" variant="flat"
+            onClick={() => {
+              router.push('stream/' + 12345)
+            }}>
+              Test
             </Button>
           </NavbarItem>
         </NavbarContent>

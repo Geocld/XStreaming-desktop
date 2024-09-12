@@ -378,6 +378,10 @@ export default class Xal {
                 'x-gssv-client': 'XboxComBrowser',
                 'Content-Length': body.length,
             }
+
+            // if (_settings.force_region_ip.length > 0) {
+            //     headers['x-forwarded-for'] = _settings.force_region_ip;
+            // }
         
             const HttpClient = new Http()
             HttpClient.postRequest(offering+'.gssv-play-prod.xboxlive.com', '/v2/login/user', headers, body).then((response) => {
