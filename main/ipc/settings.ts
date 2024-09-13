@@ -18,28 +18,4 @@ export default class IpcSettings extends IpcBase {
             resolve({...defaultSettings, ...settings})
         })
     }
-
-    setLowResolution(){
-        return new Promise((resolve) => {
-            
-            this.getSettings().then((settings) => {
-                if(settings.app_lowresolution === false){
-                    this._application._mainWindow.setSize(985, 615)
-                    settings.app_lowresolution = true
-
-                } else {
-                    this._application._mainWindow.setSize(1280, 800)
-                    settings.app_lowresolution = false
-                }
-
-                this.setSettings(settings)
-            })
-
-
-            // if(this._application._mainWindow.height !)
-            // this._application._mainWindow.setSize(960, 600)
-             
-            resolve(true)
-        })
-    }
 }

@@ -364,7 +364,7 @@ export default class Xal {
         })
     }
 
-    getStreamToken(xstsToken:XstsToken, offering:string){
+    getStreamToken(xstsToken:XstsToken, offering:string, forceRegionIp: string = ''){
         return new Promise<StreamingToken>((resolve, reject) => {
             const payload = {
                 'token': xstsToken.data.Token,
@@ -379,9 +379,9 @@ export default class Xal {
                 'Content-Length': body.length,
             }
 
-            // if (_settings.force_region_ip.length > 0) {
-            //     headers['x-forwarded-for'] = _settings.force_region_ip;
-            // }
+            if (forceRegionIp.length > 0) {
+                headers['x-forwarded-for'] = forceRegionIp
+            }
         
             const HttpClient = new Http()
             HttpClient.postRequest(offering+'.gssv-play-prod.xboxlive.com', '/v2/login/user', headers, body).then((response) => {

@@ -16,11 +16,9 @@ import { useTranslation } from 'react-i18next'
 import Layout from "../components/Layout"
 import SettingItem from "../components/SettingItem"
 import settings from '../common/settings'
-import {Logo} from '../components/Logo'
 
 function Settings() {
   const { t } = useTranslation()
-  // const consoles = useQuery('consoles', () => Ipc.send('consoles', 'get'), { staleTime: 60*1000 })
 
   return (
     <>
@@ -35,7 +33,7 @@ function Settings() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/xcloud">
               Xcloud
             </Link>
           </NavbarItem>
@@ -79,6 +77,16 @@ function Settings() {
           <Tab key="Gamepad" title={t('Gamepad')}>
             {
                 settings.gamepad.map(item => {
+                  return (
+                    <SettingItem key={item.name} item={item}/>
+                  )
+                })
+              } 
+          </Tab>
+
+          <Tab key="Xcloud" title={t('Xcloud')}>
+            {
+                settings.xcloud.map(item => {
                   return (
                     <SettingItem key={item.name} item={item}/>
                   )

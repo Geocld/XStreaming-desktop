@@ -3,7 +3,7 @@ import { createWindow } from './helpers'
 import Application from './application'
 import { Xal, TokenStore } from './xal'
 import AuthTokenStore from './helpers/tokenstore'
-
+import { defaultSettings } from '../renderer/context/userContext.defaults'
 
 export default class Authentication {
     _application:Application
@@ -51,7 +51,6 @@ export default class Authentication {
     startSilentFlow(){
         this._application.log('authenticationV2', '[startSilentFlow()] Starting silent flow...')
         this._isAuthenticating = true
-
         this._xal.refreshTokens(this._tokenStore).then(() => {
             this._application.log('authenticationV2', '[startSilentFlow()] Tokens have been refreshed')
 
@@ -98,6 +97,7 @@ export default class Authentication {
             this.openAuthWindow(redirect.sisuAuth.MsaOauthRedirect)
 
             this._authCallback = (redirectUri) => {
+                this._isAuthenticating = true
                 this._application.log('authenticationV2', '[startAuthFlow()] Got redirect URI:', redirectUri)
                 this._xal.authenticateUser(this._tokenStore, redirect, redirectUri).then((result) => {
                     this._application.log('authenticationV2', '[startAuthFlow()] Authenticated user:', result)
@@ -170,12 +170,13 @@ export default class Authentication {
             this._xal._xhomeToken = await this._xal.getStreamToken(xstsToken, 'xhome')
         }
 
+        const settings: any = this._application._store.get('settings', defaultSettings)
         if(this._xal._xcloudToken === undefined || this._xal._xcloudToken.getSecondsValid() <= 60){
             try {
-                this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuweb')
+                this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuweb', settings.force_region_ip)
             } catch(error){
                 try {
-                    this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuwebf2p')
+                    this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuwebf2p', settings.force_region_ip)
                 } catch(error){
                     this._xal._xcloudToken = null
                 }

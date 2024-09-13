@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react"
 import {
     Navbar,
     NavbarBrand,
@@ -31,40 +31,40 @@ function Home() {
 
   const authInterval = useRef(null)
 
-  // useEffect(() => {
-  //   Ipc.send('app', 'checkAuthentication').then(isLogin => {
-  //     if (isLogin) { // Silence login, refresh token
-  //       console.log('Silence login, refresh token')
-  //       authInterval.current = setInterval(() => {
-  //         console.log('Requesting AuthState...')
-  //         Ipc.send('app', 'getAuthState').then(args => {
-  //             console.log('Received AuthState:', args)
+  useEffect(() => {
+    Ipc.send('app', 'checkAuthentication').then(isLogin => {
+      if (isLogin) { // Silence login, refresh token
+        console.log('Silence login, refresh token')
+        authInterval.current = setInterval(() => {
+          console.log('Requesting AuthState...')
+          Ipc.send('app', 'getAuthState').then(args => {
+              console.log('Received AuthState:', args)
       
-  //             if(args.isAuthenticating === true){
-  //                 setLoading(true)
-  //             } else if(args.isAuthenticated === true && args.user.signedIn === true){
-  //                 clearInterval(authInterval.current)
-  //                 setLoginState(true)
+              if(args.isAuthenticating === true){
+                  setLoading(true)
+              } else if(args.isAuthenticated === true && args.user.signedIn === true){
+                  clearInterval(authInterval.current)
+                  setLoginState(true)
   
-  //                 // Get Consoles
-  //                 Ipc.send('consoles', 'get').then(res => {
-  //                   console.log('consoles:', res)
-  //                   setConsoles(res)
-  //                   setLoading(false)
-  //                 })
-  //             }
-  //         })
-  //       }, 500)
-  //     } else {
-  //       console.log('Full auth flow')
-  //       setShowLoginModal(true)
-  //     }
-  //   })
+                  // Get Consoles
+                  Ipc.send('consoles', 'get').then(res => {
+                    console.log('consoles:', res)
+                    setConsoles(res)
+                    setLoading(false)
+                  })
+              }
+          })
+        }, 500)
+      } else {
+        console.log('Full auth flow')
+        setShowLoginModal(true)
+      }
+    })
     
-  //   return () => {
-  //     if(authInterval.current) clearInterval(authInterval.current)
-  //   }
-  // }, [])
+    return () => {
+      if(authInterval.current) clearInterval(authInterval.current)
+    }
+  }, [])
 
   const handleLogin = () => {
     Ipc.send('app', 'login').then(() => {
@@ -108,7 +108,7 @@ function Home() {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">
+            <Link color="foreground" href="/xcloud">
               Xcloud
             </Link>
           </NavbarItem>

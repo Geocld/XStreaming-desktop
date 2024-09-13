@@ -31,157 +31,26 @@ export default class IpcxCloud extends IpcBase {
         this._application.log('Ipc:xCloud', 'Starting xCloud IPC Channel...')
     }
 
-    onUserLoaded(){
-        if(this._application._xCloudApi !== undefined){
-            this._application._xCloudApi.getTitles().then((titles:any) => {
-                this._titleManager.setCloudTitles(titles).then(() => {
-
-                    this._application.log('Ipc:xCloud', 'Titlemanager has loaded all titles.')
-                    this._titlesAreLoaded = true
-
-                    // Uncomment to delay the process of loading data
-                    // setTimeout(() => {
-                    //     this._titlesAreLoaded = true
-                    // }, 5000)
-
-                }).catch((error) => {
-                    this._application.log('Ipc:xCloud', 'Titlemanager is unable to load titles:', error)
-                    console.log('Error setting xCloud titles:', error)
-                })
-
-            }).catch((error) => {
-                this._application.log('Ipc:xCloud', 'Could not load recent titles:', error)
-            })
-        } else {
-            this._application.log('Ipc:xCloud', 'xCloud IPC is not preloading titles as we dont have a valid token')
-        }
-    }
-
-    // Returns the last played titles (stream titles)
     getRecentTitles(){
-        return new Promise((resolve, reject) => {
-            if(this._recentTitlesLastUpdate < Date.now() - 60*1000){
-                this._application._xCloudApi.getRecentTitles().then((titles:any) => {
-                    const returnTitles = []
-    
-                    for(const title in titles.results){
-                        if(titles.results[title].titleId)
-                            returnTitles.push(titles.results[title].titleId)
-                        else
-                            this._application.log('Ipc:xCloud', 'Title found without a titleID:', titles.results[title])
-                    }
-                    
-                    this._recentTitles = returnTitles
-                    this._recentTitlesLastUpdate = Date.now()
-
-                    
-                    resolve(returnTitles)
-                }).catch((error) => {
-                    reject(error)
-                })
-
-            } else {
-                resolve(this._recentTitles)
-            }
-        })
+        return this._application._xCloudApi.getRecentTitles()
     }
 
     getTitles(){
         return new Promise((resolve, reject) => {
-            if(this._recentTitlesLastUpdate < Date.now() - 3600*1000){
-                this._application._xCloudApi.getTitles().then((titles:any) => {
-                    const returnTitles = []
-                    console.log('geocld titles:', titles)
-                    console.log('geocld getTitles:', JSON.stringify(titles.results[0]))
-
-                    for(const title in titles.results){
-                        if(titles.results[title].titleId)
-                            returnTitles.push(titles.results[title].titleId)
-                        else
-                            this._application.log('Ipc:xCloud', 'Title found without a titleID:', titles.results[title])
-                    }
-
-                    this._titles = returnTitles
-                    this._titlesLastUpdate = Date.now()
-
-                    
-
-                    resolve(returnTitles)
-                })
-                    .catch((error) => {
-                        reject(error)
-                    })
-            } else {
-                resolve(this._titles)
-            }
+            this._application._xCloudApi.getTitles().then((titles: any) => {
+                resolve(titles)
+            })
+            .catch((error) => {
+                reject(error)
+            })
         })
     }
 
-    filterTitles(filter){
-        return new Promise((resolve) => {
-            const titles = this._titleManager.filterTitles(filter)
-
-            resolve(titles)
-        })
+    getGamePassProducts(titles: any) {
+        return this._titleManager.getGamePassProducts(titles)
     }
 
     getNewTitles(){
-        return new Promise((resolve, reject) => {
-            if(this._newTitlesLastUpdate < Date.now() - 3600*1000){
-                this._titleManager.getNewTitles().then((titles:any) => {
-
-                    const returnTitles = []
-
-                    for(const title in titles){
-                        if(titles[title].id !== undefined){
-                            const storeTitle = this._titleManager.findTitleByProductId(titles[title].id)
-                            
-                            if(storeTitle === undefined){
-                                this._application.log('Ipc:xCloud', 'Title not found in cache:', storeTitle, titles[title])
-                            } else {
-                                returnTitles.push(storeTitle.titleId)
-                            }
-                        } else {
-                            this._application.log('Ipc:xCloud', 'Title found without an id:', titles[title])
-                        }
-                    }
-                    
-                    this._newTitles = returnTitles
-                    this._newTitlesLastUpdate = Date.now()
-
-                    resolve(returnTitles)
-                }).catch((error) => {
-                    reject(error)
-                })
-            } else {
-                resolve(this._newTitles)
-            }
-        })
-    }
-
-    getTitle(args:getTitleArgs){
-        return new Promise((resolve) => {
-            if(this._titlesAreLoaded === false){
-
-                this.waitForTitle(resolve, args)
-            } else {
-                const title = this._titleManager.findTitle(args.titleId)
-
-                resolve(title)
-            }
-        })
-    }
-
-    waitForTitle(resolveCallback, args:getTitleArgs){
-        setTimeout(() => {
-            if(this._titlesAreLoaded === false){
-                this._application.log('Ipc:xCloud', 'Titles not loaded yet. Queueing title:', args.titleId, this._titlesAreLoaded, this._titleManager._xCloudTitles)
-                this.waitForTitle(resolveCallback, args)
-            } else {
-                const title = this._titleManager.findTitle(args.titleId)
-
-                resolveCallback(title)
-            }    
-        }, 200)
+        return this._titleManager.getNewTitles()
     }
 }

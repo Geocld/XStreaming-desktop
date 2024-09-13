@@ -167,10 +167,10 @@ export default class xCloudApi {
         const deviceInfo = JSON.stringify({
             'appInfo': {
                 'env': {
-                    'clientAppId': 'Microsoft.GamingApp',
-                    'clientAppType': 'native',
-                    'clientAppVersion': '2203.1001.4.0',
-                    'clientSdkVersion': '8.5.2',
+                    'clientAppId': 'www.xbox.com',
+                    'clientAppType': 'browser',
+                    'clientAppVersion': '21.1.98',
+                    'clientSdkVersion': '8.5.3',
                     'httpEnvironment': 'prod',
                     'sdkInstallId': '',
                 },
@@ -179,10 +179,10 @@ export default class xCloudApi {
                 'hw': {
                     'make': 'Microsoft',
                     'model': 'Surface Pro',
-                    'sdktype': 'native',
+                    'sdktype': 'web',
                 },
                 'os': {
-                    'name': 'Windows 11',
+                    'name': this._application._store.get('resolution', 1080) == 1080 ? 'windows' : 'android',
                     'ver': '22631.2715',
                     'platform': 'desktop',
                 },
@@ -192,8 +192,8 @@ export default class xCloudApi {
                         'heightInPixels': 1080,
                     },
                     'pixelDensity': {
-                        'dpiX': 1,
-                        'dpiY': 1,
+                        'dpiX': 2,
+                        'dpiY': 2,
                     },
                 },
             },
@@ -219,7 +219,6 @@ export default class xCloudApi {
 
         return this.post('/v5/sessions/'+this._type+'/play', postData, {
             'X-MS-Device-Info': deviceInfo,
-            // 'User-Agent': deviceInfo
         })
     }
 

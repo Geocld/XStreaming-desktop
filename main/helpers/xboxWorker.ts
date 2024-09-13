@@ -10,11 +10,11 @@ export default class xboxWorker {
     constructor(application){
         this._application = application
 
-        setInterval(() => {
-            this.intervalFriends() 
-        }, 30 * 1000) // Api is limited to 30 requests per 300 seconds. (300/30 = 10 sec)
+        // setInterval(() => {
+        //     this.intervalFriends() 
+        // }, 30 * 1000) // Api is limited to 30 requests per 300 seconds. (300/30 = 10 sec)
         
-        this.intervalFriends()
+        // this.intervalFriends()
     }
 
     intervalFriends(){
