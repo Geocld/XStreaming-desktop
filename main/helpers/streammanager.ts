@@ -1,5 +1,6 @@
 import Application from '../application'
 import xCloudApi, { playResult } from './xcloudapi'
+import Store from 'electron-store'
 
 interface streamSession {
     id: string;
@@ -25,11 +26,23 @@ export default class StreamManager {
         this._application = application
     }
 
-    getApi(type):xCloudApi{
-        if(type === 'home'){
-            return this._application._xHomeApi
+    getApi(type): xCloudApi{
+        const streamingTokens = this._application.streamingTokens;
+
+        if(type === 'home') {
+            return new xCloudApi(
+                this._application,
+                streamingTokens.xHomeToken.getDefaultRegion().baseUri.substring(8),
+                streamingTokens.xHomeToken.data.gsToken,
+                "home"
+            );
         } else {
-            return this._application._xCloudApi
+            return new xCloudApi(
+                this._application,
+                streamingTokens.xCloudToken.getDefaultRegion().baseUri.substring(8),
+                streamingTokens.xCloudToken.data.gsToken,
+                "cloud"
+            );
         }
     }
 

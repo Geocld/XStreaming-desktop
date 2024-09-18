@@ -78,6 +78,16 @@ export default class StreamingToken extends Token {
         return this.data.offeringSettings.regions.filter(region => region.isDefault)[0]
     }
 
+    setDefaultRegion(name: string) {
+        this.data.offeringSettings.regions.forEach(region => {
+            if (region.name === name) {
+                region.isDefault = true
+            } else {
+                region.isDefault = false
+            }
+        })
+    }
+
     getEnvironments(){
         return this.data.offeringSettings.clientCloudSettings.Environments
     }

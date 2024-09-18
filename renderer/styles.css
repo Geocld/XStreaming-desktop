@@ -6,6 +6,7 @@
 @import 'components/Loading.css';
 @import 'components/ActionBar.css';
 @import 'components/SettingItem.css';
+@import 'components/Perform.css';
 
 body {
     width: 100vw;

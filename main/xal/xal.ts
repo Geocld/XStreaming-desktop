@@ -130,6 +130,7 @@ export default class Xal {
     }
 
     getDeviceToken() {
+        console.log('getDeviceToken...')
         return new Promise<DeviceToken>((resolve, reject) => {
             this.getKeys().then((jwtKeys:any) => {
                 const payload = {
@@ -211,6 +212,7 @@ export default class Xal {
     }
 
     doSisuAuthorization(userToken:UserToken, deviceToken:DeviceToken, SessionId?:string){
+        console.log('doSisuAuthorization...')
         return new Promise<SisuToken>((resolve, reject) => {
             this.getKeys().then((jwtKeys:any) => {
 
@@ -279,6 +281,7 @@ export default class Xal {
     }
 
     refreshUserToken(userToken:UserToken){
+        console.log('refreshUserToken...')
         return new Promise<UserToken>((resolve, reject) => {
             const payload = {
                 'client_id': this._app.AppId,
@@ -296,8 +299,8 @@ export default class Xal {
             const HttpClient = new Http()
             HttpClient.postRequest('login.live.com', '/oauth20_token.srf', headers, body).then((response) => {
                 resolve(new UserToken(response.body()))
-
             }).catch((error) => {
+                console.log('refreshUserToken fail:', error)
                 reject(error)
             })
         })
@@ -547,6 +550,8 @@ export default class Xal {
         state: string;
         codeChallange: ICodeChallange;
     }, code:string, state:string){
+
+        console.log('authenticateUser:', code, state)
 
         if(state !== redirectObject.state){
             // console.log('Authentication failed: State mismatch')

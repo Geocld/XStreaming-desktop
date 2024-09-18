@@ -78,30 +78,6 @@ const settings = {
       ],
     },
     {
-      name: 'xhome_bitrate_mode',
-      type: 'select',
-      title: t('Host stream bitrate'),
-      description: t(
-        'Set the host streaming bitrate (Note: Higher bitrate is not always better; the final bitrate will be determined by streaming negotiation)',
-      ),
-      data: [
-        {value: 'auto', label: t('Auto')},
-        {value: 'custom', label: t('Custom')},
-      ],
-    },
-    {
-      name: 'xcloud_bitrate_mode',
-      type: 'select',
-      title: t('Cloud stream bitrate'),
-      description: t(
-        'Set the cloud streaming bitrate (Note: Higher bitrate is not always better; the final bitrate will be determined by streaming negotiation)',
-      ),
-      data: [
-        {value: 'auto', label: t('Auto')},
-        {value: 'custom', label: t('Custom')},
-      ],
-    },
-    {
       name: 'codec',
       type: 'select',
       title: t('Codec'),
@@ -122,6 +98,22 @@ const settings = {
         // {value: 'video/rtx', label: 'rtx'},
         // {value: 'video/red', label: 'red'},
       ],
+    },
+    {
+      name: 'xhome_bitrate',
+      type: 'bitrate',
+      title: t('Host stream bitrate'),
+      description: t(
+        'Set the host streaming bitrate (Note: Higher bitrate is not always better; the final bitrate will be determined by streaming negotiation)',
+      )
+    },
+    {
+      name: 'xcloud_bitrate',
+      type: 'bitrate',
+      title: t('Cloud stream bitrate'),
+      description: t(
+        'Set the cloud streaming bitrate (Note: Higher bitrate is not always better; the final bitrate will be determined by streaming negotiation)',
+      )
     },
   ],
   gamepad: [
@@ -161,7 +153,7 @@ const settings = {
   xhome: [
     {
       name: 'ipv6',
-      type: 'select',
+      type: 'radio',
       title: t('Ipv6'),
       description: t('Prioritize using IPv6 connection'),
       data: [

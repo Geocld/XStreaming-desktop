@@ -5,6 +5,7 @@ import { defaultSettings } from './userContext.defaults'
 export const SettingsContext = React.createContext({
     settings: defaultSettings,
     setSettings: (settings) => null, // eslint-disable-line @typescript-eslint/no-unused-vars
+    resetSettings: () => null
 })
 export const useSettings = () => useContext(SettingsContext)
 
@@ -16,6 +17,10 @@ export const UserProvider = ({ children }) => {
         Ipc.send('settings', 'setSettings', newSettings)
 
         return newSettings
+    }
+
+    function resetSettings() {
+        Ipc.send('settings', 'resetSettings')
     }
 
     useEffect(() => {
@@ -42,7 +47,7 @@ export const UserProvider = ({ children }) => {
         
     }, [])
 
-    return <SettingsContext.Provider value={{ settings, setSettings: setSettingsAndSaveToLocalStorage }}>
+    return <SettingsContext.Provider value={{ settings, setSettings: setSettingsAndSaveToLocalStorage, resetSettings }}>
         {children}
     </SettingsContext.Provider>
 }

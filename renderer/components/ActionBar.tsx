@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
-import { Button } from "@nextui-org/react";
-import { NexusIcon } from "./NexusIcon";
+import {
+  Button,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/react";
 
 function ActionBar(props) {
   let lastMovement = 0;
@@ -35,14 +40,38 @@ function ActionBar(props) {
   }, []);
 
   const handleDisconnect = () => {
-    props.onDisconnect && props.onDisconnect()
-  }
+    props.onDisconnect && props.onDisconnect();
+  };
+
+  const handleTogglePerformance = () => {
+    props.onTogglePerformance && props.onTogglePerformance();
+  };
 
   return (
     <div id="actionBar">
-      <Button color="danger" size="sm" onClick={handleDisconnect}>
-        Disconnect
-      </Button>
+      <Dropdown>
+        <DropdownTrigger>
+          <Button variant="bordered" size="sm">
+            Menu
+          </Button>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="Static Actions">
+          <DropdownItem key="performance" onClick={handleTogglePerformance}>
+            Toggle performance
+          </DropdownItem>
+          <DropdownItem key="pressNexus">Press Nexus</DropdownItem>
+          <DropdownItem key="longPressNexus">Long Press Nexus</DropdownItem>
+          {/* <DropdownItem key="display">Display</DropdownItem> */}
+          <DropdownItem
+            key="disconnect"
+            className="text-danger"
+            color="danger"
+            onClick={handleDisconnect}
+          >
+            DisConnect
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
 
       {/* <Button isIconOnly color="danger" size="sm">
         <NexusIcon />

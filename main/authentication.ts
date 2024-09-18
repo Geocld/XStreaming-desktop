@@ -26,6 +26,9 @@ export default class Authentication {
     }
 
     checkAuthentication(){
+        this._isAuthenticating = true
+        this._isAuthenticated = false
+
         this._application.log('authenticationV2', '[checkAuthentication()] Starting token check...')
         if(this._tokenStore.hasValidAuthTokens()){
             this._application.log('authenticationV2', '[checkAuthentication()] Tokens are valid.')
@@ -160,18 +163,21 @@ export default class Authentication {
     }
 
     async getStreamingToken(tokenStore:TokenStore){
+        console.log('getStreamingToken')
         const sisuToken = tokenStore.getSisuToken()
         if(sisuToken === undefined)
             throw new Error('Sisu token is missing. Please authenticate first')
 
         const xstsToken = await this._xal.doXstsAuthorization(sisuToken, 'http://gssv.xboxlive.com/')
 
+        console.log('this._xal._xhomeToken:', this._xal._xhomeToken)
         if(this._xal._xhomeToken === undefined || this._xal._xhomeToken.getSecondsValid() <= 60){
             this._xal._xhomeToken = await this._xal.getStreamToken(xstsToken, 'xhome')
         }
 
+        console.log('this._xal._xcloudToken:', this._xal._xcloudToken)
         const settings: any = this._application._store.get('settings', defaultSettings)
-        if(this._xal._xcloudToken === undefined || this._xal._xcloudToken.getSecondsValid() <= 60){
+        if(!this._xal._xcloudToken || this._xal._xcloudToken.getSecondsValid() <= 60){
             try {
                 this._xal._xcloudToken = await this._xal.getStreamToken(xstsToken, 'xgpuweb', settings.force_region_ip)
             } catch(error){

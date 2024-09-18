@@ -1,0 +1,9 @@
+#performances {
+  position: fixed;
+  left: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2px;
+  flex-direction: row;
+  font-size: 13px;
+}

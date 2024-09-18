@@ -1,9 +1,9 @@
 export const defaultSettings = {
   locale: "en",
   resolution: 720,
-  xhome_bitrate_mode: "auto",
+  xhome_bitrate_mode: "Auto",
   xhome_bitrate: 20,
-  xcloud_bitrate_mode: "auto",
+  xcloud_bitrate_mode: "Auto",
   xcloud_bitrate: 20,
   preferred_game_language: "en-US",
   force_region_ip: "",

@@ -1,6 +1,7 @@
 import Application from '../application'
 import HTTP from './http'
 import Store from 'electron-store'
+import axios from 'axios'
 interface titleInfoArgs {
     ProductTitle: string;
     PublisherName: string;
@@ -38,6 +39,26 @@ export default class TitleManager {
         this._http = new HTTP(this._application)
     }
 
+    getOfficialTitles() {
+        return new Promise(resolve => {
+            let officialTitles = [];
+            axios
+            .get('https://cdn.jsdelivr.net/gh/Geocld/XStreaming@main/titles.json', {
+                timeout: 30,
+            })
+            .then(res => {
+                if (res.status === 200) {
+                officialTitles = res.data.Products;
+                console.log('officialTitles:', officialTitles);
+                }
+                resolve(officialTitles);
+            })
+            .catch(e => {
+                resolve([]);
+            });
+        });
+    }
+
     getGamePassProducts(titles) {
         return new Promise((resolve, reject) => {
             const productIdQueue = [];
@@ -50,35 +71,35 @@ export default class TitleManager {
                 }
             });
 
-            // TODO: officialTitles
-            const officialTitles = []
-            const mergeProductIds = [
-                ...new Set([...productIdQueue, ...officialTitles]),
-            ];
-
-            this._http.post('catalog.gamepass.com', '/v3/products?market=US&language=en-US&hydration=RemoteHighSapphire0', { // RemoteLowJade0
-                'Products': mergeProductIds,
-            }, {
-                'ms-cv': 0,
-                'calling-app-name': 'Xbox Cloud Gaming Web',
-                'calling-app-version': '24.17.63',
-
-            }).then((result:any) => {
-                const products = result.Products;
-                const mergedTitles = [];
-                for (const key in products) {
-                    mergedTitles.push({
-                        productId: key,
-                        ...products[key],
-                    });
-                }
-                mergedTitles.sort((a, b) =>
-                    a.ProductTitle.localeCompare(b.ProductTitle),
-                );
-                resolve(mergedTitles);
-            }).catch(e => {
-                console.log('getGamePassProducts error:', e);
-                reject(e);
+            this.getOfficialTitles().then((officialTitles: any) => {
+                const mergeProductIds = [
+                    ...new Set([...productIdQueue, ...officialTitles]),
+                ];
+    
+                this._http.post('catalog.gamepass.com', '/v3/products?market=US&language=en-US&hydration=RemoteHighSapphire0', { // RemoteLowJade0
+                    'Products': mergeProductIds,
+                }, {
+                    'ms-cv': 0,
+                    'calling-app-name': 'Xbox Cloud Gaming Web',
+                    'calling-app-version': '24.17.63',
+    
+                }).then((result:any) => {
+                    const products = result.Products;
+                    const mergedTitles = [];
+                    for (const key in products) {
+                        mergedTitles.push({
+                            productId: key,
+                            ...products[key],
+                        });
+                    }
+                    mergedTitles.sort((a, b) =>
+                        a.ProductTitle.localeCompare(b.ProductTitle),
+                    );
+                    resolve(mergedTitles);
+                }).catch(e => {
+                    console.log('getGamePassProducts error:', e);
+                    reject(e);
+                });
             });
         })
     }

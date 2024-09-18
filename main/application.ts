@@ -34,6 +34,8 @@ export default class Application {
   public _ipc: Ipc;
   public _authentication: Authentication;
 
+  public streamingTokens: any
+
   constructor() {
     console.log(
       __filename + "[constructor()] Starting XStreaming v" + pkg.version
@@ -207,22 +209,8 @@ export default class Application {
       __filename + "[authenticationCompleted()] streamingTokens:",
       streamingTokens
     );
-    // const tokens = this._authentication._tokens
-    this._xHomeApi = new xCloudApi(
-      this,
-      streamingTokens.xHomeToken.getDefaultRegion().baseUri.substring(8),
-      streamingTokens.xHomeToken.data.gsToken,
-      "home"
-    );
 
-    if (streamingTokens.xCloudToken !== null) {
-      this._xCloudApi = new xCloudApi(
-        this,
-        streamingTokens.xCloudToken.getDefaultRegion().baseUri.substring(8),
-        streamingTokens.xCloudToken.data.gsToken,
-        "cloud"
-      );
-    }
+    this.streamingTokens = streamingTokens
 
     this._webApi = new xboxWebApi({
       userToken: webToken.data.Token,

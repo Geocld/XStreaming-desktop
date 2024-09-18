@@ -1,8 +1,11 @@
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Image, Chip} from "@nextui-org/react";
 
+const XCLOUD_PREFIX = 'xcloud_'
 
 function TitleModal(props) {
+  const router = useRouter()
 
   const titleItem = props.title || {}
 
@@ -13,7 +16,8 @@ function TitleModal(props) {
 
   const handleStartGame = () => {
     console.log('titleItem:', titleItem)
-    // router.push('stream/' + sessionId)
+    const titleId = titleItem.titleId || titleItem.XCloudTitleId
+    router.push('stream/' + XCLOUD_PREFIX + titleId)
   }
 
   return (
