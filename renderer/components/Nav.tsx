@@ -27,7 +27,7 @@ const metas = [
 
 const Nav = ({ current, isLogined }) => {
   return (
-    <Navbar isBordered style={{ justifyContent: "flex-start" }}>
+    <Navbar isBordered style={{ justifyContent: "flex-start", zIndex: 100 }}>
       <NavbarBrand className="grow-0">
         <p className="font-bold text-inherit pr-20">XStreaming</p>
       </NavbarBrand>

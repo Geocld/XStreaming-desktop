@@ -1,0 +1,1 @@
+export const DISPLAY_KEY = 'XStreaming.displays'

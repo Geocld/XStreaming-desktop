@@ -37,6 +37,7 @@ function Settings() {
   }, [])
 
   const handleResetSettings = () => {
+    window.localStorage.clear()
     resetSettings()
     setTimeout(() => {
       setAlertMessage('Reset Successfully.')

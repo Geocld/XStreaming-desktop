@@ -8,6 +8,7 @@ import Loading from '../../components/Loading'
 import Perform from "../../components/Perform";
 import FailedModal from "../../components/FailedModal";
 import WarningModal from "../../components/WarningModal";
+import Display from "../../components/Display";
 import { useSettings } from "../../context/userContext";
 
 const XCLOUD_PREFIX = "xcloud_";
@@ -26,6 +27,7 @@ function Stream() {
   const [showPerformance, setShowPerformance] = useState(false);
   const [showFailed, setShowFailed] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
+  const [showDisplay, setShowDisplay] = useState(false);
   const connectStateRef = useRef("");
   const keepaliveInterval = useRef(null);
   const streamStateInterval = useRef(null);
@@ -321,6 +323,51 @@ function Stream() {
     };
   }, [xPlayer, sessionId]);
 
+  const getVideoPlayerFilterStyle = (options) => {
+    const filters = [];
+    const usmMatrix = document.getElementById('filter-usm-matrix')
+
+    const sharpness = options.sharpness || 0; // sharpness
+    if (sharpness !== 0) {
+      const level = (7 - ((sharpness / 2) - 1) * 0.5).toFixed(1); // 5, 5.5, 6, 6.5, 7
+      const matrix = `0 -1 0 -1 ${level} -1 0 -1 0`;
+      usmMatrix.setAttributeNS(null, 'kernelMatrix', matrix);
+      filters.push(`url(#filter-usm)`);
+    }
+
+    const saturation = options.saturation || 100; // saturation
+    if (saturation != 100) {
+      filters.push(`saturate(${saturation}%)`);
+    }
+
+    const contrast = options.contrast || 100; // contrast
+    if (contrast !== 100) {
+      filters.push(`contrast(${contrast}%)`);
+    }
+
+    const brightness = options.brightness || 100; // brightness
+    if (brightness !== 100) {
+      filters.push(`brightness(${brightness}%)`);
+    }
+
+    return filters.join(' ');
+  }
+
+  const refreshPlayer = (options) => {
+    const videoStyle = document.getElementById('video-css')
+    const filters = getVideoPlayerFilterStyle(options);
+    let videoCss = '';
+    if (filters) {
+        videoCss += `filter: ${filters} !important;`;
+    }
+    let css = '';
+    if (videoCss) {
+        css = `#videoHolder video { ${videoCss} }`;
+    }
+
+    videoStyle!.textContent = css;
+  }
+
   const onDisconnect = () => {
     setLoading(true);
     setLoadingText(`${t('Disconnecting...')}`);
@@ -351,6 +398,24 @@ function Stream() {
     }, 1000);
   };
 
+  const handlePressNexus = () => {
+    if (xPlayer && xPlayer.getChannelProcessor('input')) {
+      xPlayer.getChannelProcessor('input').pressButtonStart('Nexus');
+      setTimeout(() => {
+        xPlayer.getChannelProcessor('input').pressButtonEnd('Nexus');
+      }, 150);
+    }
+  }
+
+  const handleLongPressNexus = () => {
+    if (xPlayer && xPlayer.getChannelProcessor('input')) {
+      xPlayer.getChannelProcessor('input').pressButtonStart('Nexus');
+      setTimeout(() => {
+        xPlayer.getChannelProcessor('input').pressButtonEnd('Nexus');
+      }, 1000);
+    }
+  }
+
   return (
     <>
       <ActionBar
@@ -358,6 +423,9 @@ function Stream() {
         onTogglePerformance={() => {
           setShowPerformance(!showPerformance);
         }}
+        onDisplay={() => setShowDisplay(true)}
+        onPressNexus={handlePressNexus}
+        onLongPressNexus={handleLongPressNexus}
       />
 
       <FailedModal
@@ -384,12 +452,22 @@ function Stream() {
         <Perform xPlayer={xPlayer} connectState={connectState} />
       )}
 
+      { 
+        showDisplay && 
+          <Display 
+            onClose={() => setShowDisplay(false)} 
+            onValueChange={(options) => {
+              refreshPlayer(options)
+          }}/>
+      }
+
       { loading && <Loading loadingText={loadingText} /> }
 
-      {/* <div id="videoHolder"></div> */}
       <div id="videoHolder">
         {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline></video> */}
       </div>
+
+      <svg id="video-filters" style={{display: 'none'}}><defs><filter id="filter-usm"><feConvolveMatrix id="filter-usm-matrix" order="3"></feConvolveMatrix></filter></defs></svg>
     </>
   );
 }

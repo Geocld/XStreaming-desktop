@@ -39,7 +39,7 @@ div#videoHolder {
   left: 0px;
   right: 0px;
   bottom: 0px;
-  z-index: 99;
+  z-index: 50;
 }
 
 div#videoHolder video {
