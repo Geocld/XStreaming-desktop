@@ -17,6 +17,8 @@ import Nav from "../components/Nav";
 
 import {useTheme} from "next-themes"
 
+import Image from 'next/image';
+
 function Home() {
 
   const { t } = useTranslation()
@@ -118,14 +120,19 @@ function Home() {
             return (
               <Card className="max-w-[200px]" key={console.id}>
                 <CardBody>
-                  <p className="pb-3">{ console.name }</p>
-                  {console.powerState === 'On' ? (
-                    <Chip size="sm" color="success">{t('Powered on')}</Chip>
-                  ) : console.powerState === 'ConnectedStandby' ? (
-                    <Chip size="sm" color="warning">{t('Standby')}</Chip>
-                  ) : (
-                    <Chip size="sm">{console.powerState}</Chip>
-                  )}
+                  <p className="pb-3 text-center">{ console.name }</p>
+                  <div className="flex justify-center items-center">
+                    <Image src="/images/xss.svg" alt="xss" width={100} height={100} />
+                  </div>
+                  <div className="flex justify-center py-2">
+                    {console.powerState === 'On' ? (
+                      <Chip size="sm" color="success">{t('Powered on')}</Chip>
+                    ) : console.powerState === 'ConnectedStandby' ? (
+                      <Chip size="sm" color="warning">{t('Standby')}</Chip>
+                    ) : (
+                      <Chip size="sm">{console.powerState}</Chip>
+                    )}
+                  </div>
                 </CardBody>
                 <Divider />
                 <CardFooter>
