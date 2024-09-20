@@ -3,6 +3,7 @@
   "name": "xstreaming",
   "description": "xstreaming",
   "version": "1.0.0",
+  "author": "Geocld <lijiahao5372@gmail.com>",
   "main": "app/background.js",
   "scripts": {
     "dev": "DEBUG=xstreaming:authenticationV2 nextron",
