@@ -41,7 +41,7 @@ const SettingItem = (props) => {
         // console.log('item:', item)
       });
     }
-  }, []);
+  }, [item]);
 
   const handleChangeSetting = (value) => {
     console.log("handleChangeSetting:", value);

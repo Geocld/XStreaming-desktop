@@ -30,7 +30,7 @@ function Display(props) {
     if (_localOPtions) {
       try {
         localOPtions = JSON.parse(_localOPtions);
-      } catch (e) {
+      } catch {
         localOPtions = DEFAULT_OPTIONS;
       }
     }
