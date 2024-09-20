@@ -12,6 +12,7 @@ import {
   CardBody
 } from "@nextui-org/react"
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/navigation'
 import { useSettings } from "../context/userContext"
 
 import Ipc from "../lib/ipc";
@@ -20,14 +21,19 @@ import SettingItem from "../components/SettingItem"
 import Alert from "../components/Alert"
 import settings from '../common/settings'
 import Nav from "../components/Nav"
+import FeedbackModal from "../components/FeedbackModal";
 
 function Settings() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const router = useRouter()
   const { resetSettings } = useSettings()
 
   const [showAlert, setShowAlert ] = useState(false)
   const [alertMessage, setAlertMessage ] = useState('')
   const [isLogined, setIsLogined] = useState(false)
+  const [showFeedback, setShowFeedback] = useState(false)
+
+  const currentLanguage = i18n.language
 
   useEffect(() => {
     const _isLogined = window.sessionStorage.getItem('isLogined') || '0'
@@ -54,6 +60,8 @@ function Settings() {
       <Nav current={'Settings'} isLogined={isLogined}/>
 
       { showAlert && <Alert content={alertMessage} onClose={() => setShowAlert(false)}/> }
+
+      <FeedbackModal show={showFeedback} onClose={() => setShowFeedback(false)}/>
 
       <Layout>
         <Tabs aria-label="Options">
@@ -108,16 +116,45 @@ function Settings() {
           </Tab>
 
           <Tab key="Others" title={t('Others')}>
+
+            <Card className="setting-item">
+              <CardBody>
+                <div className="setting-title">{t('Gamepad tester')}</div>
+                <div className="setting-description">{t('Test connected gamepad')}</div>
+
+                <Button color="default" onClick={() => {
+                  router.push('gamepad/test')
+                }}>
+                  test
+                </Button>  
+              </CardBody>
+            </Card>
+
             <Card className="setting-item">
               <CardBody>
                 <div className="setting-title">{t('Reset Settings')}</div>
                 <div className="setting-description">{t('Reset XStreaming settings to default')}</div>
 
-                <Button color="success" onClick={handleResetSettings}>
+                <Button color="default" onClick={handleResetSettings}>
                   Reset
                 </Button>  
               </CardBody>
             </Card>
+
+            {
+              (currentLanguage === 'zh' || currentLanguage === 'zht') && (
+                <Card className="setting-item">
+                <CardBody>
+                  <div className="setting-title">反馈及支持</div>
+                  <div className="setting-description">你可以在这里反正使用问题或支持XStreaming的开发</div>
+
+                  <Button color="default" onClick={() => setShowFeedback(true)}>
+                    Feedback
+                  </Button>  
+                </CardBody>
+              </Card>
+              )
+            }
 
             <Card className="setting-item">
               <CardBody>

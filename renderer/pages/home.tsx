@@ -25,7 +25,7 @@ function Home() {
   const { theme, setTheme } = useTheme()
 
   const router = useRouter()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [loadingText, setLoadingText] = useState('')
   const [isLogined, setIsLogined] = useState(true)
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -34,6 +34,7 @@ function Home() {
   const authInterval = useRef(null)
 
   useEffect(() => {
+    setLoading(true)
     setLoadingText('Loading...')
     Ipc.send('app', 'checkAuthentication').then(isLogin => {
       if (isLogin) { // Silence login, refresh token
@@ -62,6 +63,7 @@ function Home() {
         }, 500)
       } else {
         console.log('Full auth flow')
+        setLoading(false)
         setShowLoginModal(true)
       }
     })
@@ -72,6 +74,7 @@ function Home() {
   }, [])
 
   const handleLogin = () => {
+    setLoading(true)
     setLoadingText('Loading...')
     Ipc.send('app', 'login').then(() => {
       setShowLoginModal(false)

@@ -1,0 +1,64 @@
+#gamepads > * {
+  background: #333;
+  padding: 1em;
+  margin: 10px 5px 0 0;
+}
+#gamepads pre {
+  white-space: pre-wrap;
+}
+
+.head {
+  display: flex;
+}
+.head .id {
+  flex: 1 1 auto;
+}
+.head .index,
+.head .id {
+  display: inline-block;
+  background: #222;
+  padding: 0.5em;
+}
+.head .index {
+}
+
+.info .label {
+  width: 7em;
+  display: inline-block;
+}
+.info > div {
+  padding: 0.25em;
+  background: #222;
+  margin: 0.25em 0.25em 0 0;
+}
+
+.inputs {
+  display: flex;
+}
+.axes {
+  display: flex;
+  align-items: flex-start;
+}
+
+.svg text {
+  color: #ccc;
+  font-family: monospace;
+}
+
+.axes svg text {
+  font-size: 0.6px;
+}
+.buttons svg text {
+  font-size: 1.2px;
+}
+.axes > div,
+.buttons > div {
+  display: inline-block;
+  background: #222;
+}
+.axes > div {
+  margin: 2px 5px 0 0;
+}
+.buttons > div {
+  margin: 2px 2px 0 0;
+}

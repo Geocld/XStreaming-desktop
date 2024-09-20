@@ -127,31 +127,4 @@ export default class IpcApp extends IpcBase {
       resolve({});
     });
   }
-
-  setForceRegionIp(args: setForceRegionIpArgs) {
-    return new Promise<boolean>((resolve) => {
-      console.log(
-        "IPC received force region IP data and write to store:",
-        args.ip
-      );
-      this._application._store.set("force_region_ip", args.ip);
-
-      // Rerun silent flow to retrieve new tokens
-      this._application._authentication.startSilentFlow();
-
-      resolve(true);
-    });
-  }
-
-  setPreferredGameLanguage(args: setPreferredGameLanguageArgs) {
-    return new Promise((resolve) => {
-      console.log(
-        "IPC received preferred game's language and write to store:",
-        args.language
-      );
-      this._application._store.set("preferred_game_language", args.language);
-
-      resolve(true);
-    });
-  }
 }

@@ -12,34 +12,34 @@ function ActionBar(props) {
   let lastMovement = 0;
   const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   const mouseEvent = () => {
-  //     lastMovement = Date.now();
-  //   };
-  //   window.addEventListener("mousemove", mouseEvent);
-  //   window.addEventListener("mousedown", mouseEvent);
+  useEffect(() => {
+    const mouseEvent = () => {
+      lastMovement = Date.now();
+    };
+    window.addEventListener("mousemove", mouseEvent);
+    window.addEventListener("mousedown", mouseEvent);
 
-  //   const mouseInterval = setInterval(() => {
-  //     const gamebarElement = document.getElementById("actionBar");
-  //     if (gamebarElement === null) {
-  //       return;
-  //     }
+    const mouseInterval = setInterval(() => {
+      const gamebarElement = document.getElementById("actionBar");
+      if (gamebarElement === null) {
+        return;
+      }
 
-  //     if (Date.now() - lastMovement >= 2000) {
-  //       if (!gamebarElement.className.includes("hidden")) {
-  //         gamebarElement.className = "hidden";
-  //       }
-  //     } else {
-  //       if (gamebarElement.className.includes("hidden")) {
-  //         gamebarElement.className = "";
-  //       }
-  //     }
-  //   }, 100);
+      if (Date.now() - lastMovement >= 2000) {
+        if (!gamebarElement.className.includes("hidden")) {
+          gamebarElement.className = "hidden";
+        }
+      } else {
+        if (gamebarElement.className.includes("hidden")) {
+          gamebarElement.className = "";
+        }
+      }
+    }, 100);
 
-  //   return () => {
-  //     if (mouseInterval) clearInterval(mouseInterval);
-  //   };
-  // }, []);
+    return () => {
+      if (mouseInterval) clearInterval(mouseInterval);
+    };
+  }, []);
 
   const handleDisconnect = () => {
     props.onDisconnect && props.onDisconnect();

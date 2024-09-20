@@ -82,9 +82,9 @@ function Stream() {
         ) {
           console.log(
             "setVideoBitrate xcloud:",
-            settings.xcloud_bitrate + "Mbps"
+            settings.xcloud_bitrate + "Mb/s"
           );
-          xPlayer.setVideoBitrate(settings.xcloud_bitrate * 1000);
+          xPlayer.setVideoBitrate(settings.xcloud_bitrate);
         }
       } else {
         if (
@@ -93,9 +93,9 @@ function Stream() {
         ) {
           console.log(
             "setVideoBitrate xhome:",
-            settings.xhome_bitrate + "Mbps"
+            settings.xhome_bitrate + "Mb/s"
           );
-          xPlayer.setVideoBitrate(settings.xhome_bitrate * 1000);
+          xPlayer.setVideoBitrate(settings.xhome_bitrate);
         }
       }
 
@@ -122,6 +122,7 @@ function Stream() {
       });
 
       xPlayer.createOffer().then((offer: any) => {
+        console.log('offer:', offer)
         setLoadingText(`${t('Configuration obtained successfully, initiating offer...')}`)
         Ipc.send("streaming", "sendSdp", {
           sessionId: sessionId,
@@ -206,6 +207,7 @@ function Stream() {
         }
       });
     } else if (sessionId === "") {
+      setLoadingText(`${t('Disconnecting...')}`)
       Ipc.send("streaming", "startStream", {
         type: streamType,
         target: serverId,

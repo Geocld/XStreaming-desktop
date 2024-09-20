@@ -19,10 +19,10 @@ const metas = [
     name: "Settings",
     href: "/settings",
   },
-  {
-    name: "stream",
-    href: "/stream/123",
-  },
+  // {
+  //   name: "stream",
+  //   href: "/stream/123",
+  // },
 ];
 
 const Nav = ({ current, isLogined }) => {
