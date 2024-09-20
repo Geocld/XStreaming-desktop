@@ -1,0 +1,44 @@
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
+
+function ConfirmModal(props) {
+  const { t } = useTranslation();
+
+  const handleConfirm = () => {
+    props.onConfirm && props.onConfirm();
+  };
+
+  const handleCancel = () => {
+    props.onCancel && props.onCancel();
+  };
+
+  return (
+    <Modal isOpen={props.show} scrollBehavior="inside" onClose={handleConfirm}>
+      <ModalContent>
+        <>
+          <ModalHeader className="flex flex-col gap-1">
+            {props.title || t('Warning')}
+          </ModalHeader>
+          <ModalBody className="scroll">{props.content}</ModalBody>
+          <ModalFooter>
+            <Button color="default" onPress={handleCancel}>
+              {props.cancelText || t('Cancel')}
+            </Button>
+            <Button color="primary" onPress={handleConfirm}>
+              {props.confirmText || t('Confirm')}
+            </Button>
+          </ModalFooter>
+        </>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+export default ConfirmModal;

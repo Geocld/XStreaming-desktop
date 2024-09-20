@@ -3,9 +3,9 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 import { UserProvider } from "../context/userContext";
+import "../styles.css";
 
 import "../i18n";
-import "../styles.css";
 
 export default function MyApp({ Component, pageProps }) {
   React.useEffect(() => {

@@ -11,6 +11,9 @@ import Alert from "../components/Alert";
 import settings from "../common/settings";
 import Nav from "../components/Nav";
 import FeedbackModal from "../components/FeedbackModal";
+import ConfirmModal from "../components/ConfirmModal";
+import updater from "../lib/updater";
+import pkg from '../../package.json';
 
 function Settings() {
   const { t, i18n } = useTranslation();
@@ -18,9 +21,14 @@ function Settings() {
   const { resetSettings } = useSettings();
 
   const [showAlert, setShowAlert] = useState(false);
+  const [showRestartModal, setShowRestartModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [updateText, setUpdateText] = useState("");
+  const [updateUrl, setUpdateUrl] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [isLogined, setIsLogined] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
 
   const currentLanguage = i18n.language;
 
@@ -35,9 +43,25 @@ function Settings() {
     window.localStorage.clear();
     resetSettings();
     setTimeout(() => {
-      setAlertMessage("Reset Successfully.");
+      setAlertMessage(t("Reset Successfully"));
       setShowAlert(true);
     }, 100);
+  };
+
+  const handleCheckUpdate = () => {
+    setIsChecking(true)
+    updater().then((infos: any) => {
+      setIsChecking(false)
+      if (infos) {
+        const {latestVer, version, url} = infos;
+        setUpdateText(`Check new version ${latestVer}, current version is ${version}`);
+        setUpdateUrl(url);
+        setShowUpdateModal(true);
+      } else {
+        setAlertMessage(t('Current version is latest!'));
+        setShowAlert(true);
+      }
+    });
   };
 
   const handleLouout = () => {
@@ -57,35 +81,55 @@ function Settings() {
         onClose={() => setShowFeedback(false)}
       />
 
+      <ConfirmModal
+        show={showRestartModal}
+        content={t('The option has been saved. A restart is required for it to take effect. Would you like to restart now?')}
+        confirmText={t('Restart')}
+        onConfirm={() => {
+          Ipc.send('app', 'restart')
+        }}
+        onCancel={() => setShowRestartModal(false)}
+      />
+
+      <ConfirmModal
+        show={showUpdateModal}
+        content={updateText}
+        onCancel={() => setShowUpdateModal(false)}
+        onConfirm={() => {
+          window.location.href = updateUrl
+          setShowUpdateModal(false)
+        }}
+      />
+
       <Layout>
         <Tabs aria-label="Options">
           <Tab key="Language" title={t("Language")}>
             {settings.language.map((item) => {
-              return <SettingItem key={item.name} item={item} />;
+              return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="Streaming" title={t("Streaming")}>
             {settings.streaming.map((item) => {
-              return <SettingItem key={item.name} item={item} />;
+              return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="Gamepad" title={t("Gamepad")}>
             {settings.gamepad.map((item) => {
-              return <SettingItem key={item.name} item={item} />;
+              return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="XHome" title={t("Xhome")}>
             {settings.xhome.map((item) => {
-              return <SettingItem key={item.name} item={item} />;
+              return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="Xcloud" title={t("Xcloud")}>
             {settings.xcloud.map((item) => {
-              return <SettingItem key={item.name} item={item} />;
+              return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
@@ -116,7 +160,20 @@ function Settings() {
                 </div>
 
                 <Button color="default" onClick={handleResetSettings}>
-                  Reset
+                  {t('Reset Settings')}
+                </Button>
+              </CardBody>
+            </Card>
+
+            <Card className="setting-item">
+              <CardBody>
+                <div className="setting-title">{t("Check update")}</div>
+                <div className="setting-description">
+                  {t("Check XStreaming update, current version is:")} {pkg.version}
+                </div>
+
+                <Button color="default" isLoading={isChecking} onClick={handleCheckUpdate}>
+                  {t('Check')}
                 </Button>
               </CardBody>
             </Card>
@@ -130,7 +187,7 @@ function Settings() {
                   </div>
 
                   <Button color="default" onClick={() => setShowFeedback(true)}>
-                    Feedback
+                    反馈
                   </Button>
                 </CardBody>
               </Card>
@@ -142,7 +199,7 @@ function Settings() {
                 <div className="setting-description">{t("Logout.")}</div>
 
                 <Button color="danger" onClick={handleLouout}>
-                  Logout
+                  {t('Logout')}
                 </Button>
               </CardBody>
             </Card>

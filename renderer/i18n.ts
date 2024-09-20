@@ -15,7 +15,14 @@ const resources = {
   jp,
 };
 
-const lng = 'en'
+let lng = 'en'
+console.log('global:', global)
+if (global && global.localStorage) {
+  console.log('global.localStorage.getItem:', global.localStorage.getItem('locale'))
+  lng = global.localStorage.getItem('locale') || 'en'
+}
+
+console.log('lng:', lng)
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -28,4 +35,4 @@ i18n
     }
   });
 
-  export default i18n;
+export default i18n

@@ -5,27 +5,27 @@ import {
   NavbarItem,
   Link,
 } from "@nextui-org/react";
-
-const metas = [
-  {
-    name: "Consoles",
-    href: "/home",
-  },
-  {
-    name: "Xcloud",
-    href: "/xcloud",
-  },
-  {
-    name: "Settings",
-    href: "/settings",
-  },
-  // {
-  //   name: "stream",
-  //   href: "/stream/123",
-  // },
-];
+import { useTranslation } from "react-i18next";
 
 const Nav = ({ current, isLogined }) => {
+
+  // const { t } = useTranslation();
+
+  const metas = [
+    {
+      name: "Consoles",
+      href: "/home",
+    },
+    {
+      name: "Xcloud",
+      href: "/xcloud",
+    },
+    {
+      name: "Settings",
+      href: "/settings",
+    }
+  ];
+
   return (
     <Navbar isBordered style={{ justifyContent: "flex-start", zIndex: 100 }}>
       <NavbarBrand className="grow-0">

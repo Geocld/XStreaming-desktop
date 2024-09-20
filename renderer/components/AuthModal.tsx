@@ -7,10 +7,10 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 const AuthModal = ({ show, onConfirm }) => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   const handleConfirm = () => {
     onConfirm && onConfirm();
@@ -22,7 +22,7 @@ const AuthModal = ({ show, onConfirm }) => {
         <>
           <ModalHeader className="flex flex-col gap-1">Warning</ModalHeader>
           <ModalBody>
-            <p>Login has expired or not logged in, please login again</p>
+            <p>{t('Login has expired or not logged in, please log in again')}</p>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onPress={handleConfirm}>

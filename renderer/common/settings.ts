@@ -8,6 +8,7 @@ const settings = {
       name: 'locale',
       type: 'select',
       title: t('App language'),
+      needRestart: true,
       description: t('Set language of XStreaming'),
       data: [
         {value: 'en', label: 'English'},
@@ -176,6 +177,7 @@ const settings = {
       name: 'force_region_ip',
       type: 'select',
       title: t('Set region'),
+      needRestart: true,
       description: t(
         'Changing the region allows you to use XGPU services without a proxy',
       ),

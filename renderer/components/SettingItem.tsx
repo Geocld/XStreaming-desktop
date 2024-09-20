@@ -58,6 +58,12 @@ const SettingItem = (props) => {
           ...settings,
           [key]: value,
         });
+        if (key === 'locale') {
+          global.localStorage.setItem(key, value)
+        }
+        if (item.needRestart) {
+          props.onRestartWarn && props.onRestartWarn()
+        }
       }
     }
     console.log("handleChangeSetting:", value);

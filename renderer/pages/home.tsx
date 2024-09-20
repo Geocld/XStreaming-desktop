@@ -31,7 +31,7 @@ function Home() {
 
   useEffect(() => {
     setLoading(true);
-    setLoadingText("Loading...");
+    setLoadingText(t("Loading..."));
     Ipc.send("app", "checkAuthentication").then((isLogin) => {
       if (isLogin) {
         // Silence login, refresh token
@@ -49,6 +49,7 @@ function Home() {
               args.user.signedIn === true
             ) {
               clearInterval(authInterval.current);
+              window.sessionStorage.setItem("isLogined", "1");
               setIsLogined(true);
 
               // Get Consoles
@@ -71,7 +72,7 @@ function Home() {
     return () => {
       if (authInterval.current) clearInterval(authInterval.current);
     };
-  }, []);
+  }, [t]);
 
   const handleLogin = () => {
     setLoading(true);
@@ -114,7 +115,7 @@ function Home() {
 
   return (
     <>
-      <Nav current={"Consoles"} isLogined={isLogined} />
+      <Nav current={t("Consoles")} isLogined={isLogined} />
 
       {loading && <Loading loadingText={loadingText} />}
 
@@ -155,7 +156,7 @@ function Home() {
                   fullWidth
                   onClick={() => startSession(console.id)}
                 >
-                  Start
+                  {t('Start stream')}
                 </Button>
               </CardFooter>
             </Card>
