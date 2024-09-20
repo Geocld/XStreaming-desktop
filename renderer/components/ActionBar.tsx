@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   Dropdown,
@@ -9,10 +9,10 @@ import {
 } from "@nextui-org/react";
 
 function ActionBar(props) {
-  let lastMovement = 0;
   const { t } = useTranslation();
 
   useEffect(() => {
+    let lastMovement = 0;
     const mouseEvent = () => {
       lastMovement = Date.now();
     };
@@ -51,38 +51,44 @@ function ActionBar(props) {
 
   const handleDisplay = () => {
     props.onDisplay && props.onDisplay();
-  }
+  };
 
   const handlePressNexus = () => {
     props.onPressNexus && props.onPressNexus();
-  }
+  };
 
   const handleLongPressNexus = () => {
     props.onLongPressNexus && props.onLongPressNexus();
-  }
+  };
 
   return (
     <div id="actionBar">
       <Dropdown>
         <DropdownTrigger>
           <Button variant="bordered" size="sm">
-            {t('Menu')}
+            {t("Menu")}
           </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem key="performance" onClick={handleTogglePerformance}>
-            {t('Toggle Performance')}
+            {t("Toggle Performance")}
           </DropdownItem>
-          <DropdownItem key="display" onClick={handleDisplay}>{t('Display settings')}</DropdownItem>
-          <DropdownItem key="pressNexus" onClick={handlePressNexus}>{t('Press Nexus')}</DropdownItem>
-          <DropdownItem key="longPressNexus" onClick={handleLongPressNexus}>{t('Long press Nexus')}</DropdownItem>
+          <DropdownItem key="display" onClick={handleDisplay}>
+            {t("Display settings")}
+          </DropdownItem>
+          <DropdownItem key="pressNexus" onClick={handlePressNexus}>
+            {t("Press Nexus")}
+          </DropdownItem>
+          <DropdownItem key="longPressNexus" onClick={handleLongPressNexus}>
+            {t("Long press Nexus")}
+          </DropdownItem>
           <DropdownItem
             key="disconnect"
             className="text-danger"
             color="danger"
             onClick={handleDisconnect}
           >
-            {t('Disconnect')}
+            {t("Disconnect")}
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

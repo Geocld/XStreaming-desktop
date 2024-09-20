@@ -5,7 +5,6 @@ import {
   Input,
 } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/navigation";
 
 import Layout from "../components/Layout";
 import TitleItem from "../components/TitleItem";
@@ -18,11 +17,9 @@ import SearchIcon from "../components/SearchIcon";
 function Xcloud() {
   const { t } = useTranslation();
 
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [loadingText, setLoadingText] = useState('')
   const [isLimited, setIsLimited] = useState(false)
-  const [titlesMap, setTitlesMap] = useState({})
   const [currentTab, setCurrentTab] = useState('Recently')
   const [currentTitle, setCurrentTitle] = useState({})
   const [showTitleDetail, setShowTitleDetail] = useState(false)
@@ -52,7 +49,6 @@ function Xcloud() {
             })
 
             console.log('_titleMap:', _titleMap)
-            setTitlesMap(_titleMap)
 
             // Get new games
             Ipc.send('xCloud', 'getNewTitles').then(newTitleRes => {
@@ -89,7 +85,7 @@ function Xcloud() {
         })
       }
     })
-  }, []);
+  }, [t]);
 
   const handleViewTitleDetail = (titleItem: any) => {
     console.log('titleItem:', titleItem)

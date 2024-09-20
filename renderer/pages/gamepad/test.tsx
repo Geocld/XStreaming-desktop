@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Button } from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 
-function gamepadTester() {
+function GamepadTester() {
   const router = useRouter()
 
   const timer = useRef(null)
@@ -120,8 +120,7 @@ function gamepadTester() {
 
     const keys = ["index", "id", "connected", "mapping"];
     function processController(info) {
-      const { elem, gamepad, axes, buttons } = info;
-      const lines = [`gamepad  : ${gamepad.index}`];
+      const { gamepad, axes, buttons } = info;
       for (const key of keys) {
         info[key].textContent = gamepad[key];
       }
@@ -205,4 +204,4 @@ function gamepadTester() {
   );
 }
 
-export default gamepadTester;
+export default GamepadTester;

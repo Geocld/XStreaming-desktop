@@ -1,13 +1,20 @@
-import React from 'react'
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react"
+import React from "react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@nextui-org/react";
 // import { useTranslation } from 'react-i18next';
 
 const AuthModal = ({ show, onConfirm }) => {
   // const { t } = useTranslation()
 
   const handleConfirm = () => {
-    onConfirm && onConfirm()
-  }
+    onConfirm && onConfirm();
+  };
 
   return (
     <Modal isOpen={show} hideCloseButton={true}>
@@ -25,7 +32,7 @@ const AuthModal = ({ show, onConfirm }) => {
         </>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};
 
-export default AuthModal
+export default AuthModal;

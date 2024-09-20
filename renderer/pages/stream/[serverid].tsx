@@ -23,7 +23,6 @@ function Stream() {
   const [xPlayer, setxPlayer] = useState(undefined);
   const [connectState, setConnectState] = useState("");
   const [sessionId, setSessionId] = useState("");
-  const [queueTime, setQueueTime] = useState(0);
   const [showPerformance, setShowPerformance] = useState(false);
   const [showFailed, setShowFailed] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -281,22 +280,11 @@ function Stream() {
                     );
                   }
                   console.log("Full stream error:", session.errorDetails);
-                  onDisconnect();
-                  xPlayer && xPlayer.close();
                   break;
 
                 case "queued":
                   // Waiting in queue
                   // @TODO: Show queue position
-                  if (queueTime === 0) {
-                    setQueueTime(
-                      session.waitingTimes.estimatedTotalWaitTimeInSeconds
-                    );
-                    console.log(
-                      "Setting queue to:",
-                      session.waitingTimes.estimatedTotalWaitTimeInSeconds
-                    );
-                  }
                   break;
               }
             })
@@ -323,7 +311,7 @@ function Stream() {
         clearInterval(streamStateInterval.current);
       }
     };
-  }, [xPlayer, sessionId]);
+  }, [xPlayer, sessionId, t, router.query.serverid, settings]);
 
   const getVideoPlayerFilterStyle = (options) => {
     const filters = [];
@@ -394,6 +382,7 @@ function Stream() {
           router.back();
         })
         .catch((e) => {
+          console.log(e)
           setLoading(false);
           router.back();
         });

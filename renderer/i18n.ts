@@ -15,8 +15,6 @@ const resources = {
   jp,
 };
 
-let streamSettings: any = {}
-
 const lng = 'en'
 
 i18n
