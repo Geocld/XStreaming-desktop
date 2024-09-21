@@ -5,23 +5,25 @@ import {
   NavbarItem,
   Link,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 const Nav = ({ current, isLogined }) => {
 
-  // const { t } = useTranslation();
+  console.log('isLogined:', isLogined)
+
+  const { t } = useTranslation('common');
 
   const metas = [
     {
-      name: "Consoles",
+      name: t("Consoles"),
       href: "/home",
     },
     {
-      name: "Xcloud",
+      name: t("Xcloud"),
       href: "/xcloud",
     },
     {
-      name: "Settings",
+      name: t("Settings"),
       href: "/settings",
     }
   ];
@@ -33,7 +35,7 @@ const Nav = ({ current, isLogined }) => {
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
         {metas.map((meta) => {
-          if (meta.name === "Xcloud" && !isLogined) {
+          if (meta.href === "/xcloud" && !isLogined) {
             return null;
           } else {
             return (

@@ -7,7 +7,7 @@ import {
   Divider,
   Chip,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
 import Layout from "../components/Layout";
 import AuthModal from "../components/AuthModal";
@@ -17,13 +17,18 @@ import Nav from "../components/Nav";
 
 import Image from "next/image";
 
-function Home() {
-  const { t } = useTranslation();
+import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+function Home(
+  _props: InferGetStaticPropsType<typeof getStaticProps>
+) {
+  const { t } = useTranslation('common');
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
-  const [isLogined, setIsLogined] = useState(true);
+  const [isLogined, setIsLogined] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [consoles, setConsoles] = useState([]);
 
@@ -166,5 +171,17 @@ function Home() {
     </>
   );
 }
+
+type Props = {}
+export const getStaticProps: GetStaticProps<Props> = async ({
+  locale,
+}) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? 'en', [
+      'common',
+      'footer',
+    ])),
+  },
+})
 
 export default Home;

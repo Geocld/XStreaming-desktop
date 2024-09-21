@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Tabs, Tab, Card, CardBody } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
 import { useSettings } from "../context/userContext";
 
@@ -8,7 +8,7 @@ import Ipc from "../lib/ipc";
 import Layout from "../components/Layout";
 import SettingItem from "../components/SettingItem";
 import Alert from "../components/Alert";
-import settings from "../common/settings";
+import getSettingsMetas from "../common/settings";
 import Nav from "../components/Nav";
 import FeedbackModal from "../components/FeedbackModal";
 import ConfirmModal from "../components/ConfirmModal";
@@ -16,7 +16,7 @@ import updater from "../lib/updater";
 import pkg from '../../package.json';
 
 function Settings() {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
   const router = useRouter();
   const { resetSettings } = useSettings();
 
@@ -29,6 +29,7 @@ function Settings() {
   const [isLogined, setIsLogined] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
+  const [settings, setSettings] = useState<any>({})
 
   const currentLanguage = i18n.language;
 
@@ -37,7 +38,10 @@ function Settings() {
     if (_isLogined === "1") {
       setIsLogined(true);
     }
-  }, []);
+
+    const _settings = getSettingsMetas(t)
+    setSettings(_settings)
+  }, [t]);
 
   const handleResetSettings = () => {
     window.localStorage.clear();
@@ -104,31 +108,31 @@ function Settings() {
       <Layout>
         <Tabs aria-label="Options">
           <Tab key="Language" title={t("Language")}>
-            {settings.language.map((item) => {
+            {settings.language && settings.language.map((item) => {
               return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="Streaming" title={t("Streaming")}>
-            {settings.streaming.map((item) => {
+            {settings.streaming && settings.streaming.map((item) => {
               return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="Gamepad" title={t("Gamepad")}>
-            {settings.gamepad.map((item) => {
+            {settings.gamepad && settings.gamepad.map((item) => {
               return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="XHome" title={t("Xhome")}>
-            {settings.xhome.map((item) => {
+            {settings.xhome && settings.xhome.map((item) => {
               return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>
 
           <Tab key="Xcloud" title={t("Xcloud")}>
-            {settings.xcloud.map((item) => {
+            {settings.xcloud && settings.xcloud.map((item) => {
               return <SettingItem key={item.name} item={item} onRestartWarn={() => setShowRestartModal(true)}/>;
             })}
           </Tab>

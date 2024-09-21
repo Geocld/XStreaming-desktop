@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import {
   Button,
   Dropdown,
@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 
 function ActionBar(props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     let lastMovement = 0;

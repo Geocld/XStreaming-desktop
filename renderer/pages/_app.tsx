@@ -1,13 +1,12 @@
 import React from "react";
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { appWithTranslation } from 'next-i18next'
 
 import { UserProvider } from "../context/userContext";
 import "../styles.css";
 
-import "../i18n";
-
-export default function MyApp({ Component, pageProps }) {
+const  MyApp = ({ Component, pageProps }) => {
   React.useEffect(() => {
     const errorHandler = function (event) {
       console.error(
@@ -51,3 +50,5 @@ export default function MyApp({ Component, pageProps }) {
     </NextUIProvider>
   );
 }
+
+export default appWithTranslation(MyApp)

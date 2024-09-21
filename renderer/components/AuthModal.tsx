@@ -7,10 +7,10 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 
 const AuthModal = ({ show, onConfirm }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation('common')
 
   const handleConfirm = () => {
     onConfirm && onConfirm();
@@ -26,7 +26,7 @@ const AuthModal = ({ show, onConfirm }) => {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onPress={handleConfirm}>
-              Login
+              {t('Login')}
             </Button>
           </ModalFooter>
         </>
