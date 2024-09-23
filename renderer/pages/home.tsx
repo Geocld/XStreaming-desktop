@@ -8,7 +8,7 @@ import {
   Chip,
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/router';
 import Layout from "../components/Layout";
 import AuthModal from "../components/AuthModal";
 import Ipc from "../lib/ipc";
@@ -17,13 +17,11 @@ import Nav from "../components/Nav";
 
 import Image from "next/image";
 
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import type { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-function Home(
-  _props: InferGetStaticPropsType<typeof getStaticProps>
-) {
-  const { t } = useTranslation('common');
+function Home() {
+  const { t } = useTranslation('home');
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -37,6 +35,7 @@ function Home(
   useEffect(() => {
     setLoading(true);
     setLoadingText(t("Loading..."));
+
     Ipc.send("app", "checkAuthentication").then((isLogin) => {
       if (isLogin) {
         // Silence login, refresh token
@@ -58,7 +57,7 @@ function Home(
               setIsLogined(true);
 
               // Get Consoles
-              setLoadingText("Fetching consoles...");
+              setLoadingText(t("Fetching consoles..."));
               Ipc.send("consoles", "get").then((res) => {
                 console.log("consoles:", res);
                 setConsoles(res);
@@ -81,7 +80,7 @@ function Home(
 
   const handleLogin = () => {
     setLoading(true);
-    setLoadingText("Loading...");
+    setLoadingText(t("Loading..."));
     Ipc.send("app", "login").then(() => {
       setShowLoginModal(false);
       // Check login state
@@ -102,7 +101,7 @@ function Home(
             setLoading(false);
 
             // Get Consoles
-            setLoadingText("Fetching consoles...");
+            setLoadingText(t("Fetching consoles..."));
             Ipc.send("consoles", "get").then((res) => {
               console.log("consoles:", res);
               setConsoles(res);
@@ -115,12 +114,12 @@ function Home(
 
   const startSession = (sessionId) => {
     console.log("sessionId:", sessionId);
-    router.push("stream/" + sessionId);
+    router.push(router.locale + "/stream/" + sessionId);
   };
 
   return (
     <>
-      <Nav current={t("Consoles")} isLogined={isLogined} />
+      <Nav current={t("Consoles")} isLogined={isLogined} locale={router.locale} />
 
       {loading && <Loading loadingText={loadingText} />}
 
@@ -172,14 +171,14 @@ function Home(
   );
 }
 
-type Props = {}
-export const getStaticProps: GetStaticProps<Props> = async ({
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps: GetStaticProps = async ({
   locale,
 }) => ({
   props: {
     ...(await serverSideTranslations(locale ?? 'en', [
       'common',
-      'footer',
+      'home',
     ])),
   },
 })

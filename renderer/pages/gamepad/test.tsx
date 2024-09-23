@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Button } from "@nextui-org/react";
+import { Button, Divider } from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
 
 function GamepadTester() {
@@ -178,6 +178,7 @@ function GamepadTester() {
     <div id="gamepadTest">
       <div>
       <Button onClick={() => router.back()}>Back</Button>
+      <Divider className="my-4" />
       </div>
       <div>
         Running: <span id="running"></span>
@@ -192,7 +193,7 @@ function GamepadTester() {
               gp.vibrationActuator.playEffect("dual-rumble", {
                 startDelay: 0,
                 duration: 1000,
-                weakMagnitude: 0.5,
+                weakMagnitude: 1.0,
                 strongMagnitude: 1.0
             })
             }

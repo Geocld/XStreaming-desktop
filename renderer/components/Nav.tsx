@@ -7,7 +7,7 @@ import {
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 
-const Nav = ({ current, isLogined }) => {
+const Nav = ({ current, isLogined, locale }) => {
 
   console.log('isLogined:', isLogined)
 
@@ -42,7 +42,7 @@ const Nav = ({ current, isLogined }) => {
               <NavbarItem isActive={current === meta} key={meta.name}>
                 <Link
                   color={current === meta.name ? "primary" : "foreground"}
-                  href={meta.href}
+                  href={`/${locale}${meta.href}`}
                 >
                   {meta.name}
                 </Link>

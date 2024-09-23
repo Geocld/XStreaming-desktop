@@ -7,14 +7,10 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
-const FailedModal = ({ show, onConfirm, onCancel }) => {
-  const { t } = useTranslation();
-
-  const handleRefresh = () => {
-    onConfirm && onConfirm();
-  };
+const FailedModal = ({ show, onCancel }) => {
+  const { t } = useTranslation('cloud');
 
   const handleExit = () => {
     onCancel && onCancel();
@@ -29,17 +25,17 @@ const FailedModal = ({ show, onConfirm, onCancel }) => {
           <ModalBody>
             <p>
               {t(
-                "NAT traversal failed. If you were attempting remote streaming and it was successful before, please click the refresh button below to refresh the streaming credentials and try again."
+                "NAT failed. If you are trying to stream remotely, please ensure that you have a public IPV4/6 address and that your router has port forwarding enabled for ports 9002/3074."
               )}
             </p>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" variant="light" onPress={handleExit}>
+            <Button color="primary" variant="light" onPress={handleExit}>
               {t("Exit")}
             </Button>
-            <Button color="primary" onPress={handleRefresh}>
+            {/* <Button color="primary" onPress={handleRefresh}>
               {t("Refresh")}
-            </Button>
+            </Button> */}
           </ModalFooter>
         </>
       </ModalContent>

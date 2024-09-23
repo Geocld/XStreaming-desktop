@@ -9,11 +9,13 @@ import {
   Image,
   Chip,
 } from "@nextui-org/react";
+import { useTranslation } from "next-i18next";
 
 const XCLOUD_PREFIX = "xcloud_";
 
 function TitleModal(props) {
   const router = useRouter();
+  const { t } = useTranslation('cloud');
 
   const titleItem = props.title || {};
 
@@ -67,10 +69,10 @@ function TitleModal(props) {
           </ModalBody>
           <ModalFooter>
             <Button color="danger" variant="light" onPress={handleClose}>
-              Close
+              {t('Close')}
             </Button>
             <Button color="primary" onPress={handleStartGame}>
-              Start Game
+              {t('Start game')}
             </Button>
           </ModalFooter>
         </>

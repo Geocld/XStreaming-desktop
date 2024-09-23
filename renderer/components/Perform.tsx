@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 function Perform({ xPlayer, connectState }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('cloud');
   const [performance, setPerformance] = useState<any>({});
 
   useEffect(() => {
@@ -30,22 +30,22 @@ function Perform({ xPlayer, connectState }) {
         {t("Resolution")}: {performance.resolution || "--"} &nbsp;| &nbsp;
       </div>
       <div className="px-1">
-        {t("Round Trip Time")}: {performance.rtt || "--"}|
+        {t("RTT")}: {performance.rtt || "--"}|
       </div>
       <div className="px-1">
         {t("FPS")}: {performance.fps || "--"}|
       </div>
       <div className="px-1">
-        {t("Frames Dropped")}: {performance.fl || "--"}|
+        {t("FD")}: {performance.fl || "--"}|
       </div>
       <div className="px-1">
-        {t("Packets Lost")}: {performance.pl || "--"}|
+        {t("PL")}: {performance.pl || "--"}|
       </div>
       <div className="px-1">
         {t("Bitrate")}: {performance.br || "--"}|
       </div>
       <div className="px-1">
-        {t("Decode time")}: {performance.decode || "--"}
+        {t("DT")}: {performance.decode || "--"}
       </div>
     </div>
   );

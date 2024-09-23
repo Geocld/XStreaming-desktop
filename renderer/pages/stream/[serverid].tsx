@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import xStreamingPlayer from "xstreaming-player";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "next-i18next";
+import type { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Ipc from "../../lib/ipc";
 import ActionBar from "../../components/ActionBar";
-import Loading from '../../components/Loading'
+import Loading from "../../components/Loading";
 import Perform from "../../components/Perform";
 import FailedModal from "../../components/FailedModal";
 import WarningModal from "../../components/WarningModal";
@@ -16,7 +18,7 @@ const XCLOUD_PREFIX = "xcloud_";
 function Stream() {
   const router = useRouter();
   const { settings } = useSettings();
-  const { t } = useTranslation();
+  const { t } = useTranslation("cloud");
 
   const [loading, setLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("");
@@ -121,14 +123,16 @@ function Stream() {
       });
 
       xPlayer.createOffer().then((offer: any) => {
-        console.log('offer:', offer)
-        setLoadingText(`${t('Configuration obtained successfully, initiating offer...')}`)
+        console.log("offer:", offer);
+        setLoadingText(
+          `${t("Configuration obtained successfully, initiating offer...")}`
+        );
         Ipc.send("streaming", "sendSdp", {
           sessionId: sessionId,
           sdp: offer.sdp,
         })
           .then((sdpResult: any) => {
-            setLoadingText(`${t('Remote offer retrieved successfully...')}`)
+            setLoadingText(`${t("Remote offer retrieved successfully...")}`);
             console.log("sdpResult:", sdpResult);
             xPlayer.setRemoteOffer(sdpResult.sdp);
 
@@ -143,16 +147,15 @@ function Stream() {
               });
             }
 
-            setLoadingText(`${t('Ready to send ICE...')}`)
+            setLoadingText(`${t("Ready to send ICE...")}`);
             Ipc.send("streaming", "sendIce", {
               sessionId: sessionId,
               ice: candidates,
             })
               .then((iceResult: any) => {
-                setLoadingText(`${t('Exchange ICE successfully...')}`)
+                setLoadingText(`${t("Exchange ICE successfully...")}`);
                 console.log("iceResult:", iceResult);
 
-                // TODO: IPV6
                 xPlayer.setIceCandidates(iceResult);
 
                 // All done. Waiting for the event 'connectionstate' to be triggered
@@ -174,12 +177,10 @@ function Stream() {
         connectStateRef.current = event.state;
 
         if (event.state === "connected") {
-          
-          setLoadingText(`${t('Connected')}`);
+          setLoadingText(`${t("Connected")}`);
 
           setTimeout(() => {
-
-            setLoading(false)
+            setLoading(false);
 
             // Start keepalive loop
             if (!keepaliveInterval.current) {
@@ -200,13 +201,13 @@ function Stream() {
                   });
               }, 30 * 1000);
             }
-          },  500);
+          }, 500);
         } else if (event.state === "closed") {
           console.log(":: We are disconnected!");
         }
       });
     } else if (sessionId === "") {
-      setLoadingText(`${t('Disconnecting...')}`)
+      setLoadingText(`${t("Connecting...")}`);
       Ipc.send("streaming", "startStream", {
         type: streamType,
         target: serverId,
@@ -315,13 +316,13 @@ function Stream() {
 
   const getVideoPlayerFilterStyle = (options) => {
     const filters = [];
-    const usmMatrix = document.getElementById('filter-usm-matrix')
+    const usmMatrix = document.getElementById("filter-usm-matrix");
 
     const sharpness = options.sharpness || 0; // sharpness
     if (sharpness !== 0) {
-      const level = (7 - ((sharpness / 2) - 1) * 0.5).toFixed(1); // 5, 5.5, 6, 6.5, 7
+      const level = (7 - (sharpness / 2 - 1) * 0.5).toFixed(1); // 5, 5.5, 6, 6.5, 7
       const matrix = `0 -1 0 -1 ${level} -1 0 -1 0`;
-      usmMatrix.setAttributeNS(null, 'kernelMatrix', matrix);
+      usmMatrix.setAttributeNS(null, "kernelMatrix", matrix);
       filters.push(`url(#filter-usm)`);
     }
 
@@ -340,27 +341,27 @@ function Stream() {
       filters.push(`brightness(${brightness}%)`);
     }
 
-    return filters.join(' ');
-  }
+    return filters.join(" ");
+  };
 
   const refreshPlayer = (options) => {
-    const videoStyle = document.getElementById('video-css')
+    const videoStyle = document.getElementById("video-css");
     const filters = getVideoPlayerFilterStyle(options);
-    let videoCss = '';
+    let videoCss = "";
     if (filters) {
-        videoCss += `filter: ${filters} !important;`;
+      videoCss += `filter: ${filters} !important;`;
     }
-    let css = '';
+    let css = "";
     if (videoCss) {
-        css = `#videoHolder video { ${videoCss} }`;
+      css = `#videoHolder video { ${videoCss} }`;
     }
 
     videoStyle!.textContent = css;
-  }
+  };
 
   const onDisconnect = () => {
     setLoading(true);
-    setLoadingText(`${t('Disconnecting...')}`);
+    setLoadingText(`${t("Disconnecting...")}`);
     xPlayer && xPlayer.close();
 
     if (streamStateInterval.current) {
@@ -382,7 +383,7 @@ function Stream() {
           router.back();
         })
         .catch((e) => {
-          console.log(e)
+          console.log(e);
           setLoading(false);
           router.back();
         });
@@ -390,22 +391,22 @@ function Stream() {
   };
 
   const handlePressNexus = () => {
-    if (xPlayer && xPlayer.getChannelProcessor('input')) {
-      xPlayer.getChannelProcessor('input').pressButtonStart('Nexus');
+    if (xPlayer && xPlayer.getChannelProcessor("input")) {
+      xPlayer.getChannelProcessor("input").pressButtonStart("Nexus");
       setTimeout(() => {
-        xPlayer.getChannelProcessor('input').pressButtonEnd('Nexus');
+        xPlayer.getChannelProcessor("input").pressButtonEnd("Nexus");
       }, 150);
     }
-  }
+  };
 
   const handleLongPressNexus = () => {
-    if (xPlayer && xPlayer.getChannelProcessor('input')) {
-      xPlayer.getChannelProcessor('input').pressButtonStart('Nexus');
+    if (xPlayer && xPlayer.getChannelProcessor("input")) {
+      xPlayer.getChannelProcessor("input").pressButtonStart("Nexus");
       setTimeout(() => {
-        xPlayer.getChannelProcessor('input').pressButtonEnd('Nexus');
+        xPlayer.getChannelProcessor("input").pressButtonEnd("Nexus");
       }, 1000);
     }
-  }
+  };
 
   return (
     <>
@@ -421,9 +422,6 @@ function Stream() {
 
       <FailedModal
         show={showFailed}
-        onConfirm={() => {
-          setShowFailed(false);
-        }}
         onCancel={() => {
           setShowFailed(false);
         }}
@@ -443,24 +441,51 @@ function Stream() {
         <Perform xPlayer={xPlayer} connectState={connectState} />
       )}
 
-      { 
-        showDisplay && 
-          <Display 
-            onClose={() => setShowDisplay(false)} 
-            onValueChange={(options) => {
-              refreshPlayer(options)
-          }}/>
-      }
+      {showDisplay && (
+        <Display
+          onClose={() => setShowDisplay(false)}
+          onValueChange={(options) => {
+            refreshPlayer(options);
+          }}
+        />
+      )}
 
-      { loading && <Loading loadingText={loadingText} /> }
+      {loading && <Loading loadingText={loadingText} />}
 
       <div id="videoHolder">
         {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline></video> */}
       </div>
 
-      <svg id="video-filters" style={{display: 'none'}}><defs><filter id="filter-usm"><feConvolveMatrix id="filter-usm-matrix" order="3"></feConvolveMatrix></filter></defs></svg>
+      <svg id="video-filters" style={{ display: "none" }}>
+        <defs>
+          <filter id="filter-usm">
+            <feConvolveMatrix
+              id="filter-usm-matrix"
+              order="3"
+            ></feConvolveMatrix>
+          </filter>
+        </defs>
+      </svg>
     </>
   );
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const serverid = params?.serverid as string;
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en", ["common", "cloud"])),
+      serverid
+    }
+  }
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticPaths = () => ({
+  fallback: true,
+  paths: [],
+})
 
 export default Stream;

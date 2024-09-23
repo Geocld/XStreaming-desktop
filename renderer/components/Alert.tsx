@@ -6,8 +6,11 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
+import { useTranslation } from "next-i18next";
 
 function Alert(props) {
+  const { t } = useTranslation('common');
+  
   const handleConfirm = () => {
     props.onClose && props.onClose();
   };
@@ -17,12 +20,12 @@ function Alert(props) {
       <ModalContent>
         <>
           <ModalHeader className="flex flex-col gap-1">
-            {props.title || "Warning"}
+            {props.title || t("Warning")}
           </ModalHeader>
           <ModalBody className="scroll">{props.content}</ModalBody>
           <ModalFooter>
             <Button color="primary" onPress={handleConfirm}>
-              Confirm
+              {t('Confirm')}
             </Button>
           </ModalFooter>
         </>

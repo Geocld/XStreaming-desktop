@@ -7,10 +7,10 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 const WarningModal = ({ show, onConfirm, onCancel }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('cloud');
 
   const handleConfirm = () => {
     onConfirm && onConfirm();

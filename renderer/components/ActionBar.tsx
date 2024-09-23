@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 
 function ActionBar(props) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('cloud');
 
   useEffect(() => {
     let lastMovement = 0;

@@ -89,6 +89,10 @@ export default class Authentication {
 
         }).catch((err) => {
             this._application.log('authenticationV2', '[startSilentFlow()] Error refreshing tokens:', err)
+            dialog.showMessageBox({
+                message: '[startSilentFlow()] Error refreshing tokens:' + JSON.stringify(err),
+                type: 'error',
+            })
             this._tokenStore.clear()
         })
     }

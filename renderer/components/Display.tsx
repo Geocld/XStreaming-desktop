@@ -8,7 +8,7 @@ import {
   Button,
   Slider,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { DISPLAY_KEY } from "../common/constans";
 
 const DEFAULT_OPTIONS = {
@@ -19,7 +19,7 @@ const DEFAULT_OPTIONS = {
 };
 
 function Display(props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('cloud');
 
   const [options, setOptions] = useState<any>(DEFAULT_OPTIONS);
 
@@ -65,7 +65,7 @@ function Display(props) {
     <Modal isOpen={true} className="z-100" onClose={handleClose}>
       <ModalContent>
         <>
-          <ModalHeader className="flex flex-col gap-1">Display</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">{t('Display')}</ModalHeader>
           <ModalBody>
             <Slider
               label={t("Sharpness")}

@@ -2,9 +2,10 @@ import { app as ElectronApp, BrowserWindow, dialog } from "electron";
 import serve from "electron-serve";
 import Store from "electron-store";
 import Debug from "debug";
-import { createWindow, xboxWorker, updater } from "./helpers";
+import { createWindow, xboxWorker } from "./helpers";
 import Authentication from "./authentication";
 import Ipc from "./ipc";
+import { defaultSettings } from '../renderer/context/userContext.defaults'
 
 import xboxWebApi from "xbox-webapi";
 import xCloudApi from "./helpers/xcloudapi";
@@ -317,11 +318,15 @@ export default class Application {
       }
     });
 
+    const settings: any = this._store.get('settings', defaultSettings)
+    console.log('settings:', settings)
+    const locale = settings.locale || 'en'
+
     if (this._isProduction === true && this._isCi === false) {
-      this._mainWindow.loadURL("app://./home.html");
+      this._mainWindow.loadURL(`app://./${locale}/home.html`);
     } else {
       const port = process.argv[2] || 3000;
-      this._mainWindow.loadURL(`http://localhost:${port}/home`);
+      this._mainWindow.loadURL(`http://localhost:${port}/${locale}/home`);
 
       // if(this._isCi !== true){
       //     this._mainWindow.webContents.openDevTools()

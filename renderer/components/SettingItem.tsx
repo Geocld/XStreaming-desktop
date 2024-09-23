@@ -8,6 +8,7 @@ import {
   Autocomplete,
   AutocompleteItem,
 } from "@nextui-org/react";
+import { useTranslation } from "next-i18next";
 import { useSettings } from "../context/userContext";
 import Ipc from "../lib/ipc";
 
@@ -15,6 +16,7 @@ const SettingItem = (props) => {
   const { settings, setSettings } = useSettings();
   console.log("settings:", settings);
   const item = props.item || {};
+  const { t } = useTranslation('settings')
 
   const [defaultValue, setDefaultValue] = useState(settings[item.name]);
 
@@ -58,9 +60,6 @@ const SettingItem = (props) => {
           ...settings,
           [key]: value,
         });
-        if (key === 'locale') {
-          global.localStorage.setItem(key, value)
-        }
         if (item.needRestart) {
           props.onRestartWarn && props.onRestartWarn()
         }
@@ -139,8 +138,8 @@ const SettingItem = (props) => {
                   });
                 }}
               >
-                <Radio value="Auto">Auto</Radio>
-                <Radio value="Custom">Custom</Radio>
+                <Radio value="Auto">{t('Auto')}</Radio>
+                <Radio value="Custom">{t('Custom')}</Radio>
               </RadioGroup>
 
               {settings[item.name + "_mode"] === "Custom" && (

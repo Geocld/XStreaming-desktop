@@ -1,3 +1,19 @@
 {
-    "Login has expired or not logged in, please log in again": "Login has expired or not logged in, please log in again"
+  "Consoles": "Consoles",
+  "Xcloud": "Xcloud",
+  "Settings": "Settings",
+  "Login": "Login",
+  "Logout": "Logout",
+  "Login has expired or not logged in, please log in again": "Login has expired or not logged in, please log in again",
+  "Close": "Close",
+  "Warning": "Warning",
+  "Loading...": "Loading...",
+  "On": "On",
+  "Off": "Off",
+  "Enable": "Enable",
+  "Disable": "Disable",
+  "Confirm": "Confirm",
+  "Cancel": "Cancel",
+  "Back": "Back",
+  "Exit": "Exit"
 }

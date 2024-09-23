@@ -20,7 +20,7 @@ const AuthModal = ({ show, onConfirm }) => {
     <Modal isOpen={show} hideCloseButton={true}>
       <ModalContent>
         <>
-          <ModalHeader className="flex flex-col gap-1">Warning</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">{t('Warning')}</ModalHeader>
           <ModalBody>
             <p>{t('Login has expired or not logged in, please log in again')}</p>
           </ModalBody>
