@@ -36,42 +36,58 @@ function Home() {
     setLoading(true);
     setLoadingText(t("Loading..."));
 
-    Ipc.send("app", "checkAuthentication").then((isLogin) => {
-      if (isLogin) {
-        // Silence login, refresh token
-        console.log("Silence login, refresh token");
-        authInterval.current = setInterval(() => {
-          console.log("Requesting AuthState...");
+    const _isLogined = window.sessionStorage.getItem("isLogined") || "0";
+    if (_isLogined === "1") {
+      setIsLogined(true);
+    }
 
-          Ipc.send("app", "getAuthState").then((args) => {
-            console.log("Received AuthState:", args);
-
-            if (args.isAuthenticating === true) {
-              setLoading(true);
-            } else if (
-              args.isAuthenticated === true &&
-              args.user.signedIn === true
-            ) {
-              clearInterval(authInterval.current);
-              window.sessionStorage.setItem("isLogined", "1");
-              setIsLogined(true);
-
-              // Get Consoles
-              setLoadingText(t("Fetching consoles..."));
-              Ipc.send("consoles", "get").then((res) => {
-                console.log("consoles:", res);
-                setConsoles(res);
-                setLoading(false);
-              });
-            }
-          });
-        }, 500);
-      } else {
-        console.log("Full auth flow");
+    if (_isLogined === "1") {
+      // Get Consoles
+      setLoadingText(t("Fetching consoles..."));
+      Ipc.send("consoles", "get").then((res) => {
+        console.log("consoles:", res);
+        setConsoles(res);
         setLoading(false);
-        setShowLoginModal(true);
-      }
-    });
+      });
+    } else {
+      Ipc.send("app", "checkAuthentication").then((isLogin) => {
+        if (isLogin) {
+          // Silence login, refresh token
+          console.log("Silence login, refresh token");
+          authInterval.current = setInterval(() => {
+            console.log("Requesting AuthState...");
+  
+            Ipc.send("app", "getAuthState").then((args) => {
+              console.log("Received AuthState:", args);
+  
+              if (args.isAuthenticating === true) {
+                setLoading(true);
+              } else if (
+                args.isAuthenticated === true &&
+                args.user.signedIn === true
+              ) {
+                clearInterval(authInterval.current);
+                window.sessionStorage.setItem("isLogined", "1");
+                setIsLogined(true);
+  
+                // Get Consoles
+                setLoadingText(t("Fetching consoles..."));
+                Ipc.send("consoles", "get").then((res) => {
+                  console.log("consoles:", res);
+                  setConsoles(res);
+                  setLoading(false);
+                });
+              }
+            });
+          }, 500);
+        } else {
+          console.log("Full auth flow");
+          setLoading(false);
+          setShowLoginModal(true);
+        }
+      });
+    }
+    
 
     return () => {
       if (authInterval.current) clearInterval(authInterval.current);

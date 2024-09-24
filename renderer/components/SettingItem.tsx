@@ -14,13 +14,14 @@ import Ipc from "../lib/ipc";
 
 const SettingItem = (props) => {
   const { settings, setSettings } = useSettings();
-  console.log("settings:", settings);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const item = props.item || {};
   const { t } = useTranslation('settings');
 
   const [defaultValue, setDefaultValue] = useState(settings[item.name]);
 
   useEffect(() => {
+    setDefaultValue(settings[item.name])
     if (item.name === "signaling_cloud" || item.name === "signaling_home") {
       const method =
         item.name === "signaling_cloud" ? "getXcloudToken" : "getXhomeToken";
@@ -43,7 +44,7 @@ const SettingItem = (props) => {
         // console.log('item:', item)
       });
     }
-  }, [item]);
+  }, [item, settings]);
 
   const handleChangeSetting = (value) => {
     console.log("handleChangeSetting:", value);
@@ -65,7 +66,6 @@ const SettingItem = (props) => {
         }
       }
     }
-    console.log("handleChangeSetting:", value);
     setDefaultValue(value);
   };
 
@@ -80,7 +80,7 @@ const SettingItem = (props) => {
               className="setting-select"
               labelPlacement={"outside-left"}
               label={item.title}
-              defaultSelectedKey={defaultValue}
+              selectedKey={defaultValue}
               isClearable={false}
               onSelectionChange={(value) => {
                 handleChangeSetting(value);

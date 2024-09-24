@@ -298,6 +298,7 @@ export default class Xal {
         
             const HttpClient = new Http()
             HttpClient.postRequest('login.live.com', '/oauth20_token.srf', headers, body).then((response) => {
+                console.log('refreshUserToken success: ', response.body())
                 resolve(new UserToken(response.body()))
             }).catch((error) => {
                 console.log('refreshUserToken fail:', error)
