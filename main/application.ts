@@ -323,7 +323,7 @@ export default class Application {
     const locale = settings.locale || 'en'
 
     if (this._isProduction === true && this._isCi === false) {
-      this._mainWindow.loadURL(`app://./${locale}/home.html`);
+      this._mainWindow.loadURL(`app://./${locale}/home`);
     } else {
       const port = process.argv[2] || 3000;
       this._mainWindow.loadURL(`http://localhost:${port}/${locale}/home`);
