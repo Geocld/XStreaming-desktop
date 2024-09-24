@@ -6,7 +6,7 @@ import { appWithTranslation } from 'next-i18next'
 import { UserProvider } from "../context/userContext";
 import "../styles.css";
 
-const  MyApp = ({ Component, pageProps }) => {
+const  App = ({ Component, pageProps }) => {
   React.useEffect(() => {
     const errorHandler = function (event) {
       console.error(
@@ -51,4 +51,4 @@ const  MyApp = ({ Component, pageProps }) => {
   );
 }
 
-export default appWithTranslation(MyApp)
+export default appWithTranslation(App)

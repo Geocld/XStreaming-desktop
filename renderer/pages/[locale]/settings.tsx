@@ -2,25 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Button, Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useSettings } from "../context/userContext";
+import { useSettings } from "../../context/userContext";
 
-import Ipc from "../lib/ipc";
-import Layout from "../components/Layout";
-import SettingItem from "../components/SettingItem";
-import Alert from "../components/Alert";
-import getSettingsMetas from "../common/settings";
-import Nav from "../components/Nav";
-import FeedbackModal from "../components/FeedbackModal";
-import ConfirmModal from "../components/ConfirmModal";
-import KeyboardMap from "../components/KeyboardMap";
-import updater from "../lib/updater";
-import pkg from "../../package.json";
+import Ipc from "../../lib/ipc";
+import Layout from "../../components/Layout";
+import SettingItem from "../../components/SettingItem";
+import Alert from "../../components/Alert";
+import getSettingsMetas from "../../common/settings";
+import Nav from "../../components/Nav";
+import FeedbackModal from "../../components/FeedbackModal";
+import ConfirmModal from "../../components/ConfirmModal";
+import KeyboardMap from "../../components/KeyboardMap";
+import updater from "../../lib/updater";
+import pkg from "../../../package.json";
 
-import type { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
 function Settings() {
-  const { t, i18n } = useTranslation("settings");
+  const { t, i18n: {language: locale} } = useTranslation("settings");
   const { resetSettings } = useSettings();
   const router = useRouter();
 
@@ -34,8 +33,6 @@ function Settings() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [settings, setSettings] = useState<any>({});
-
-  const currentLanguage = i18n.language;
 
   useEffect(() => {
     const _isLogined = window.sessionStorage.getItem("isLogined") || "0";
@@ -80,7 +77,7 @@ function Settings() {
 
   return (
     <>
-      <Nav current={t("Settings")} isLogined={isLogined} locale={router.locale} />
+      <Nav current={t("Settings")} isLogined={isLogined} />
 
       {showAlert && (
         <Alert content={alertMessage} onClose={() => setShowAlert(false)} />
@@ -163,7 +160,9 @@ function Settings() {
                 <Button
                   color="default"
                   onClick={() => {
-                    router.push(`${router.locale}/gamepad/map`);
+                    router.push({
+                      pathname: `/${locale}/map`
+                    });
                   }}
                 >
                   {t('Settings')}
@@ -209,7 +208,9 @@ function Settings() {
                 <Button
                   color="default"
                   onClick={() => {
-                    router.push("gamepad/test");
+                    router.push({
+                      pathname: `/${locale}/test`
+                    });
                   }}
                 >
                   test
@@ -250,7 +251,7 @@ function Settings() {
               </CardBody>
             </Card>
 
-            {(currentLanguage === "zh" || currentLanguage === "zht") && (
+            {(locale === "zh" || locale === "zht") && (
               <Card className="setting-item">
                 <CardBody>
                   <div className="setting-title">反馈及支持</div>
@@ -284,11 +285,10 @@ function Settings() {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? "en", ["common", "settings"])),
-  },
-});
-
 export default Settings;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = makeStaticProperties(["common", "settings"]);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export {getStaticPaths};

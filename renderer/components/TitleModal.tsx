@@ -15,7 +15,7 @@ const XCLOUD_PREFIX = "xcloud_";
 
 function TitleModal(props) {
   const router = useRouter();
-  const { t } = useTranslation('cloud');
+  const { t, i18n: {language: locale} } = useTranslation('cloud');
 
   const titleItem = props.title || {};
 
@@ -27,7 +27,10 @@ function TitleModal(props) {
   const handleStartGame = () => {
     console.log("titleItem:", titleItem);
     const titleId = titleItem.titleId || titleItem.XCloudTitleId;
-    router.push("stream/" + XCLOUD_PREFIX + titleId);
+    router.push({
+      pathname: `/${locale}/stream`,
+      query: { serverid: XCLOUD_PREFIX + titleId }
+    });
   };
 
   return (

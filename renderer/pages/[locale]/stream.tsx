@@ -2,8 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import xStreamingPlayer from "xstreaming-player";
 import { useTranslation } from "next-i18next";
-import type { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Ipc from "../../lib/ipc";
 import ActionBar from "../../components/ActionBar";
 import Loading from "../../components/Loading";
@@ -12,6 +10,7 @@ import FailedModal from "../../components/FailedModal";
 import WarningModal from "../../components/WarningModal";
 import Display from "../../components/Display";
 import { useSettings } from "../../context/userContext";
+import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
 const XCLOUD_PREFIX = "xcloud_";
 
@@ -477,22 +476,10 @@ function Stream() {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-  const serverid = params?.serverid as string;
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common", "cloud"])),
-      serverid
-    }
-  }
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const getStaticPaths = () => ({
-  fallback: true,
-  paths: [],
-})
-
 export default Stream;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = makeStaticProperties(["common", "cloud"]);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export {getStaticPaths};

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@nextui-org/react";
-import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Nav from "../../components/Nav";
 
+import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
+
 function GamepadTester() {
-  const router = useRouter();
   const [isLogined, setIsLogined] = useState(false);
   const { t } = useTranslation("settings");
 
@@ -188,7 +188,6 @@ function GamepadTester() {
       <Nav
         current={t("Settings")}
         isLogined={isLogined}
-        locale={router.locale}
       />
       <div>
         Running: <span id="running"></span>
@@ -221,3 +220,10 @@ function GamepadTester() {
 }
 
 export default GamepadTester;
+
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = makeStaticProperties(["common", "settings"]);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export {getStaticPaths};

@@ -7,8 +7,7 @@ import MapItem from "../../components/MapItem";
 import Nav from "../../components/Nav";
 import { useSettings } from "../../context/userContext";
 
-import type { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
 const defaultMaping = {
   A: 0,
@@ -109,7 +108,7 @@ function Map() {
 
   return (
     <div className="map-page">
-      <Nav current={t("Settings")} isLogined={isLogined} locale={router.locale} />
+      <Nav current={t("Settings")} isLogined={isLogined} />
 
       {showModal && (
         <GamepadMapModal
@@ -157,11 +156,10 @@ function Map() {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? "en", ["common", "settings"])),
-  },
-});
-
 export default Map;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = makeStaticProperties(["common", "settings"]);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export {getStaticPaths};

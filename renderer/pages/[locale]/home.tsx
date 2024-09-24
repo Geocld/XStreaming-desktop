@@ -9,19 +9,18 @@ import {
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from 'next/router';
-import Layout from "../components/Layout";
-import AuthModal from "../components/AuthModal";
-import Ipc from "../lib/ipc";
-import Loading from "../components/Loading";
-import Nav from "../components/Nav";
+import Layout from "../../components/Layout";
+import AuthModal from "../../components/AuthModal";
+import Ipc from "../../lib/ipc";
+import Loading from "../../components/Loading";
+import Nav from "../../components/Nav";
 
 import Image from "next/image";
 
-import type { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
 function Home() {
-  const { t } = useTranslation('home');
+  const { t, i18n: {language: locale} } = useTranslation('home');
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -130,12 +129,15 @@ function Home() {
 
   const startSession = (sessionId) => {
     console.log("sessionId:", sessionId);
-    router.push(router.locale + "/stream/" + sessionId);
+    router.push({
+      pathname: `/${locale}/stream`,
+      query: { serverid: sessionId }
+    });
   };
 
   return (
     <>
-      <Nav current={t("Consoles")} isLogined={isLogined} locale={router.locale} />
+      <Nav current={t("Consoles")} isLogined={isLogined} />
 
       {loading && <Loading loadingText={loadingText} />}
 
@@ -187,16 +189,10 @@ function Home() {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-}) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? 'en', [
-      'common',
-      'home',
-    ])),
-  },
-})
-
 export default Home;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = makeStaticProperties(["common", "home"]);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export {getStaticPaths};

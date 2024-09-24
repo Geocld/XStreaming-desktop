@@ -1,7 +1,5 @@
-const { i18n } = require('../next-i18next.config.js')
-
+/** @type {import('next').NextConfig} */
 module.exports = {
-  // i18n,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // config.target = 'electron-renderer';
@@ -10,6 +8,7 @@ module.exports = {
 
     return config;
   },
+  trailingSlash: true,
 
   images: {
     unoptimized: true,

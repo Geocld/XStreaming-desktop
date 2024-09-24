@@ -1,20 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 import { Tabs, Tab, Input } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
-import type { GetStaticProps } from "next";
-import { useRouter } from 'next/router';
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Layout from "../components/Layout";
-import TitleItem from "../components/TitleItem";
-import TitleModal from "../components/TitleModal";
-import Ipc from "../lib/ipc";
-import Nav from "../components/Nav";
-import Loading from "../components/Loading";
-import SearchIcon from "../components/SearchIcon";
+import Layout from "../../components/Layout";
+import TitleItem from "../../components/TitleItem";
+import TitleModal from "../../components/TitleModal";
+import Ipc from "../../lib/ipc";
+import Nav from "../../components/Nav";
+import Loading from "../../components/Loading";
+import SearchIcon from "../../components/SearchIcon";
+import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
 function Xcloud() {
   const { t } = useTranslation("cloud");
-  const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("");
@@ -125,7 +122,7 @@ function Xcloud() {
   console.log("currentTitles:", currentTitles.current);
   return (
     <>
-      <Nav current={t("Xcloud")} isLogined={true} locale={router.locale} />
+      <Nav current={t("Xcloud")} isLogined={true} />
 
       {loading && <Loading loadingText={loadingText} />}
 
@@ -205,11 +202,10 @@ function Xcloud() {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const getStaticProps: GetStaticProps = async ({ locale }) => ({
-  props: {
-    ...(await serverSideTranslations(locale ?? "en", ["common", "cloud"])),
-  },
-});
-
 export default Xcloud;
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const getStaticProps = makeStaticProperties(["common", "cloud"]);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export {getStaticPaths};

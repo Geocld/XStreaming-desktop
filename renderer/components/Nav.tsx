@@ -16,10 +16,10 @@ import { useTranslation } from "next-i18next";
 
 import Ipc from "../lib/ipc";
 
-const Nav = ({ current, isLogined, locale }) => {
+const Nav = ({ current, isLogined }) => {
   console.log("isLogined:", isLogined);
 
-  const { t } = useTranslation("common");
+  const { t, i18n: {language: locale} } = useTranslation("common");
   const [userState, setUserState] = useState(null);
 
   const metas = [
@@ -35,6 +35,10 @@ const Nav = ({ current, isLogined, locale }) => {
       name: t("Settings"),
       href: "/settings",
     },
+    // {
+    //   name: 'Stream',
+    //   href: "/stream?serverid=123",
+    // },
   ];
 
   useEffect(() => {

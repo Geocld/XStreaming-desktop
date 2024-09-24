@@ -8,8 +8,8 @@
 @import 'components/SettingItem.css';
 @import 'components/Perform.css';
 @import 'components/MapItem.css';
-@import 'pages/gamepad/test.css';
-@import 'pages/gamepad/map.css';
+@import 'styles/test.css';
+@import 'styles/map.css';
 
 body {
     width: 100vw;
