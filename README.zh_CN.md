@@ -28,9 +28,9 @@ XStreaming是一款开源的Xbox/云游戏串流移动端客户端，借鉴了[G
 - 免代理云游戏
 - IPv6优先连接支持
 
-<img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/game.jpg" />
-<img src="https://github.com/Geocld/XStreaming-desktop/blob/main/images/home.jpg" /> 
+<img src="https://github.com/Geocld/XStreaming-desktop/blob/main/images/console.jpg" /> 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg" />
+<img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud2.jpg" />
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/settings.jpg" />
 
 ## 本地开发

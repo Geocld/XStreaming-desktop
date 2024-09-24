@@ -30,9 +30,9 @@ If you are looking for an Android Xbox streaming application, you can use [XStre
 - Supports rumble on xCloud without any proxy in some regions.
 - IPv6
 
-<img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/game.jpg" />
-<img src="https://github.com/Geocld/XStreaming-desktop/blob/main/images/home.jpg" /> 
+<img src="https://github.com/Geocld/XStreaming-desktop/blob/main/images/console.jpg" /> 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg" />
+<img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud2.jpg" />
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/settings.jpg" />
 
 ## Local Development
