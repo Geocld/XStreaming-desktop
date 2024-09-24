@@ -12,6 +12,7 @@ import getSettingsMetas from "../common/settings";
 import Nav from "../components/Nav";
 import FeedbackModal from "../components/FeedbackModal";
 import ConfirmModal from "../components/ConfirmModal";
+import KeyboardMap from "../components/KeyboardMap";
 import updater from "../lib/updater";
 import pkg from "../../package.json";
 
@@ -151,6 +152,24 @@ function Settings() {
                   />
                 );
               })}
+
+            <Card className="setting-item">
+              <CardBody>
+                <div className="setting-title">{t("Gamepad mapping")}</div>
+                <div className="setting-description">
+                  {t("Mapping key of gamepad")}
+                </div>
+
+                <Button
+                  color="default"
+                  onClick={() => {
+                    router.push(`${router.locale}/gamepad/map`);
+                  }}
+                >
+                  {t('Settings')}
+                </Button>
+              </CardBody>
+            </Card>
           </Tab>
 
           <Tab key="XHome" title={t("Xhome")}>
@@ -211,6 +230,8 @@ function Settings() {
               </CardBody>
             </Card>
 
+            <KeyboardMap/>
+
             <Card className="setting-item">
               <CardBody>
                 <div className="setting-title">{t("Check update")}</div>
@@ -244,13 +265,18 @@ function Settings() {
               </Card>
             )}
 
-            <Card className="setting-item">
-              <CardBody>
-                <Button color="danger" onClick={handleLouout}>
-                  {t("Logout")}
-                </Button>
-              </CardBody>
-            </Card>
+            {
+              isLogined && (
+                <Card className="setting-item">
+                  <CardBody>
+                    <Button color="danger" onClick={handleLouout}>
+                      {t("Logout")}
+                    </Button>
+                  </CardBody>
+                </Card>
+              )
+            }
+            
           </Tab>
         </Tabs>
       </Layout>

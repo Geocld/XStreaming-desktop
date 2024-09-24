@@ -15,7 +15,11 @@
   "Xhome": "主机串流",
   "Xcloud": "云游戏",
   "Others": "其他",
+  "Enable": "开",
+  "Disable": "关",
   "Gamepad tester": "手柄测试",
+  "Gamepad mapping": "手柄映射",
+  "Mapping key of gamepad": "映射手柄按键",
   "Test connected gamepad": "测试连接手柄及功能",
   "App language": "应用语言",
   "Set language of XStreaming": "设置XSreaming应用语言",
@@ -52,5 +56,13 @@
   "Korea": "韩国",
   "United States": "美国",
   "Auto": "自动",
-  "Custom": "自定义"
+  "Custom": "自定义",
+  "Save": "保存",
+  "Cancel": "取消",
+  "Reset": "恢复默认值",
+  "Keyboard mapping": "键盘映射",
+  "Config keyboard key mapping": "重新映射键盘按键",
+  "Key Maping": "按键映射",
+  "Please press the button on the controller, which will be mapped to:": "请按手柄上的按键，该按键将映射为:",
+  "After successful mapping, this pop-up will automatically close": "映射成功后将自动关闭此弹窗"
 }

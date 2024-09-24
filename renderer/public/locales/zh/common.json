@@ -4,6 +4,8 @@
   "Settings": "设置",
   "Login": "登录",
   "Logout": "退出登录",
+  "Score": "分数",
+  "Achivements": "成就",
   "Login has expired or not logged in, please log in again": "登录已失效或未登录，请重新登录",
   "Close": "关闭",
   "Warning": "提示",

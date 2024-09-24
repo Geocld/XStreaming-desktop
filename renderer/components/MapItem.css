@@ -1,0 +1,26 @@
+.map-item {
+  height: 40px;
+  color: #666;
+  background-color: #fff;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.map-item .left, .map-item .center, .map-item .right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.map-item .center {
+  width: 40px;
+}
+
+.map-item img {
+  width: 32px;
+}

@@ -17,6 +17,31 @@ export const defaultSettings = {
   gamepad_maping: null,
   native_gamepad_maping: null,
   ipv6: false,
+  input_mousekeyboard_maping: {
+    ArrowLeft: 'DPadLeft',
+    ArrowUp: 'DPadUp',
+    ArrowRight: 'DPadRight',
+    ArrowDown: 'DPadDown',
+
+    Enter: 'A',
+    a: 'A',
+
+    Backspace: 'B',
+    b: 'B',
+
+    x: 'X',
+    y: 'Y',
+
+    '[': 'LeftShoulder',
+    ']': 'RightShoulder',
+
+    '-': 'LeftTrigger',
+    '=': 'RightTrigger',
+
+    v: 'View',
+    m: 'Menu',
+    n: 'Nexus',
+  },
   display_options: {
     sharpness: 5,
     saturation: 100,

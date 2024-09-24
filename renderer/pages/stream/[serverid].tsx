@@ -75,6 +75,11 @@ function Stream() {
       // Set deadzone
       xPlayer.setGamepadDeadZone(settings.dead_zone);
 
+      // Set gamepad maping
+      if (settings.gamepad_maping) {
+        xPlayer.setGamepadMaping(settings.gamepad_maping)
+      }
+
       // Set bitrate
       if (streamType === "cloud") {
         if (
@@ -246,6 +251,8 @@ function Stream() {
                       ui_systemui: [],
                       ui_touchenabled: false,
                       input_legacykeyboard: true,
+                      // @ts-ignore
+                      input_mousekeyboard_config: settings.input_mousekeyboard_maping
                     })
                   );
                   break;

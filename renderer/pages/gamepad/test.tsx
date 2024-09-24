@@ -1,13 +1,22 @@
-import React, { useEffect, useRef } from "react";
-import { Button, Divider } from "@nextui-org/react";
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useRef, useState } from "react";
+import { Button } from "@nextui-org/react";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import Nav from "../../components/Nav";
 
 function GamepadTester() {
-  const router = useRouter()
+  const router = useRouter();
+  const [isLogined, setIsLogined] = useState(false);
+  const { t } = useTranslation("settings");
 
-  const timer = useRef(null)
+  const timer = useRef(null);
 
   useEffect(() => {
+    const _isLogined = window.sessionStorage.getItem("isLogined") || "0";
+    if (_isLogined === "1") {
+      setIsLogined(true);
+    }
+
     const fudgeFactor = 2; // because of bug in Chrome related to svg text alignment font sizes can not be < 1
     const runningElem = document.querySelector("#running");
     const gamepadsElem = document.querySelector("#gamepads");
@@ -166,39 +175,45 @@ function GamepadTester() {
 
     return () => {
       if (timer.current) {
-        cancelAnimationFrame(timer.current)
+        cancelAnimationFrame(timer.current);
       }
 
-      window.removeEventListener("gamepadconnected", handleConnect)
+      window.removeEventListener("gamepadconnected", handleConnect);
       window.removeEventListener("gamepaddisconnected", handleDisconnect);
-    }
+    };
   }, []);
 
   return (
     <div id="gamepadTest">
-      <div>
-      <Button onClick={() => router.back()}>Back</Button>
-      <Divider className="my-4" />
-      </div>
+      <Nav
+        current={t("Settings")}
+        isLogined={isLogined}
+        locale={router.locale}
+      />
       <div>
         Running: <span id="running"></span>
       </div>
       <div>
-        <Button color="secondary" onClick={() => {
-          const gamepads = navigator.getGamepads();
-          console.log('gamepads:', gamepads)
-          for (let i = 0; i < gamepads.length; i++) {
-            const gp = gamepads[i]
-            if (gp) {
-              gp.vibrationActuator.playEffect("dual-rumble", {
-                startDelay: 0,
-                duration: 1000,
-                weakMagnitude: 1.0,
-                strongMagnitude: 1.0
-            })
+        <Button
+          color="secondary"
+          onClick={() => {
+            const gamepads = navigator.getGamepads();
+            console.log("gamepads:", gamepads);
+            for (let i = 0; i < gamepads.length; i++) {
+              const gp = gamepads[i];
+              if (gp) {
+                gp.vibrationActuator.playEffect("dual-rumble", {
+                  startDelay: 0,
+                  duration: 1000,
+                  weakMagnitude: 1.0,
+                  strongMagnitude: 1.0,
+                });
+              }
             }
-          }
-        }}>Vibration test</Button>
+          }}
+        >
+          Vibration test
+        </Button>
       </div>
       <div id="gamepads"></div>
     </div>

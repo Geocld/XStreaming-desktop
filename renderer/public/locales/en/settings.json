@@ -15,7 +15,12 @@
   "Xhome": "Xhome",
   "Xcloud": "Xcloud",
   "Others": "Others",
+  "Enable": "Enable",
+  "Disable": "Disable",
   "Gamepad tester": "Gamepad tester",
+  "Gamepad mapping": "Gamepad mapping",
+  "Mapping key of gamepad": "Mapping key of gamepad",
+  "mapping": "mapping", 
   "Test connected gamepad": "Test connected gamepad",
   "App language": "App language",
   "Set language of XStreaming": "Set language of XStreaming",
@@ -52,5 +57,13 @@
   "Korea": "Korea",
   "United States": "United States",
   "Auto": "Auto",
-  "Custom": "Custom"
+  "Custom": "Custom",
+  "Save": "Save",
+  "Reset": "Reset",
+  "Cancel": "Cancel",
+  "Key Maping": "Key Maping",
+  "Keyboard mapping": "Keyboard mapping",
+  "Config keyboard key mapping": "Config keyboard key mapping",
+  "Please press the button on the controller, which will be mapped to:": "Please press the button on the controller, which will be mapped to:",
+  "After successful mapping, this pop-up will automatically close": "After successful mapping, this pop-up will automatically close"
 }

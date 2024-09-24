@@ -16,7 +16,7 @@ const SettingItem = (props) => {
   const { settings, setSettings } = useSettings();
   console.log("settings:", settings);
   const item = props.item || {};
-  const { t } = useTranslation('settings')
+  const { t } = useTranslation('settings');
 
   const [defaultValue, setDefaultValue] = useState(settings[item.name]);
 
