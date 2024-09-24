@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import GamepadMapModal from "../../components/GamepadMapModal";
 import MapItem from "../../components/MapItem";

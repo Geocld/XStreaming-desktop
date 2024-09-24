@@ -7,11 +7,11 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 
 const FeedbackModal = ({ show, onClose }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
 
   const handleClose = () => {
     onClose && onClose();

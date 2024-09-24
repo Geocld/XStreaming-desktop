@@ -6,10 +6,10 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 function ConfirmModal(props) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('common');
 
   const handleConfirm = () => {
     props.onConfirm && props.onConfirm();
