@@ -7,6 +7,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
+import Ipc from "../lib/ipc";
 
 function ActionBar(props) {
   const { t } = useTranslation('cloud');
@@ -18,6 +19,13 @@ function ActionBar(props) {
     };
     window.addEventListener("mousemove", mouseEvent);
     window.addEventListener("mousedown", mouseEvent);
+
+    const escEvent = (event) => {
+      if (event.key === 'Escape') {
+        Ipc.send('app', 'exitFullscreen')
+      }
+    }
+    window.addEventListener('keydown', escEvent)
 
     const mouseInterval = setInterval(() => {
       const gamebarElement = document.getElementById("actionBar");
@@ -38,11 +46,17 @@ function ActionBar(props) {
 
     return () => {
       if (mouseInterval) clearInterval(mouseInterval);
+
+      window.removeEventListener("mousemove", mouseEvent);
+      window.removeEventListener("mousedown", mouseEvent);
+      window.removeEventListener('keydown', escEvent)
     };
   }, []);
 
   const handleDisconnect = () => {
     props.onDisconnect && props.onDisconnect();
+
+    Ipc.send('app', 'exitFullscreen');
   };
 
   const handleTogglePerformance = () => {
@@ -60,6 +74,10 @@ function ActionBar(props) {
   const handleLongPressNexus = () => {
     props.onLongPressNexus && props.onLongPressNexus();
   };
+
+  const handleToggleFullscreen = () => {
+    Ipc.send('app', 'toggleFullscreen')
+  }
 
   return (
     <div id="actionBar">
@@ -81,6 +99,9 @@ function ActionBar(props) {
           </DropdownItem>
           <DropdownItem key="longPressNexus" onClick={handleLongPressNexus}>
             {t("Long press Nexus")}
+          </DropdownItem>
+          <DropdownItem key="fullscreen" onClick={handleToggleFullscreen}>
+            {t("Toggle fullscreen")}
           </DropdownItem>
           <DropdownItem
             key="disconnect"

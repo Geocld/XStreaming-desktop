@@ -21,7 +21,14 @@ const SettingItem = (props) => {
   const [defaultValue, setDefaultValue] = useState(settings[item.name]);
 
   useEffect(() => {
-    setDefaultValue(settings[item.name])
+    if (item.name === 'theme') {
+      const localTheme = localStorage.getItem('theme') || 'dark'
+      console.log('localTheme:', localTheme)
+      setDefaultValue(localTheme)
+    } else {
+      setDefaultValue(settings[item.name])
+    }
+    
     if (item.name === "signaling_cloud" || item.name === "signaling_home") {
       const method =
         item.name === "signaling_cloud" ? "getXcloudToken" : "getXhomeToken";
@@ -56,6 +63,8 @@ const SettingItem = (props) => {
             ? "setXcloudTokenDefault"
             : "setXhomeTokenDefault";
         Ipc.send("xCloud", method, value);
+      } else if (key === 'theme') {
+        localStorage.setItem('theme', value)
       } else {
         setSettings({
           ...settings,
@@ -97,7 +106,7 @@ const SettingItem = (props) => {
           {item.type === "radio" && (
             <RadioGroup
               orientation="horizontal"
-              defaultValue={defaultValue}
+              value={defaultValue}
               onValueChange={(value) => {
                 handleChangeSetting(value);
               }}

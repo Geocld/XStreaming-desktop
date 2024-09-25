@@ -7,6 +7,7 @@ import {
   Divider,
   Chip,
 } from "@nextui-org/react";
+import { useTheme } from "next-themes";
 import { useTranslation } from "next-i18next";
 import { useRouter } from 'next/router';
 import Layout from "../../components/Layout";
@@ -23,6 +24,7 @@ function Home() {
   const { t, i18n: {language: locale} } = useTranslation('home');
 
   const router = useRouter();
+  const { setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
   const [isLogined, setIsLogined] = useState(false);
@@ -32,6 +34,10 @@ function Home() {
   const authInterval = useRef(null);
 
   useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'light') {
+      setTheme('xbox-light')
+    }
     setLoading(true);
     setLoadingText(t("Loading..."));
 
@@ -91,7 +97,7 @@ function Home() {
     return () => {
       if (authInterval.current) clearInterval(authInterval.current);
     };
-  }, [t]);
+  }, [t, setTheme]);
 
   const handleLogin = () => {
     setLoading(true);

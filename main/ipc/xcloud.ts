@@ -3,10 +3,6 @@ import Application from '../application'
 import TitleManager from '../helpers/titlemanager'
 import xCloudApi from '../helpers/xcloudapi'
 
-interface getTitleArgs {
-    titleId: string;
-}
-
 export default class IpcxCloud extends IpcBase {
 
     _titleManager:TitleManager
@@ -55,7 +51,10 @@ export default class IpcxCloud extends IpcBase {
     }
 
     setXhomeTokenDefault(name: string) {
-        this._application.streamingTokens.xHomeToken.setDefaultRegion(name)
+        return new Promise(resolve => {
+            this._application.streamingTokens.xHomeToken.setDefaultRegion(name)
+            resolve(null)
+        })
     }
 
     getXcloudToken() {
@@ -70,9 +69,12 @@ export default class IpcxCloud extends IpcBase {
     }
 
     setXcloudTokenDefault(name: string) {
-        if (this._application.streamingTokens.xCloudToken) {
-            this._application.streamingTokens.xCloudToken.setDefaultRegion(name)
-        }
+        return new Promise(resolve => {
+            if (this._application.streamingTokens.xCloudToken) {
+                this._application.streamingTokens.xCloudToken.setDefaultRegion(name)
+            }
+            resolve({})
+        })
     }
 
     getTitles() {

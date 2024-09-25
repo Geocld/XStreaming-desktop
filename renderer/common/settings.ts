@@ -51,6 +51,16 @@ const getSettingsMetas = (t) => {
           {value: 'zh-TW', label: '繁體中文'},
         ],
       },
+      // {
+      //   name: 'theme',
+      //   type: 'radio',
+      //   title: t('Theme'),
+      //   description: t('Set the app theme'),
+      //   data: [
+      //     {value: 'dark', label: t('Dark')},
+      //     {value: 'light', label: t('Light')},
+      //   ],
+      // },
     ],
     streaming: [
       {

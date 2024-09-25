@@ -1,14 +1,5 @@
 import IpcBase from "./base";
 import { session } from "electron";
-import electron from "electron";
-
-interface setForceRegionIpArgs {
-  ip: string;
-}
-
-interface setPreferredGameLanguageArgs {
-  language: string;
-}
 
 export default class IpcApp extends IpcBase {
   // _streamingSessions:any = {}
@@ -125,6 +116,21 @@ export default class IpcApp extends IpcBase {
   onUiShown() {
     return new Promise((resolve) => {
       resolve({});
+    });
+  }
+
+  toggleFullscreen() {
+    return new Promise((resolve) => {
+      const isFullScreen = this._application._mainWindow.isFullScreen();
+      this._application._mainWindow.setFullScreen(!isFullScreen);
+      resolve({})
+    });
+  }
+
+  exitFullscreen() {
+    return new Promise((resolve) => {
+      this._application._mainWindow.setFullScreen(false);
+      resolve({})
     });
   }
 }
