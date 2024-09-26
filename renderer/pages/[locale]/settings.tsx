@@ -158,7 +158,7 @@ function Settings() {
                 </div>
 
                 <Button
-                  color="default"
+                  color="primary"
                   onClick={() => {
                     router.push({
                       pathname: `/${locale}/map`
@@ -206,7 +206,7 @@ function Settings() {
                 </div>
 
                 <Button
-                  color="default"
+                  color="primary"
                   onClick={() => {
                     router.push({
                       pathname: `/${locale}/test`
@@ -225,7 +225,7 @@ function Settings() {
                   {t("Reset XStreaming settings to default")}
                 </div>
 
-                <Button color="default" onClick={handleResetSettings}>
+                <Button color="primary" onClick={handleResetSettings}>
                   {t("Reset Settings")}
                 </Button>
               </CardBody>
@@ -242,7 +242,7 @@ function Settings() {
                 </div>
 
                 <Button
-                  color="default"
+                  color="primary"
                   isLoading={isChecking}
                   onClick={handleCheckUpdate}
                 >
@@ -259,7 +259,7 @@ function Settings() {
                     你可以在这里反正使用问题或支持XStreaming的开发
                   </div>
 
-                  <Button color="default" onClick={() => setShowFeedback(true)}>
+                  <Button color="primary" onClick={() => setShowFeedback(true)}>
                     反馈
                   </Button>
                 </CardBody>

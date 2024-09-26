@@ -11,8 +11,10 @@ import {
 import { useTranslation } from "next-i18next";
 import { useSettings } from "../context/userContext";
 import Ipc from "../lib/ipc";
+import { useTheme } from "next-themes";
 
 const SettingItem = (props) => {
+  const { theme } = useTheme();
   const { settings, setSettings } = useSettings();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const item = props.item || {};
@@ -22,8 +24,7 @@ const SettingItem = (props) => {
 
   useEffect(() => {
     if (item.name === 'theme') {
-      const localTheme = localStorage.getItem('theme') || 'dark'
-      console.log('localTheme:', localTheme)
+      const localTheme = localStorage.getItem('theme') || 'xbox-dark'
       setDefaultValue(localTheme)
     } else {
       setDefaultValue(settings[item.name])
@@ -65,6 +66,7 @@ const SettingItem = (props) => {
         Ipc.send("xCloud", method, value);
       } else if (key === 'theme') {
         localStorage.setItem('theme', value)
+        props.onRestartWarn && props.onRestartWarn()
       } else {
         setSettings({
           ...settings,
@@ -82,8 +84,8 @@ const SettingItem = (props) => {
     <div className="setting-item">
       <Card>
         <CardBody>
-          <div className="setting-title">{item.title}</div>
-          <div className="setting-description">{item.description}</div>
+          <div className={`setting-title ${theme === 'xbox-light' ? 'text-black' : 'text-white'}`}>{item.title}</div>
+          <div className={`setting-description ${theme === 'xbox-light' ? 'text-black' : 'text-gray'}`}>{item.description}</div>
           {item.type === "select" && defaultValue !== undefined && (
             <Autocomplete
               className="setting-select"

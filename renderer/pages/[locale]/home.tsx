@@ -24,7 +24,7 @@ function Home() {
   const { t, i18n: {language: locale} } = useTranslation('home');
 
   const router = useRouter();
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
   const [isLogined, setIsLogined] = useState(false);
@@ -34,9 +34,10 @@ function Home() {
   const authInterval = useRef(null);
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme === 'light') {
-      setTheme('xbox-light')
+    const localTheme = localStorage.getItem('theme');
+    console.log('localTheme:', localTheme)
+    if (localTheme === 'xbox-light') {
+      setTheme(localTheme)
     }
     setLoading(true);
     setLoadingText(t("Loading..."));
@@ -157,7 +158,7 @@ function Home() {
                 <p className="pb-3 text-center">{console.name}</p>
                 <div className="flex justify-center items-center">
                   <Image
-                    src="/images/xss.svg"
+                    src={theme === 'xbox-light' ? '/images/xss-light.svg' : '/images/xss.svg'}
                     alt="xss"
                     width={100}
                     height={100}
@@ -165,15 +166,15 @@ function Home() {
                 </div>
                 <div className="flex justify-center py-2">
                   {console.powerState === "On" ? (
-                    <Chip size="sm" color="success">
+                    <Chip size="sm" radius="none" color="success">
                       {t("Powered on")}
                     </Chip>
                   ) : console.powerState === "ConnectedStandby" ? (
-                    <Chip size="sm" color="warning">
+                    <Chip size="sm" radius="none" color="warning">
                       {t("Standby")}
                     </Chip>
                   ) : (
-                    <Chip size="sm">{console.powerState}</Chip>
+                    <Chip size="sm" radius="none">{console.powerState}</Chip>
                   )}
                 </div>
               </CardBody>

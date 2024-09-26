@@ -94,6 +94,12 @@ function Xcloud() {
 
   const handleTabChange = (tab: string) => {
     setCurrentTab(tab);
+    currentTitles.current = [];
+    setLoading(true);
+    setLoadingText(t("Loading..."));
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
   };
 
   switch (currentTab) {
@@ -119,7 +125,6 @@ function Xcloud() {
     });
   }
 
-  console.log("currentTitles:", currentTitles.current);
   return (
     <>
       <Nav current={t("Xcloud")} isLogined={true} />

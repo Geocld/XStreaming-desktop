@@ -42,7 +42,7 @@ const  App = ({ Component, pageProps }) => {
 
   return (
     <NextUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme={'xbox'}>
+      <NextThemesProvider attribute="class" defaultTheme={'xbox-dark'}>
         <UserProvider>
           <Component {...pageProps} />
         </UserProvider>

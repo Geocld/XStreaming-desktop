@@ -3,6 +3,7 @@ import { Card, CardBody, Button } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import { useSettings } from "../context/userContext";
 import { defaultSettings } from "../context/userContext.defaults";
+import { useTheme } from "next-themes";
 
 function invert(obj) {
   const new_obj = {};
@@ -32,6 +33,7 @@ function KeyboardMap() {
     "LeftThumb",
     "RightThumb",
   ];
+  const { theme } = useTheme();
   const { settings, setSettings } = useSettings();
   const { t } = useTranslation("settings");
 
@@ -129,7 +131,7 @@ function KeyboardMap() {
               <label style={{ minWidth: 0 }}>
                 <input
                   type="text"
-                  className="text px-2 w-32"
+                  className={`text px-2 w-32 ${theme === 'xbox-light' ? 'bg-slate-100' : ''}`}
                   onKeyUp={(e) => setKeyConfig(btn, e)}
                   value={keyConfigs[btn] ?? "None"}
                 />
@@ -138,7 +140,7 @@ function KeyboardMap() {
           );
         })}
         <Button
-          color="default"
+          color="primary"
           onClick={handleReset}
         >
           {t('Reset')}

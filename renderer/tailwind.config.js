@@ -15,7 +15,7 @@ module.exports = {
   darkMode: "class",
   plugins: [nextui({
     themes: {
-      "xbox": {
+      "xbox-dark": {
         extend: "dark",
         colors: {
           primary: {

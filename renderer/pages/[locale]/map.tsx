@@ -50,7 +50,7 @@ const buttonLabels = [
 ];
 
 function Map() {
-  const { t } = useTranslation("settings");
+  const { t, i18n: {language: locale} } = useTranslation("settings");
   const { settings, setSettings } = useSettings();
   const router = useRouter();
 
@@ -98,11 +98,12 @@ function Map() {
       ...settings,
       gamepad_maping: maping,
     });
-    router.push(`${router.locale}/settings`);
+    router.push({
+      pathname: `/${locale}/settings`
+    });
   };
 
   const handleReset = () => {
-    console.log("handleReset");
     setMaping(defaultMaping);
   };
 
