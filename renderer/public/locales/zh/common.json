@@ -17,5 +17,9 @@
   "Confirm": "确定",
   "Cancel": "取消",
   "Back": "返回",
-  "Exit": "退出"
+  "Exit": "退出",
+  "Toggle fullscreen": "进入/退出全屏",
+  "All": "全部",
+  "Unlocked": "已解锁",
+  "Lock": "未解锁"
 }

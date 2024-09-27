@@ -25,24 +25,24 @@ function Perform({ xPlayer, connectState }) {
   }, [xPlayer, connectState]);
 
   return (
-    <div id="performances" className="flex">
+    <div id="performances">
       <div className="px-1">
-        {t("Resolution")}: {performance.resolution || "--"} &nbsp;| &nbsp;
+        {t("Resolution")}: {performance.resolution || "--"}
       </div>
       <div className="px-1">
-        {t("RTT")}: {performance.rtt || "--"}|
+        {t("RTT")}: {performance.rtt || "--"}
       </div>
       <div className="px-1">
-        {t("FPS")}: {performance.fps || "--"}|
+        {t("FPS")}: {performance.fps || "--"}
       </div>
       <div className="px-1">
-        {t("FD")}: {performance.fl || "--"}|
+        {t("FD")}: {performance.fl || "--"}
       </div>
       <div className="px-1">
-        {t("PL")}: {performance.pl || "--"}|
+        {t("PL")}: {performance.pl || "--"}
       </div>
       <div className="px-1">
-        {t("Bitrate")}: {performance.br || "--"}|
+        {t("Bitrate")}: {performance.br || "--"}
       </div>
       <div className="px-1">
         {t("DT")}: {performance.decode || "--"}

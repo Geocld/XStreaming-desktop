@@ -30,6 +30,7 @@
     "i18next": "23.14.0",
     "ip-address": "^9.0.5",
     "jose": "^5.1.0",
+    "moment": "^2.30.1",
     "next-i18next": "^15.3.1",
     "next-themes": "^0.3.0",
     "react-i18next": "^15.0.1",

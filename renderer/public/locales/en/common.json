@@ -17,5 +17,9 @@
   "Confirm": "Confirm",
   "Cancel": "Cancel",
   "Back": "Back",
-  "Exit": "Exit"
+  "Exit": "Exit",
+  "Toggle fullscreen": "Toggle fullscreen",
+  "All": "All",
+  "Unlocked": "Unlocked",
+  "Lock": "Lock"
 }

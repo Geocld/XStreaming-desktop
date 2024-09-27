@@ -37,6 +37,8 @@ export default class Application {
 
   public streamingTokens: any
 
+  public webToken: any
+
   constructor() {
     console.log(
       __filename + "[constructor()] Starting XStreaming v" + pkg.version
@@ -141,12 +143,6 @@ export default class Application {
 
     ElectronApp.whenReady()
       .then(() => {
-        // updater({
-        //     // debug: true,
-        //     silent: true,
-        //     prereleases: (ElectronApp.getVersion().includes('beta')) ? true : false,
-        // }, this)
-
         this.log(
           "electron",
           __filename +
@@ -155,11 +151,6 @@ export default class Application {
 
         this.openMainWindow();
         this._authentication.startWebviewHooks();
-
-        // Check authentication
-        // if (!this._authentication.checkAuthentication()) {
-        //   this._authentication.startAuthflow();
-        // }
       })
       .catch((error) => {
         this.log(
@@ -212,6 +203,7 @@ export default class Application {
     );
 
     this.streamingTokens = streamingTokens
+    this.webToken = webToken
 
     this._webApi = new xboxWebApi({
       userToken: webToken.data.Token,
@@ -278,10 +270,17 @@ export default class Application {
       __filename + "[openMainWindow()] Creating new main window"
     );
 
+    const settings: any = this._store.get('settings', defaultSettings)
+    console.log('settings:', settings)
+
     const windowOptions: any = {
       title: "XStreaming",
       backgroundColor: "rgb(26, 27, 30)",
     };
+
+    if (settings.fullscreen) {
+      windowOptions.fullscreen = true;
+    }
 
     this._mainWindow = createWindow("main", {
       width: 1280,
@@ -313,8 +312,7 @@ export default class Application {
       }
     });
 
-    const settings: any = this._store.get('settings', defaultSettings)
-    console.log('settings:', settings)
+    
     const locale = settings.locale || 'en'
 
     if (this._isProduction === true && this._isCi === false) {

@@ -58,9 +58,9 @@ const SettingItem = (props) => {
     console.log("handleChangeSetting:", value);
     const key = item.name;
     if (key) {
-      if (item.name === "signaling_cloud" || item.name === "signaling_home") {
+      if (key === "signaling_cloud" || key === "signaling_home") {
         const method =
-          item.name === "signaling_cloud"
+          key === "signaling_cloud"
             ? "setXcloudTokenDefault"
             : "setXhomeTokenDefault";
         Ipc.send("xCloud", method, value);
@@ -74,6 +74,9 @@ const SettingItem = (props) => {
         });
         if (item.needRestart) {
           props.onRestartWarn && props.onRestartWarn()
+        }
+        if (key === 'fullscreen') {
+          Ipc.send("app", value ? 'enterFullscreen' : 'exitFullscreen', value);
         }
       }
     }

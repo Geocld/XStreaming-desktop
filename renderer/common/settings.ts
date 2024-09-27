@@ -62,6 +62,16 @@ const getSettingsMetas = (t) => {
           {value: 'xbox-light', label: t('Light')},
         ],
       },
+      {
+        name: 'fullscreen',
+        type: 'radio',
+        title: t('Fullscreen'),
+        description: t('Whether open application with fullscreen'),
+        data: [
+          {value: true, label: t('Enable')},
+          {value: false, label: t('Disable')},
+        ],
+      },
     ],
     streaming: [
       {

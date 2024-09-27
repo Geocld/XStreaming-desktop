@@ -417,6 +417,7 @@ function Stream() {
   return (
     <>
       <ActionBar
+        connectState={connectState}
         onDisconnect={onDisconnect}
         onTogglePerformance={() => {
           setShowPerformance(!showPerformance);

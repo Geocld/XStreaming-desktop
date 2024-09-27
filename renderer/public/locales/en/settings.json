@@ -69,5 +69,7 @@
   "Keyboard mapping": "Keyboard mapping",
   "Config keyboard key mapping": "Config keyboard key mapping",
   "Please press the button on the controller, which will be mapped to:": "Please press the button on the controller, which will be mapped to:",
-  "After successful mapping, this pop-up will automatically close": "After successful mapping, this pop-up will automatically close"
+  "After successful mapping, this pop-up will automatically close": "After successful mapping, this pop-up will automatically close",
+  "Fullscreen": "Fullscreen",
+  "Whether open application with fullscreen": "Whether open application with fullscreen"
 }

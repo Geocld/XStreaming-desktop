@@ -119,10 +119,24 @@ export default class IpcApp extends IpcBase {
     });
   }
 
+  isFullscreen() {
+    return new Promise((resolve) => {
+      const isFullScreen = this._application._mainWindow.isFullScreen();
+      resolve(isFullScreen)
+    }); 
+  }
+
   toggleFullscreen() {
     return new Promise((resolve) => {
       const isFullScreen = this._application._mainWindow.isFullScreen();
       this._application._mainWindow.setFullScreen(!isFullScreen);
+      resolve({})
+    });
+  }
+
+  enterFullscreen() {
+    return new Promise((resolve) => {
+      this._application._mainWindow.setFullScreen(true);
       resolve({})
     });
   }

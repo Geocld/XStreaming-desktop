@@ -68,5 +68,7 @@
   "Config keyboard key mapping": "重新映射键盘按键",
   "Key Maping": "按键映射",
   "Please press the button on the controller, which will be mapped to:": "请按手柄上的按键，该按键将映射为:",
-  "After successful mapping, this pop-up will automatically close": "映射成功后将自动关闭此弹窗"
+  "After successful mapping, this pop-up will automatically close": "映射成功后将自动关闭此弹窗",
+  "Fullscreen": "全屏",
+  "Whether open application with fullscreen": "是否开启大屏模式"
 }

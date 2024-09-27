@@ -1,5 +1,6 @@
 export const defaultSettings = {
   locale: "en",
+  fullscreen: false,
   resolution: 720,
   xhome_bitrate_mode: "Auto",
   xhome_bitrate: 20,

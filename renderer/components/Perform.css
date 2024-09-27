@@ -4,6 +4,5 @@
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 2px;
-  flex-direction: row;
-  font-size: 12px;
+  font-size: 14px;
 }

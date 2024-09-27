@@ -9,6 +9,8 @@ import {
 } from "@nextui-org/react";
 import Ipc from "../lib/ipc";
 
+const CONNECTED = 'connected';
+
 function ActionBar(props) {
   const { t } = useTranslation('cloud');
 
@@ -88,18 +90,38 @@ function ActionBar(props) {
           </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
-          <DropdownItem key="performance" onClick={handleTogglePerformance}>
-            {t("Toggle Performance")}
-          </DropdownItem>
-          <DropdownItem key="display" onClick={handleDisplay}>
-            {t("Display settings")}
-          </DropdownItem>
-          <DropdownItem key="pressNexus" onClick={handlePressNexus}>
-            {t("Press Nexus")}
-          </DropdownItem>
-          <DropdownItem key="longPressNexus" onClick={handleLongPressNexus}>
-            {t("Long press Nexus")}
-          </DropdownItem>
+          {
+            props.connectState === CONNECTED && (
+              <DropdownItem key="performance" onClick={handleTogglePerformance}>
+                {t("Toggle Performance")}
+              </DropdownItem>
+            )
+          }
+          
+          {
+            props.connectState === CONNECTED && (
+              <DropdownItem key="display" onClick={handleDisplay}>
+                {t("Display settings")}
+              </DropdownItem>
+            )
+          }
+
+          {
+            props.connectState === CONNECTED && (
+              <DropdownItem key="pressNexus" onClick={handlePressNexus}>
+                {t("Press Nexus")}
+              </DropdownItem>
+            )
+          }
+
+          {
+            props.connectState === CONNECTED && (
+              <DropdownItem key="longPressNexus" onClick={handleLongPressNexus}>
+                {t("Long press Nexus")}
+              </DropdownItem>
+            )
+          }
+          
           <DropdownItem key="fullscreen" onClick={handleToggleFullscreen}>
             {t("Toggle fullscreen")}
           </DropdownItem>

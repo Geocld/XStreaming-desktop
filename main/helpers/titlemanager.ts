@@ -17,10 +17,6 @@ interface titleInfoArgs {
     StoreId: string;
 }
 
-interface FilterArgs {
-    name: string;
-}
-
 export default class TitleManager {
 
     _application:Application

@@ -32,6 +32,10 @@ const Nav = ({ current, isLogined }) => {
       href: "/xcloud",
     },
     {
+      name: t("Achivements"),
+      href: "/achivements",
+    },
+    {
       name: t("Settings"),
       href: "/settings",
     },
@@ -43,7 +47,6 @@ const Nav = ({ current, isLogined }) => {
 
   useEffect(() => {
     Ipc.send('app', 'getAuthState').then(res => {
-      console.log('isLogined：', isLogined)
       if (isLogined) {
         setUserState(res.user)
       }
@@ -54,6 +57,10 @@ const Nav = ({ current, isLogined }) => {
     Ipc.send("app", "clearData");
   }
 
+  const handleToggleScreen = () => {
+    Ipc.send("app", "toggleFullscreen")
+  }
+
   return (
     <Navbar isBordered maxWidth="full" style={{ justifyContent: "flex-start", zIndex: 100 }}>
       <NavbarBrand className="grow-0">
@@ -61,7 +68,7 @@ const Nav = ({ current, isLogined }) => {
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
         {metas.map((meta) => {
-          if (meta.href === "/xcloud" && !isLogined) {
+          if ((meta.href === "/xcloud" || meta.href === "/achivements") && !isLogined) {
             return null;
           } else {
             return (
@@ -98,7 +105,7 @@ const Nav = ({ current, isLogined }) => {
                   <p className="text-lg">{userState.gamertag}</p>
                   <p className="font-semibold">{t('Score')}: {userState.gamerscore}</p>
                 </DropdownItem>
-                {/* <DropdownItem key="Achivements">{t('Achivements')}</DropdownItem> */}
+                <DropdownItem key="fullscreen" onClick={handleToggleScreen}>{t('Toggle fullscreen')}</DropdownItem>
                 <DropdownItem key="logout" color="danger" onClick={handleLouout}>
                 {t('Logout')}
                 </DropdownItem>

@@ -1,6 +1,5 @@
 import Application from '../application'
 import xCloudApi, { playResult } from './xcloudapi'
-import Store from 'electron-store'
 
 interface streamSession {
     id: string;
