@@ -125,7 +125,6 @@ function Home() {
             // Get Consoles
             setLoadingText(t("Fetching consoles..."));
             Ipc.send("consoles", "get").then((res) => {
-              console.log("consoles:", res);
               setConsoles(res);
             });
           }
@@ -151,46 +150,48 @@ function Home() {
       <AuthModal show={showLoginModal} onConfirm={handleLogin} />
 
       <Layout>
-        {consoles.map((console) => {
-          return (
-            <Card className="max-w-[200px]" key={console.id}>
-              <CardBody>
-                <p className="pb-3 text-center">{console.name}</p>
-                <div className="flex justify-center items-center">
-                  <Image
-                    src={theme === 'xbox-light' ? '/images/xss-light.svg' : '/images/xss.svg'}
-                    alt="xss"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-                <div className="flex justify-center py-2">
-                  {console.powerState === "On" ? (
-                    <Chip size="sm" radius="none" color="success">
-                      {t("Powered on")}
-                    </Chip>
-                  ) : console.powerState === "ConnectedStandby" ? (
-                    <Chip size="sm" radius="none" color="warning">
-                      {t("Standby")}
-                    </Chip>
-                  ) : (
-                    <Chip size="sm" radius="none">{console.powerState}</Chip>
-                  )}
-                </div>
-              </CardBody>
-              <Divider />
-              <CardFooter>
-                <Button
-                  color="primary"
-                  fullWidth
-                  onClick={() => startSession(console.id)}
-                >
-                  {t('Start stream')}
-                </Button>
-              </CardFooter>
-            </Card>
-          );
-        })}
+        <div className="gap-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6">
+          {consoles.map((console) => {
+            return (
+              <Card key={console.id}>
+                <CardBody>
+                  <p className="pb-3 text-center">{console.name}</p>
+                  <div className="flex justify-center items-center">
+                    <Image
+                      src={theme === 'xbox-light' ? '/images/xss-light.svg' : '/images/xss.svg'}
+                      alt="xss"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                  <div className="flex justify-center py-2">
+                    {console.powerState === "On" ? (
+                      <Chip size="sm" radius="none" color="success">
+                        {t("Powered on")}
+                      </Chip>
+                    ) : console.powerState === "ConnectedStandby" ? (
+                      <Chip size="sm" radius="none" color="warning">
+                        {t("Standby")}
+                      </Chip>
+                    ) : (
+                      <Chip size="sm" radius="none">{console.powerState}</Chip>
+                    )}
+                  </div>
+                </CardBody>
+                <Divider />
+                <CardFooter>
+                  <Button
+                    color="primary"
+                    fullWidth
+                    onClick={() => startSession(console.id)}
+                  >
+                    {t('Start stream')}
+                  </Button>
+                </CardFooter>
+              </Card>
+            );
+          })}
+        </div>
       </Layout>
     </>
   );

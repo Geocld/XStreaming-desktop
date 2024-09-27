@@ -1,4 +1,4 @@
-import { app as ElectronApp, BrowserWindow, dialog, screen } from "electron";
+import { app as ElectronApp, BrowserWindow, dialog } from "electron";
 import serve from "electron-serve";
 import Store from "electron-store";
 import Debug from "debug";
@@ -282,12 +282,10 @@ export default class Application {
       title: "XStreaming",
       backgroundColor: "rgb(26, 27, 30)",
     };
-    const screenWidth = screen.getPrimaryDisplay().workAreaSize.width;
-    const screenHight = screen.getPrimaryDisplay().workAreaSize.height;
 
     this._mainWindow = createWindow("main", {
-      width: screenWidth,
-      height: screenHight,
+      width: 1280,
+      height: 800,
       ...windowOptions,
     });
 

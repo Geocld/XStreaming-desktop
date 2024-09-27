@@ -93,6 +93,9 @@ function Xcloud() {
   };
 
   const handleTabChange = (tab: string) => {
+    if (tab === currentTab) {
+      return
+    }
     setCurrentTab(tab);
     currentTitles.current = [];
     setLoading(true);
@@ -115,14 +118,6 @@ function Xcloud() {
     default:
       currentTitles.current = [];
       break;
-  }
-
-  if (keyword.length > 0) {
-    currentTitles.current = currentTitles.current.filter((title) => {
-      return (
-        title.ProductTitle.toUpperCase().indexOf(keyword.toUpperCase()) > -1
-      );
-    });
   }
 
   return (
@@ -188,15 +183,29 @@ function Xcloud() {
             </div>
 
             {!loading && currentTitles.current && (
-              <div className="gap-2 grid grid-cols-2 sm:grid-cols-6 pt-10">
-                {currentTitles.current.map((title) => {
-                  return (
-                    <TitleItem
-                      title={title}
-                      key={title.XCloudTitleId}
-                      onClick={handleViewTitleDetail}
-                    />
-                  );
+              <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 pt-10">
+                {currentTitles.current.map((title, idx) => {
+                  if (keyword) {
+                    if (title.ProductTitle.toUpperCase().indexOf(keyword.toUpperCase()) > -1) {
+                      return (
+                        <TitleItem
+                          title={title}
+                          key={idx}
+                          onClick={handleViewTitleDetail}
+                        />
+                      );
+                    } else {
+                      return null;
+                    }
+                  } else {
+                    return (
+                      <TitleItem
+                        title={title}
+                        key={idx}
+                        onClick={handleViewTitleDetail}
+                      />
+                    );
+                  }
                 })}
               </div>
             )}
