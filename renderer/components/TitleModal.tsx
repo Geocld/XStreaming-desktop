@@ -51,7 +51,7 @@ function TitleModal(props) {
                 <Image
                   className="object-cover rounded-xl"
                   isZoomed
-                  src={titleItem.Image_Poster.URL}
+                  src={'https:' + titleItem.Image_Poster.URL}
                 />
               </div>
 

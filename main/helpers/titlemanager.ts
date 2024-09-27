@@ -34,29 +34,49 @@ export default class TitleManager {
         this._application = application
         this._http = new HTTP(this._application)
     }
+    // getOfficialTitles() {
+    //     return new Promise(resolve => {
+    //         let officialTitles = [];
+    //         axios
+    //         .get('https://api.github.com/repos/Geocld/XStreaming/contents/titles.json?ref=main', {
+    //             timeout: 20 * 1000,
+    //         })
+    //         .then(res => {
+    //             if (res.status === 200) {
+    //                 const content = res.data.content;
+    //                 const base64ContentCleaned = content.replace(/\n/g, '');
+
+    //                 const decodedBuffer = Buffer.from(base64ContentCleaned, 'base64');
+    //                 const decodedContent = decodedBuffer.toString('utf-8');
+
+    //                 const decodedJson = JSON.parse(decodedContent);
+
+    //                 officialTitles = decodedJson.Products;
+    //             }
+    //             resolve(officialTitles);
+    //         })
+    //         .catch(e => {
+    //             console.log('officialTitles error:', e)
+    //             resolve([]);
+    //         });
+    //     });
+    // }
+
     getOfficialTitles() {
         return new Promise(resolve => {
             let officialTitles = [];
             axios
-            .get('https://api.github.com/repos/Geocld/XStreaming/contents/titles.json?ref=main', {
-                timeout: 20 * 1000,
+            .get('https://cdn.jsdelivr.net/gh/Geocld/XStreaming@main/titles.json', {
+                timeout: 10 * 1000,
             })
             .then(res => {
                 if (res.status === 200) {
-                    const content = res.data.content;
-                    const base64ContentCleaned = content.replace(/\n/g, '');
-
-                    const decodedBuffer = Buffer.from(base64ContentCleaned, 'base64');
-                    const decodedContent = decodedBuffer.toString('utf-8');
-
-                    const decodedJson = JSON.parse(decodedContent);
-
-                    officialTitles = decodedJson.Products;
+                    officialTitles = res.data.Products;
+                    console.log('officialTitles:', officialTitles);
                 }
                 resolve(officialTitles);
             })
             .catch(e => {
-                console.log('officialTitles error:', e)
                 resolve([]);
             });
         });

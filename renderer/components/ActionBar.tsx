@@ -57,8 +57,6 @@ function ActionBar(props) {
 
   const handleDisconnect = () => {
     props.onDisconnect && props.onDisconnect();
-
-    Ipc.send('app', 'exitFullscreen');
   };
 
   const handleTogglePerformance = () => {
