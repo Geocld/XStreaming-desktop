@@ -25,8 +25,9 @@ function TitleModal(props) {
   };
 
   const handleStartGame = () => {
-    console.log("titleItem:", titleItem);
+    // console.log("titleItem:", titleItem);
     const titleId = titleItem.titleId || titleItem.XCloudTitleId;
+    console.log("titleId:", titleId)
     router.push({
       pathname: `/${locale}/stream`,
       query: { serverid: XCLOUD_PREFIX + titleId }

@@ -72,7 +72,6 @@ export default class TitleManager {
             .then(res => {
                 if (res.status === 200) {
                     officialTitles = res.data.Products;
-                    console.log('officialTitles:', officialTitles);
                 }
                 resolve(officialTitles);
             })
@@ -85,40 +84,55 @@ export default class TitleManager {
     getGamePassProducts(titles) {
         return new Promise((resolve, reject) => {
             const productIdQueue = [];
+            const v2TitleMap = {};
             if (!Array.isArray(titles)) {
                 resolve([]);
             }
             titles.forEach(title => {
                 if (title.details && title.details.productId) {
                     productIdQueue.push(title.details.productId);
+                    v2TitleMap[title.details.productId] = title;
                 }
             });
 
+            // Get officialTitles
             this.getOfficialTitles().then((officialTitles: any) => {
                 const mergeProductIds = [
                     ...new Set([...productIdQueue, ...officialTitles]),
                 ];
     
-                this._http.post('catalog.gamepass.com', '/v3/products?market=US&language=en-US&hydration=RemoteHighSapphire0', { // RemoteLowJade0
+                this._http.post('catalog.gamepass.com', '/v3/products?market=US&language=en-US&hydration=RemoteLowJade0', { // RemoteLowJade0
                     'Products': mergeProductIds,
                 }, {
                     'ms-cv': 0,
                     'calling-app-name': 'Xbox Cloud Gaming Web',
                     'calling-app-version': '24.17.63',
     
-                }).then((result:any) => {
-                    const products = result.Products;
-                    const mergedTitles = [];
-                    for (const key in products) {
-                        mergedTitles.push({
-                            productId: key,
-                            ...products[key],
-                        });
+                }).then((result: any) => {
+                    if (result && result.Products) {
+                        const products = result.Products;
+                        const mergedTitles = [];
+                        for (const key in products) {
+                            if (v2TitleMap[key]) {
+                            mergedTitles.push({
+                                productId: key,
+                                ...products[key],
+                                ...v2TitleMap[key],
+                            });
+                            } else {
+                            mergedTitles.push({
+                                productId: key,
+                                ...products[key],
+                            });
+                            }
+                        }
+                        mergedTitles.sort((a, b) =>
+                            a.ProductTitle.localeCompare(b.ProductTitle),
+                        );
+                        resolve(mergedTitles);
+                    } else {
+                        resolve([]);
                     }
-                    mergedTitles.sort((a, b) =>
-                        a.ProductTitle.localeCompare(b.ProductTitle),
-                    );
-                    resolve(mergedTitles);
                 }).catch(e => {
                     console.log('getGamePassProducts error:', e);
                     reject(e);

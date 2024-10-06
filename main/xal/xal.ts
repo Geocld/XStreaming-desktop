@@ -129,6 +129,24 @@ export default class Xal {
         return crypto.randomBytes(bytes).toString('base64url')
     }
 
+    getDeviceTokenHack() {
+        console.log('getDeviceTokenHack...')
+        return new Promise<DeviceToken>((resolve, reject) => {
+            this.getDeviceToken().then(deviceToken => {
+                console.log('getDeviceToken success:', deviceToken)
+                resolve(deviceToken)
+            })
+            .catch(error => {
+                if (error.statuscode == 400) {
+                    console.log('device token get error, retry...')
+                    return this.getDeviceTokenHack().then(resolve).catch(reject)
+                } else {
+                    reject(error)
+                }
+            })
+        })
+    }
+
     getDeviceToken() {
         console.log('getDeviceToken...')
         return new Promise<DeviceToken>((resolve, reject) => {
@@ -444,7 +462,7 @@ export default class Xal {
 
         try {
             const userToken = await this.refreshUserToken(curUserToken)
-            const deviceToken = await this.getDeviceToken()
+            const deviceToken = await this.getDeviceTokenHack()
             const sisuToken = await this.doSisuAuthorization(userToken, deviceToken)
 
             tokenStore.setUserToken(userToken)
@@ -508,7 +526,7 @@ export default class Xal {
     }
 
     async getRedirectUri(){
-        const deviceToken = await this.getDeviceToken()
+        const deviceToken = await this.getDeviceTokenHack()
         const codeChallange = await this.getCodeChallange()
         const state = this.getRandomState()
         const sisuAuth = await this.doSisuAuthentication(deviceToken, codeChallange, state)

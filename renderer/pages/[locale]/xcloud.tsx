@@ -75,6 +75,7 @@ function Xcloud() {
                       }
                     }
                   });
+                  console.log("_recentTitles:", _recentTitles);
                   setRecentNewTitles(_recentTitles);
                   setLoading(false);
                 });

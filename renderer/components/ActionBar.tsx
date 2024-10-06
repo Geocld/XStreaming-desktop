@@ -113,7 +113,7 @@ function ActionBar(props) {
           }
 
           {
-            props.connectState === CONNECTED && (
+            (props.connectState === CONNECTED && props.type !== 'cloud') && (
               <DropdownItem key="longPressNexus" onClick={handleLongPressNexus}>
                 {t("Long press Nexus")}
               </DropdownItem>

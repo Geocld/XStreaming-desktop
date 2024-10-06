@@ -28,6 +28,7 @@ function Stream() {
   const [showFailed, setShowFailed] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
+  const [streamingType, setStreamingType] = useState('');
   const connectStateRef = useRef("");
   const keepaliveInterval = useRef(null);
   const streamStateInterval = useRef(null);
@@ -40,6 +41,8 @@ function Stream() {
       streamType = "cloud";
       serverId = serverId.split("_")[1];
     }
+
+    setStreamingType(streamType)
 
     if (xPlayer !== undefined) {
       xPlayer.bind();
@@ -418,6 +421,7 @@ function Stream() {
     <>
       <ActionBar
         connectState={connectState}
+        type={streamingType}
         onDisconnect={onDisconnect}
         onTogglePerformance={() => {
           setShowPerformance(!showPerformance);
