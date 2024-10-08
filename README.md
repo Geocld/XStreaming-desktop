@@ -37,7 +37,7 @@ If you are looking for an Android Xbox streaming application, you can use [XStre
 
 ## steamdeck install
 
-> This section special thanks to `ic58N` and `TigerBeanst`
+> This section special thanks to `ic58N` and [TigerBeanst](https://github.com/TigerBeanst)
 
 1. Switch to desktop mode.
 
