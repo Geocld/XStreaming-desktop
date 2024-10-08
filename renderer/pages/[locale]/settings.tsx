@@ -71,8 +71,12 @@ function Settings() {
     });
   };
 
-  const handleLouout = () => {
+  const handleLogout = () => {
     Ipc.send("app", "clearData");
+  };
+
+  const handleExit = () => {
+    Ipc.send("app", "quit");
   };
 
   return (
@@ -270,13 +274,21 @@ function Settings() {
               isLogined && (
                 <Card className="setting-item">
                   <CardBody>
-                    <Button color="danger" onClick={handleLouout}>
+                    <Button color="danger" onClick={handleLogout}>
                       {t("Logout")}
                     </Button>
                   </CardBody>
                 </Card>
               )
             }
+
+            <Card className="setting-item">
+              <CardBody>
+                <Button color="danger" onClick={handleExit}>
+                  {t("Exit")}
+                </Button>
+              </CardBody>
+            </Card>
             
           </Tab>
         </Tabs>

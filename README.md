@@ -30,10 +30,31 @@ If you are looking for an Android Xbox streaming application, you can use [XStre
 - Supports rumble on xCloud without any proxy in some regions.
 - IPv6
 
-<img src="https://github.com/Geocld/XStreaming-desktop/blob/main/images/console.jpg" /> 
+<img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/console.jpg" /> 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg" />
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud2.jpg" />
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/settings.jpg" />
+
+## steamdeck install
+
+> This section special thanks to `ic58N` and `TigerBeanst`
+
+1. Switch to desktop mode.
+
+2. Go to [AppImageLauncher Github Release](https://github.com/TheAssassin/AppImageLauncher/releases), download appimagelauncher-lite-xxxxxxxxx-x86_64.AppImage (replace with the correct version number), open a terminal and navigate to the directory where the file is located, then execute:
+
+```bash
+chmod +x appimagelauncher-lite-xxxxxxxxx-x86_64.AppImage
+./appimagelauncher-lite-xxxxxxxxx-x86_64.AppImage install
+```
+
+3. Go to [XStreaming-desktop Github Release](https://github.com/Geocld/XStreaming-desktop/releases), download `XStreaming-xxx.AppImage` (replace with the correct version number), place the file in `/home/deck/Applications` (it's recommended to rename it to XStreaming.AppImage for easier version updates), and after a short wait, you should find XStreaming in `Start Menu → Games`.
+
+4. In Dolphin, navigate to `/home/deck/.local/share/applications` to find the XStreaming icon file (the filename might start with `appimagekit_`), right-click and select `Add to Steam`.
+
+5. Launch it once in desktop mode to ensure it runs properly, and enable fullscreen mode in settings (to avoid black bars at the top and bottom).
+
+6. Return to gaming mode to play.
 
 ## Local Development
 

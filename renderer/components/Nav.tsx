@@ -61,6 +61,10 @@ const Nav = ({ current, isLogined }) => {
     Ipc.send("app", "toggleFullscreen")
   }
 
+  const handleExit = () => {
+    Ipc.send("app", "quit")
+  }
+
   return (
     <Navbar isBordered maxWidth="full" style={{ justifyContent: "flex-start", zIndex: 100 }}>
       <NavbarBrand className="grow-0">
@@ -108,6 +112,9 @@ const Nav = ({ current, isLogined }) => {
                 <DropdownItem key="fullscreen" onClick={handleToggleScreen}>{t('Toggle fullscreen')}</DropdownItem>
                 <DropdownItem key="logout" color="danger" onClick={handleLouout}>
                 {t('Logout')}
+                </DropdownItem>
+                <DropdownItem key="exit" color="danger" onClick={handleExit}>
+                {t('Exit')}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
