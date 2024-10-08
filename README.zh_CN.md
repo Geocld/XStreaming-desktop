@@ -16,7 +16,7 @@ XStreaming是一款开源的Xbox/云游戏串流移动端客户端，借鉴了[G
 
 ## Android
 
-在Android平台你可以使用 [XStreaming](https://github.com/Geocld/XStreaming)Android版本.
+在Android平台你可以使用 [XStreaming](https://github.com/Geocld/XStreaming)。
 
 ## 功能
 
@@ -35,7 +35,7 @@ XStreaming是一款开源的Xbox/云游戏串流移动端客户端，借鉴了[G
 
 ## steamdeck安装
 
-> 此部分特别鸣谢`ic58N`、`TigerBeanst`
+> 此部分特别鸣谢`ic58N`、[TigerBeanst](https://github.com/TigerBeanst)
 
 1. 切换到桌面模式
 
