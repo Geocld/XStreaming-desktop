@@ -1,0 +1,10 @@
+{
+  "Start stream": "開始串流",
+  "Standby": "待機",
+  "Powered on": "開機",
+  "Consoles": "終端",
+  "Loading...": "加載中...",
+  "Fetching user info...": "正在獲取用戶信息...",
+  "Fetching consoles...": "正在獲取終端信息...",
+  "Checking login status...": "正在檢查登入..."
+}

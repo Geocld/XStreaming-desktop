@@ -3,7 +3,7 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations"
 import i18next from "../../next-i18next.config.js"
 
 export function getI18nPaths() {
-  return ["en", "zh"].map(locale => ({
+  return ["en", "zh", "zht", "jp"].map(locale => ({
     params: {
       locale,
     },
