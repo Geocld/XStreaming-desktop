@@ -20,6 +20,8 @@ import Image from "next/image";
 
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
+const FOCUS_ELEMS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
 function Home() {
   const { t, i18n: {language: locale} } = useTranslation('home');
 
@@ -33,6 +35,9 @@ function Home() {
 
   const authInterval = useRef(null);
 
+  const currentIndex = useRef(0);
+  const focusable = useRef<any>([]);
+
   useEffect(() => {
     const localTheme = localStorage.getItem('theme');
     console.log('localTheme:', localTheme)
@@ -41,6 +46,82 @@ function Home() {
     }
     setLoading(true);
     setLoadingText(t("Loading..."));
+
+    focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+
+    function nextItem(index) {
+      index++;
+      currentIndex.current = index % focusable.current.length;
+      const elem = focusable.current[currentIndex.current];
+      const keyboardEvent = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        charCode: 9,
+        view: window,
+        bubbles: true
+      });
+
+      document.dispatchEvent(keyboardEvent);
+      elem.focus();
+    }
+
+    function prevItem(index) {
+      if (index === 0) {
+        currentIndex.current = focusable.current.length - 1
+      } else {
+        index -= 1;
+        currentIndex.current = index % focusable.current.length;
+      }
+      
+      const elem = focusable.current[currentIndex.current];
+      const keyboardEvent = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        charCode: 9,
+        view: window,
+        bubbles: true,
+        shiftKey: true
+      });
+      document.dispatchEvent(keyboardEvent);
+      elem && elem.focus();
+    }
+
+    function clickItem() {
+      setTimeout(() => {
+        const elem = focusable.current[currentIndex.current];
+        elem && elem.blur();
+        elem && elem.click();
+      }, 300);
+    }
+
+    const pollGamepads = () => {
+      const gamepads = navigator.getGamepads();
+      let _gamepad = null
+      gamepads.forEach(gp => {
+        if (gp) _gamepad = gp
+      })
+      if (_gamepad) {
+        _gamepad.buttons.forEach((b, idx) => {
+          if (b.pressed) {
+            if (idx === 0) {
+              clickItem();
+            } else if (idx === 12) {
+              prevItem(currentIndex.current);
+            } else if (idx === 13) {
+              nextItem(currentIndex.current);
+            } else if (idx === 14) {
+              prevItem(currentIndex.current);
+            } else if (idx === 15) {
+              nextItem(currentIndex.current);
+            }
+          }
+        })
+      }
+    }
+
+    const timer = setInterval(pollGamepads, 100);
 
     const _isLogined = window.sessionStorage.getItem("isLogined") || "0";
     if (_isLogined === "1") {
@@ -54,6 +135,10 @@ function Home() {
         console.log("consoles:", res);
         setConsoles(res);
         setLoading(false);
+
+        setTimeout(() => {
+          focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+        },  1000);
       });
     } else {
       Ipc.send("app", "checkAuthentication").then((isLogin) => {
@@ -82,6 +167,11 @@ function Home() {
                   console.log("consoles:", res);
                   setConsoles(res);
                   setLoading(false);
+
+                  setTimeout(() => {
+                    focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+                  },  1000);
+                  
                 });
               }
             });
@@ -97,6 +187,7 @@ function Home() {
 
     return () => {
       if (authInterval.current) clearInterval(authInterval.current);
+      timer && clearInterval(timer);
     };
   }, [t, setTheme]);
 
@@ -126,6 +217,10 @@ function Home() {
             setLoadingText(t("Fetching consoles..."));
             Ipc.send("consoles", "get").then((res) => {
               setConsoles(res);
+
+              setTimeout(() => {
+                focusable.current = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+              },  1000);
             });
           }
         });

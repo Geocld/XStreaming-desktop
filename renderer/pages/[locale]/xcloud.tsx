@@ -10,6 +10,8 @@ import Loading from "../../components/Loading";
 import SearchIcon from "../../components/SearchIcon";
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
+const FOCUS_ELEMS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
 function Xcloud() {
   const { t } = useTranslation("cloud");
 
@@ -25,10 +27,89 @@ function Xcloud() {
   const currentTitles = useRef([]);
   const [keyword, setKeyword] = useState("");
 
+  const currentIndex = useRef(0);
+  const focusable = useRef<any>([]);
+
   useEffect(() => {
 
     setLoading(true);
     setLoadingText(t("Loading..."));
+    focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+
+    function nextItem(index) {
+      index++;
+      currentIndex.current = index % focusable.current.length;
+      const elem = focusable.current[currentIndex.current];
+      const keyboardEvent = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        charCode: 9,
+        view: window,
+        bubbles: true
+      });
+
+      document.dispatchEvent(keyboardEvent);
+      elem.focus();
+    }
+
+    function prevItem(index) {
+      if (index === 0) {
+        currentIndex.current = focusable.current.length - 1
+      } else {
+        index -= 1;
+        currentIndex.current = index % focusable.current.length;
+      }
+      
+      const elem = focusable.current[currentIndex.current];
+      const keyboardEvent = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        charCode: 9,
+        view: window,
+        bubbles: true,
+        shiftKey: true
+      });
+      document.dispatchEvent(keyboardEvent);
+      elem && elem.focus();
+    }
+
+    function clickItem() {
+      setTimeout(() => {
+        const elem = focusable.current[currentIndex.current];
+        elem && elem.blur();
+        elem && elem.click();
+      }, 300);
+    }
+
+    const pollGamepads = () => {
+      const gamepads = navigator.getGamepads();
+      let _gamepad = null
+      gamepads.forEach(gp => {
+        if (gp) _gamepad = gp
+      })
+      if (_gamepad) {
+        _gamepad.buttons.forEach((b, idx) => {
+          if (b.pressed) {
+            if (idx === 0) {
+              clickItem();
+            } else if (idx === 12) {
+              prevItem(currentIndex.current);
+            } else if (idx === 13) {
+              nextItem(currentIndex.current);
+            } else if (idx === 14) {
+              prevItem(currentIndex.current);
+            } else if (idx === 15) {
+              nextItem(currentIndex.current);
+            }
+          }
+        })
+      }
+    }
+
+    const timer = setInterval(pollGamepads, 100);
+
     Ipc.send("app", "getAppLevel").then((appLevel) => {
       console.log("appLevel:", appLevel);
       if (appLevel !== 2) {
@@ -78,6 +159,10 @@ function Xcloud() {
                   console.log("_recentTitles:", _recentTitles);
                   setRecentNewTitles(_recentTitles);
                   setLoading(false);
+
+                  setTimeout(() => {
+                    focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+                  },  1000);
                 });
               });
             }
@@ -85,12 +170,21 @@ function Xcloud() {
         });
       }
     });
+
+    return () => {
+      timer && clearInterval(timer);
+    }
   }, [t]);
 
   const handleViewTitleDetail = (titleItem: any) => {
     console.log("titleItem:", titleItem);
     setCurrentTitle(titleItem);
     setShowTitleDetail(true);
+    setTimeout(() => {
+      const dialog = document.querySelector('[role="dialog"]');
+      console.log('dialog:', dialog)
+      focusable.current = dialog.querySelectorAll(FOCUS_ELEMS);
+    },  800);
   };
 
   const handleTabChange = (tab: string) => {
@@ -103,6 +197,9 @@ function Xcloud() {
     setLoadingText(t("Loading..."));
     setTimeout(() => {
       setLoading(false);
+      setTimeout(() => {
+        focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+      }, 1000);
     }, 500);
   };
 
@@ -130,8 +227,14 @@ function Xcloud() {
       <Layout>
         {showTitleDetail && (
           <TitleModal
+            id="titleModal"
             title={currentTitle}
-            onClose={() => setShowTitleDetail(false)}
+            onClose={() => {
+              setShowTitleDetail(false);
+              setTimeout(() => {
+                focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+              },  500);
+            }}
           />
         )}
 
