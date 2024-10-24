@@ -13,6 +13,8 @@ export const defaultSettings = {
   vibration_mode: "Native",
   gamepad_kernal: "Native",
   dead_zone: 0.1,
+  edge_compensation: 0,
+  power_on: false,
   video_format: "",
   virtual_gamepad_opacity: 0.6,
   gamepad_maping: null,

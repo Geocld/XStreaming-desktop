@@ -8,11 +8,14 @@ import {
   DropdownItem,
 } from "@nextui-org/react";
 import Ipc from "../lib/ipc";
+import { useSettings } from "../context/userContext";
 
 const CONNECTED = 'connected';
 
 function ActionBar(props) {
   const { t } = useTranslation('cloud');
+
+  const { settings } = useSettings();
 
   useEffect(() => {
     let lastMovement = 0;
@@ -58,6 +61,10 @@ function ActionBar(props) {
   const handleDisconnect = () => {
     props.onDisconnect && props.onDisconnect();
   };
+
+  const handleDisconnectAndPoweroff = () => {
+    props.onDisconnectPowerOff && props.onDisconnectPowerOff();
+  }
 
   const handleTogglePerformance = () => {
     props.onTogglePerformance && props.onTogglePerformance();
@@ -123,6 +130,19 @@ function ActionBar(props) {
           <DropdownItem key="fullscreen" onClick={handleToggleFullscreen}>
             {t("Toggle fullscreen")}
           </DropdownItem>
+
+          {
+            (props.connectState === CONNECTED && settings.power_on && props.type !== 'cloud') && (
+              <DropdownItem
+                key="disconnectPoweroff"
+                className="text-danger"
+                color="danger"
+                onClick={handleDisconnectAndPoweroff}
+              >
+                {t("Disconnect and power off")}
+              </DropdownItem>
+            )
+          }
           <DropdownItem
             key="disconnect"
             className="text-danger"

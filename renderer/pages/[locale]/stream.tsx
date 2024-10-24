@@ -29,6 +29,7 @@ function Stream() {
   const [showWarning, setShowWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
   const [streamingType, setStreamingType] = useState('');
+  const [consoleId, setConsoleId] = useState('');
   const connectStateRef = useRef("");
   const keepaliveInterval = useRef(null);
   const streamStateInterval = useRef(null);
@@ -41,6 +42,8 @@ function Stream() {
       streamType = "cloud";
       serverId = serverId.split("_")[1];
     }
+
+    setConsoleId(serverId)
 
     setStreamingType(streamType)
 
@@ -188,6 +191,10 @@ function Stream() {
 
           setTimeout(() => {
             setLoading(false);
+
+            if (settings.video_format && settings.video_format.indexOf(':') > -1) {
+              resizePlayer(settings.video_format)
+            }
 
             // Start keepalive loop
             if (!keepaliveInterval.current) {
@@ -368,6 +375,59 @@ function Stream() {
     videoStyle!.textContent = css;
   };
 
+  const resizePlayer = (prefRatio) => {
+    let targetWidth = '';
+    let targetHeight = '';
+    let targetObjectFit = '';
+    const tmp = prefRatio.split(':');
+    const videoRatio = parseFloat(tmp[0]) / parseFloat(tmp[1]);
+
+    let width = 0;
+    let height = 0;
+
+    const $video = document.getElementsByTagName('video')[0];
+
+    // Get window's ratio
+    const winWidth = document.documentElement.clientWidth;
+    const winHeight = document.documentElement.clientHeight;
+    const parentRatio = winWidth / winHeight;
+
+    // Get target width & height
+    if (parentRatio > videoRatio) {
+      height = winHeight;
+      width = height * videoRatio;
+    } else {
+      width = winWidth;
+      height = width / videoRatio;
+    }
+
+    // Prevent floating points
+    width = Math.ceil(Math.min(winWidth, width));
+    height = Math.ceil(Math.min(winHeight, height));
+
+    $video.dataset.width = width.toString();
+    $video.dataset.height = height.toString();
+
+    targetWidth = `${width}px`;
+    targetHeight = `${height}px`;
+    targetObjectFit = prefRatio === '16:9' ? 'contain' : 'fill';
+
+    $video.style.width = targetWidth;
+    $video.style.height = targetHeight;
+    $video.style.objectFit = targetObjectFit;
+  }
+
+  const onDisconnectPowerOff = () => {
+    setLoading(true);
+    setLoadingText(`${t("Disconnecting...")}`);
+    Ipc.send("consoles", "powerOff", consoleId).then(res => {
+      console.log('poweroff result:', res)
+      onDisconnect();
+    }).catch(() => {
+      onDisconnect();
+    });
+  }
+
   const onDisconnect = () => {
     setLoading(true);
     setLoadingText(`${t("Disconnecting...")}`);
@@ -382,7 +442,7 @@ function Stream() {
     }
 
     setTimeout(() => {
-      console.log("stopStream1111:", sessionId);
+      console.log("stopStream:", sessionId);
       Ipc.send("streaming", "stopStream", {
         sessionId: sessionId,
       })
@@ -417,12 +477,25 @@ function Stream() {
     }
   };
 
+  let videoHolderStyle = {}
+
+  if (settings.video_format) {
+    if (settings.video_format.indexOf(':') > -1) {
+      videoHolderStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }
+    }
+  }
+
   return (
     <>
       <ActionBar
         connectState={connectState}
         type={streamingType}
         onDisconnect={onDisconnect}
+        onDisconnectPowerOff={onDisconnectPowerOff}
         onTogglePerformance={() => {
           setShowPerformance(!showPerformance);
         }}
@@ -463,7 +536,7 @@ function Stream() {
 
       {loading && <Loading loadingText={loadingText} />}
 
-      <div id="videoHolder">
+      <div id="videoHolder" style={videoHolderStyle}>
         {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline></video> */}
       </div>
 

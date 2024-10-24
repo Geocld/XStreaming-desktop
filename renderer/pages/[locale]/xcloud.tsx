@@ -9,8 +9,7 @@ import Nav from "../../components/Nav";
 import Loading from "../../components/Loading";
 import SearchIcon from "../../components/SearchIcon";
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
-
-const FOCUS_ELEMS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+import { FOCUS_ELEMS } from '../../common/constans';
 
 function Xcloud() {
   const { t } = useTranslation("cloud");
@@ -182,7 +181,6 @@ function Xcloud() {
     setShowTitleDetail(true);
     setTimeout(() => {
       const dialog = document.querySelector('[role="dialog"]');
-      console.log('dialog:', dialog)
       focusable.current = dialog.querySelectorAll(FOCUS_ELEMS);
     },  800);
   };

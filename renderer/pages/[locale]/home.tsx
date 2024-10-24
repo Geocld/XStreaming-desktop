@@ -15,17 +15,19 @@ import AuthModal from "../../components/AuthModal";
 import Ipc from "../../lib/ipc";
 import Loading from "../../components/Loading";
 import Nav from "../../components/Nav";
+import { useSettings } from "../../context/userContext";
 
 import Image from "next/image";
+import { FOCUS_ELEMS } from '../../common/constans';
 
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 
-const FOCUS_ELEMS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 function Home() {
   const { t, i18n: {language: locale} } = useTranslation('home');
 
   const router = useRouter();
+  const { settings } = useSettings();
   const { theme, setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
@@ -228,7 +230,20 @@ function Home() {
     });
   };
 
-  const startSession = (sessionId) => {
+  const powerOnAndStartSession = (sessionId: string) => {
+    setLoading(true);
+    setLoadingText(t("Loading..."));
+    Ipc.send("consoles", "powerOn", sessionId).then(res => {
+      console.log('poweron result:', res);
+      startSession(sessionId);
+      setLoading(false);
+    }).catch(() => {
+      // startSession(sessionId);
+      setLoading(false);
+    });
+  };
+
+  const startSession = (sessionId: string) => {
     console.log("sessionId:", sessionId);
     router.push({
       pathname: `/${locale}/stream`,
@@ -275,13 +290,26 @@ function Home() {
                 </CardBody>
                 <Divider />
                 <CardFooter>
-                  <Button
-                    color="primary"
-                    fullWidth
-                    onClick={() => startSession(console.id)}
-                  >
-                    {t('Start stream')}
-                  </Button>
+                  {
+                    settings.power_on && console.powerState === 'ConnectedStandby' ? (
+                      <Button
+                        color="primary"
+                        fullWidth
+                        onClick={() => powerOnAndStartSession(console.id)}
+                      >
+                        {t('Power on and start stream')}
+                      </Button>
+                    ) : (
+                      <Button
+                        color="primary"
+                        fullWidth
+                        onClick={() => startSession(console.id)}
+                      >
+                        {t('Start stream')}
+                      </Button>
+                    )
+                  }
+                  
                 </CardFooter>
               </Card>
             );

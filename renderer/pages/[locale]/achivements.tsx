@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Card, CardHeader, CardBody, Divider, Progress } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
 import moment from 'moment';
@@ -7,6 +7,7 @@ import Nav from "../../components/Nav";
 import Ipc from "../../lib/ipc";
 import Loading from "../../components/Loading";
 import AchivementModal from "../../components/AchivementModal";
+import { FOCUS_ELEMS } from '../../common/constans';
 
 // import { achivements } from "../../mock/achivements";
 // import achivementDetail from '../../mock/achivementsDetail';
@@ -20,6 +21,9 @@ function Achivements() {
   const [achivements, setAchivements] = useState([]);
   const [currentDetail, setCurrentDetail] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
+
+  const currentIndex = useRef(0);
+  const focusable = useRef<any>([]);
   
   useEffect(() => {
     setLoading(true);
@@ -28,12 +32,100 @@ function Achivements() {
     Ipc.send("xCloud", "getHistoryAchivements").then(data => {
       setAchivements(data);
       setLoading(false);
+
+      setTimeout(() => {
+        focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+      },  1000);
     });
+
+    function nextItem(index) {
+      index++;
+      currentIndex.current = index % focusable.current.length;
+      const elem = focusable.current[currentIndex.current];
+      const keyboardEvent = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        charCode: 9,
+        view: window,
+        bubbles: true
+      });
+
+      document.dispatchEvent(keyboardEvent);
+      elem.focus();
+    }
+
+    function prevItem(index) {
+      if (index === 0) {
+        currentIndex.current = focusable.current.length - 1
+      } else {
+        index -= 1;
+        currentIndex.current = index % focusable.current.length;
+      }
+      
+      const elem = focusable.current[currentIndex.current];
+      const keyboardEvent = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        charCode: 9,
+        view: window,
+        bubbles: true,
+        shiftKey: true
+      });
+      document.dispatchEvent(keyboardEvent);
+      elem && elem.focus();
+    }
+
+    function clickItem() {
+      setTimeout(() => {
+        const elem = focusable.current[currentIndex.current];
+        elem && elem.blur();
+        elem && elem.click();
+      }, 300);
+    }
+
+    const pollGamepads = () => {
+      const gamepads = navigator.getGamepads();
+      let _gamepad = null
+      gamepads.forEach(gp => {
+        if (gp) _gamepad = gp
+      })
+      if (_gamepad) {
+        _gamepad.buttons.forEach((b, idx) => {
+          if (b.pressed) {
+            if (idx === 0) {
+              clickItem();
+            } else if (idx === 12) {
+              prevItem(currentIndex.current);
+            } else if (idx === 13) {
+              nextItem(currentIndex.current);
+            } else if (idx === 14) {
+              prevItem(currentIndex.current);
+            } else if (idx === 15) {
+              nextItem(currentIndex.current);
+            }
+          }
+        })
+      }
+    }
+
+    const timer = setInterval(pollGamepads, 100);
+
+    return () => {
+      timer && clearInterval(timer)
+    }
   }, [t]);
 
   const formatTime = isoString => {
     const date = moment(isoString).local();
     return date.format('YYYY-MM-DD HH:mm:ss');
+  };
+
+  const resetNavigationElems = () => {
+    setTimeout(() => {
+      focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+    },  800);
   };
 
   const handleViewDetail = achivement => {
@@ -42,7 +134,11 @@ function Achivements() {
     Ipc.send("xCloud", "getAchivementDetail", `${achivement.titleId}`).then(data => {
       setCurrentDetail(data);
       setLoading(false);
-      setShowDetail(true)
+      setShowDetail(true);
+      setTimeout(() => {
+        const dialog = document.querySelector('[role="dialog"]');
+        focusable.current = dialog.querySelectorAll(FOCUS_ELEMS);
+      },  800);
     });
   }
 
@@ -52,7 +148,10 @@ function Achivements() {
 
       {loading && <Loading loadingText={loadingText} />}
 
-      { (showDetail && currentDetail) && <AchivementModal achivement={currentDetail} onClose={() => setShowDetail(false)} /> }
+      { (showDetail && currentDetail) && <AchivementModal achivement={currentDetail} onClose={() => {
+        setShowDetail(false);
+        resetNavigationElems();
+      }} /> }
 
       <Layout>
         <div className="gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5">

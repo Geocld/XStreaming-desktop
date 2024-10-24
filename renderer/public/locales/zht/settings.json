@@ -70,5 +70,10 @@
   "Please press the button on the controller, which will be mapped to:": "請按手柄上的按鍵，該按鍵將映射為:",
   "After successful mapping, this pop-up will automatically close": "映射成功後將自動關閉此彈窗",
   "Fullscreen": "全屏",
-  "Whether open application with fullscreen": "是否開啟大屏模式"
+  "Whether open application with fullscreen": "是否開啟大屏模式",
+  "Joystick edge compensation": "摇杆边缘补偿",
+  "If your joystick's maximum value doesn't reach the expected level, you can set maximum value compensation": "如果你的摇杆最大值达不到预期，可以在此处设置最大值补偿",
+  "Power on when streaming": "串流时开启主机电源",
+  "power_on_description":
+      "选择主机串流时是否开启，默认主机开启睡眠模式后串流时电源灯不会亮，开启此选项后主机会彻底开机，并可能唤醒显示器"
 }

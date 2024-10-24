@@ -95,6 +95,10 @@ const getSettingsMetas = (t) => {
           {value: '', label: t('Aspect ratio')},
           {value: 'Stretch', label: t('Stretch')},
           {value: 'Zoom', label: t('Zoom')},
+          {value: '16:10', label: '16:10'},
+          {value: '18:9', label: '18:9'},
+          {value: '21:9', label: '21:9'},
+          {value: '4:3', label: '4:3'},
         ],
       },
       {
@@ -147,6 +151,16 @@ const getSettingsMetas = (t) => {
         description: t('Config joystick dead zone'),
         data: [],
       },
+      {
+        name: 'edge_compensation',
+        type: 'slider',
+        min: 0,
+        max: 0.2,
+        step: 0.01,
+        title: t('Joystick edge compensation'),
+        description: t("If your joystick's maximum value doesn't reach the expected level, you can set maximum value compensation"),
+        data: [],
+      },
       // {
       //   name: 'gamepad_kernal',
       //   type: 'select',
@@ -171,6 +185,16 @@ const getSettingsMetas = (t) => {
       },
     ],
     xhome: [
+      {
+        name: 'power_on',
+        type: 'radio',
+        title: t('Power on when streaming'),
+        description: t('power_on_description'),
+        data: [
+          {value: true, label: t('Enable')},
+          {value: false, label: t('Disable')},
+        ],
+      },
       {
         name: 'ipv6',
         type: 'radio',

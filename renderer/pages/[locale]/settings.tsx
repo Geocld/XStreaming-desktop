@@ -14,11 +14,10 @@ import FeedbackModal from "../../components/FeedbackModal";
 import ConfirmModal from "../../components/ConfirmModal";
 import KeyboardMap from "../../components/KeyboardMap";
 import updater from "../../lib/updater";
+import { FOCUS_ELEMS } from '../../common/constans';
 import pkg from "../../../package.json";
 
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
-
-const FOCUS_ELEMS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 function Settings() {
   const { t, i18n: {language: locale} } = useTranslation("settings");
@@ -48,7 +47,9 @@ function Settings() {
     const _settings = getSettingsMetas(t);
     setSettings(_settings);
 
-    focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+    setTimeout(() => {
+      focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+    },  1000);
 
     function nextItem(index) {
       index++;
@@ -129,6 +130,12 @@ function Settings() {
     }
   }, [t]);
 
+  const resetNavigationElems = () => {
+    setTimeout(() => {
+      focusable.current = document.querySelectorAll(FOCUS_ELEMS);
+    },  800);
+  };
+
   const handleResetSettings = () => {
     window.localStorage.clear();
     resetSettings();
@@ -200,7 +207,9 @@ function Settings() {
       />
 
       <Layout>
-        <Tabs aria-label="Options">
+        <Tabs aria-label="Options" onSelectionChange={() => {
+          resetNavigationElems()
+        }}>
           <Tab key="Language" title={t("Language")}>
             {settings.language &&
               settings.language.map((item) => {
