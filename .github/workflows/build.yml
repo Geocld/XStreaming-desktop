@@ -7,6 +7,41 @@ on:
 
 jobs:
 
+  cachedeps:
+    name: Generate cached sources
+    runs-on: ubuntu-latest
+    needs: ['tests']
+
+    steps:
+      # Intsall node tools
+      - uses: actions/checkout@v4
+        with:
+          repository: 'flatpak/flatpak-builder-tools'
+
+      - name: Install Python deps
+        run: pip3 install aiohttp toml
+
+      - name: Install flatpak-builder-tools
+        run: pipx install ./node/
+
+      # Generate sources
+      - name: Checkout Git repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          # clean: true
+
+      - name: Prep artifacts dir
+        run: mkdir ./deps-dist/
+
+      - name: Build yarn cache
+        run: flatpak-node-generator yarn yarn.lock -o ./deps-dist/yarn-sources.json
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: flatpak-sources
+          path: ./deps-dist/
+
   flatpak:
     name: Flatpak Build
     runs-on: ubuntu-latest
