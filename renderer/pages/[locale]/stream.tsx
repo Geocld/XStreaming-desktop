@@ -85,6 +85,10 @@ function Stream() {
         xPlayer.setGamepadMaping(settings.gamepad_maping)
       }
 
+      if (settings.force_trigger_rumble) {
+        xPlayer.setForceTriggerRumble(settings.force_trigger_rumble)
+      }
+
       // Set bitrate
       if (streamType === "cloud") {
         if (
@@ -108,6 +112,18 @@ function Stream() {
           );
           xPlayer.setVideoBitrate(settings.xhome_bitrate);
         }
+      }
+
+      // Set audio bitrate
+      if (
+        settings.audio_bitrate_mode === "Custom" &&
+        settings.audio_bitrate !== 0
+      ) {
+        console.log(
+          "setAudioBitrate:",
+          settings.audio_bitrate + "Mb/s"
+        );
+        xPlayer.setAudioBitrate(settings.audio_bitrate);
       }
 
       xPlayer.setConnectFailHandler(() => {

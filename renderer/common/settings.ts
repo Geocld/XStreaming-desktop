@@ -139,6 +139,14 @@ const getSettingsMetas = (t) => {
           'Set the cloud streaming bitrate (Note: Higher bitrate is not always better; the final bitrate will be determined by streaming negotiation)',
         )
       },
+      {
+        name: 'audio_bitrate',
+        type: 'bitrate',
+        title: t('Audio bitrate'),
+        description: t(
+          'Set the streaming audio bitrate',
+        )
+      },
     ],
     gamepad: [
       {
@@ -181,6 +189,20 @@ const getSettingsMetas = (t) => {
         data: [
           {value: true, label: t('Enable')},
           {value: false, label: t('Disable')},
+        ],
+      },
+      {
+        name: 'force_trigger_rumble',
+        type: 'radio',
+        title: t('Trigger rumble'),
+        description: t(
+          'trigger_rumble_description',
+        ),
+        data: [
+          {value: '', label: t('Disable')},
+          {value: 'all', label: t('All')},
+          {value: 'left', label: t('Left trigger')},
+          {value: 'right', label: t('Right trigger')},
         ],
       },
     ],

@@ -2,7 +2,7 @@
   "private": true,
   "name": "xstreaming",
   "description": "xstreaming",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Geocld <lijiahao5372@gmail.com>",
   "main": "app/background.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "uplot": "^1.6.30",
     "uuid-1345": "^1.0.2",
     "xbox-webapi": "^1.4.1",
-    "xstreaming-player": "^0.2.4",
+    "xstreaming-player": "0.2.5",
     "xvfb-maybe": "^0.2.1"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@typescript-eslint/parser": "^8.6.0",
     "autoprefixer": "^10.4.20",
     "babel-loader": "^9.1.3",
-    "electron": "28",
+    "electron": "33",
     "electron-builder": "^24.13.3",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",

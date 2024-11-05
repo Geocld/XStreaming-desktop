@@ -211,7 +211,35 @@ function GamepadTester() {
             }
           }}
         >
-          Vibration test
+          Vibration
+        </Button>
+
+        <Button
+          color="secondary"
+          onClick={() => {
+            const gamepads = navigator.getGamepads();
+            console.log("gamepads:", gamepads);
+            for (let i = 0; i < gamepads.length; i++) {
+              const gp = gamepads[i];
+              if (gp) {
+                // @ts-ignore
+                if (gp.vibrationActuator.effects && gp.vibrationActuator.effects.includes('trigger-rumble')) {
+                  gp.vibrationActuator.playEffect('trigger-rumble', {
+                      duration: 255,
+                      leftTrigger: 1,
+                      rightTrigger: 1,
+                      strongMagnitude: 0,
+                      weakMagnitude: 1,
+                  });
+                  
+                } else {
+                  window.alert('trigger rumble is not supported!')
+                }
+              }
+            }
+          }}
+        >
+          Trigger rumble
         </Button>
       </div>
       <div id="gamepads"></div>
