@@ -82,6 +82,7 @@ const getSettingsMetas = (t) => {
         data: [
           {value: 720, label: '720P'},
           {value: 1080, label: '1080P'},
+          {value: 1081, label: '1080P(HQ)'},
         ],
       },
       {

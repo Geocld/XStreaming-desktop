@@ -206,13 +206,21 @@ export default class xCloudApi {
       "settings",
       defaultSettings
     );
+    let osName = 'android';
+
+    if (settings.resolution == 1080) {
+      osName = 'windows';
+    } else if (settings.resolution === 1081) {
+      osName = this._type === "home" ? "windows" : "tizen";
+    }
+
     const deviceInfo = JSON.stringify({
       appInfo: {
         env: {
           clientAppId: "www.xbox.com",
           clientAppType: "browser",
-          clientAppVersion: "21.1.98",
-          clientSdkVersion: "8.5.3",
+          clientAppVersion: "24.17.36",
+          clientSdkVersion: "10.1.14",
           httpEnvironment: "prod",
           sdkInstallId: "",
         },
@@ -220,11 +228,11 @@ export default class xCloudApi {
       dev: {
         hw: {
           make: "Microsoft",
-          model: "Surface Pro",
+          model: "unknown",
           sdktype: "web",
         },
         os: {
-          name: settings.resolution == 1080 ? "windows" : "android",
+          name: osName,
           ver: "22631.2715",
           platform: "desktop",
         },
@@ -234,9 +242,13 @@ export default class xCloudApi {
             heightInPixels: 1080,
           },
           pixelDensity: {
-            dpiX: 2,
-            dpiY: 2,
+            dpiX: 1,
+            dpiY: 1,
           },
+        },
+        browser: {
+          browserName: "chrome",
+          browserVersion: "125.0",
         },
       },
     });
@@ -254,7 +266,7 @@ export default class xCloudApi {
         timezoneOffsetMinutes: 120,
         sdkType: "web",
         // For xCloud streaming
-        osName: settings.resolution == 1080 ? "windows" : "android",
+        osName,
       },
       serverId: this._type === "home" ? target : "",
       fallbackRegionNames: [],
