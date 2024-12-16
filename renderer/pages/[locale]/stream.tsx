@@ -1,18 +1,26 @@
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/router";
-import xStreamingPlayer from "xstreaming-player";
+import moment from "moment";
 import { useTranslation } from "next-i18next";
-import Ipc from "../../lib/ipc";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import xStreamingPlayer from "xstreaming-player";
 import ActionBar from "../../components/ActionBar";
+import Display from "../../components/Display";
+import FailedModal from "../../components/FailedModal";
 import Loading from "../../components/Loading";
 import Perform from "../../components/Perform";
-import FailedModal from "../../components/FailedModal";
 import WarningModal from "../../components/WarningModal";
-import Display from "../../components/Display";
 import { useSettings } from "../../context/userContext";
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
+import Ipc from "../../lib/ipc";
 
 const XCLOUD_PREFIX = "xcloud_";
+
+function format(source: string, ...args: string[]): string {
+  let n = 0
+  return source.replace(/%(s)/, function() {
+    return args[n++]
+  })
+}
 
 function Stream() {
   const router = useRouter();
@@ -21,7 +29,7 @@ function Stream() {
 
   const [loading, setLoading] = useState(true);
   const [loadingText, setLoadingText] = useState("");
-  const [xPlayer, setxPlayer] = useState(undefined);
+  const [xPlayer, setxPlayer] = useState<xStreamingPlayer>(undefined);
   const [connectState, setConnectState] = useState("");
   const [sessionId, setSessionId] = useState("");
   const [showPerformance, setShowPerformance] = useState(false);
@@ -150,15 +158,13 @@ function Stream() {
 
       xPlayer.createOffer().then((offer: any) => {
         console.log("offer:", offer);
-        setLoadingText(
-          `${t("Configuration obtained successfully, initiating offer...")}`
-        );
+        setLoadingText(t("Configuration obtained successfully, initiating offer..."));
         Ipc.send("streaming", "sendSdp", {
           sessionId: sessionId,
           sdp: offer.sdp,
         })
           .then((sdpResult: any) => {
-            setLoadingText(`${t("Remote offer retrieved successfully...")}`);
+            setLoadingText(t("Remote offer retrieved successfully..."));
             console.log("sdpResult:", sdpResult);
             xPlayer.setRemoteOffer(sdpResult.sdp);
 
@@ -173,13 +179,13 @@ function Stream() {
               });
             }
 
-            setLoadingText(`${t("Ready to send ICE...")}`);
+            setLoadingText(t("Ready to send ICE..."));
             Ipc.send("streaming", "sendIce", {
               sessionId: sessionId,
               ice: candidates,
             })
               .then((iceResult: any) => {
-                setLoadingText(`${t("Exchange ICE successfully...")}`);
+                setLoadingText(t("Exchange ICE successfully..."));
                 console.log("iceResult:", iceResult);
 
                 xPlayer.setIceCandidates(iceResult);
@@ -203,7 +209,7 @@ function Stream() {
         connectStateRef.current = event.state;
 
         if (event.state === "connected") {
-          setLoadingText(`${t("Connected")}`);
+          setLoadingText(t("Connected"));
 
           setTimeout(() => {
             setLoading(false);
@@ -237,7 +243,7 @@ function Stream() {
         }
       });
     } else if (sessionId === "") {
-      setLoadingText(`${t("Connecting...")}`);
+      setLoadingText(t("Connecting..."));
       Ipc.send("streaming", "startStream", {
         type: streamType,
         target: serverId,
@@ -258,8 +264,26 @@ function Stream() {
           Ipc.send("streaming", "getPlayerState", {
             sessionId: sessionId,
           })
-            .then((session: any) => {
+            .then((session: {
+              errorDetails?: any
+              id: string,
+              target: string,
+              path: string,
+              type: string,
+              playerState: "pending"|"started"|"failed"|"queued",
+              state: string,
+              waitingTimes: {
+                  estimatedProvisioningTimeInSeconds: number,
+                  estimatedAllocationTimeInSeconds: number,
+                  estimatedTotalWaitTimeInSeconds: number
+              }
+          }) => {
               console.log("Player state:", session);
+              const formatQueueData = () => {
+                const currentDate = new Date()
+                currentDate.setSeconds(session.waitingTimes.estimatedTotalWaitTimeInSeconds)
+                return format(t("YouConnect", {defaultValue: "You connect in %s"}), moment(currentDate.toISOString()).local().format(t('dateFormat', {defaultValue: 'YYYY-MM-DD HH:mm'})))
+              }
 
               switch (session.playerState) {
                 case "pending":
@@ -316,8 +340,7 @@ function Stream() {
                   break;
 
                 case "queued":
-                  // Waiting in queue
-                  // @TODO: Show queue position
+                  setLoadingText(formatQueueData())
                   break;
               }
             })
@@ -435,7 +458,7 @@ function Stream() {
 
   const onDisconnectPowerOff = () => {
     setLoading(true);
-    setLoadingText(`${t("Disconnecting...")}`);
+    setLoadingText(t("Disconnecting..."));
     Ipc.send("consoles", "powerOff", consoleId).then(res => {
       console.log('poweroff result:', res)
       onDisconnect();
@@ -446,7 +469,7 @@ function Stream() {
 
   const onDisconnect = () => {
     setLoading(true);
-    setLoadingText(`${t("Disconnecting...")}`);
+    setLoadingText(t("Disconnecting..."));
     xPlayer && xPlayer.close();
 
     if (streamStateInterval.current) {
@@ -576,4 +599,4 @@ export default Stream;
 export const getStaticProps = makeStaticProperties(["common", "cloud"]);
 
 // eslint-disable-next-line react-refresh/only-export-components
-export {getStaticPaths};
+export { getStaticPaths };

@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
 import {
-  Card,
-  CardBody,
-  RadioGroup,
-  Radio,
-  Slider,
   Autocomplete,
   AutocompleteItem,
+  Card,
+  CardBody,
+  Radio,
+  RadioGroup,
+  Slider,
 } from "@nextui-org/react";
 import { useTranslation } from "next-i18next";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { useSettings } from "../context/userContext";
 import Ipc from "../lib/ipc";
-import { useTheme } from "next-themes";
 
 const SettingItem = (props) => {
   const { theme } = useTheme();
@@ -29,21 +29,20 @@ const SettingItem = (props) => {
     } else {
       setDefaultValue(settings[item.name])
     }
-    
+
     if (item.name === "signaling_cloud" || item.name === "signaling_home") {
       const method =
         item.name === "signaling_cloud" ? "getXcloudToken" : "getXhomeToken";
       Ipc.send("xCloud", method).then((data) => {
         if (data) {
-          const regions = data.offeringSettings.regions;
-
+          const regions: {name: string, isDefault: boolean}[] = data.offeringSettings.regions;
           item.data = regions.map((region) => {
             if (region.isDefault) {
               setDefaultValue(region.name);
             }
             return {
               value: region.name,
-              label: region.name,
+              label: t(region.name.toLowerCase(), {defaultValue: region.name})
             };
           });
         } else {

@@ -1,5 +1,5 @@
-import Application from '../application'
-import Http from './xhttp'
+import Application from '../application';
+import Http from './xhttp';
 
 export default class AchivementManager {
   _application: Application

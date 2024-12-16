@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from "react";
-import { Card, CardHeader, CardBody, Divider, Progress } from "@nextui-org/react";
-import { useTranslation } from "next-i18next";
+import { Card, CardBody, CardHeader, Divider, Progress } from "@nextui-org/react";
 import moment from 'moment';
+import { useTranslation } from "next-i18next";
+import { useEffect, useRef, useState } from "react";
+import { FOCUS_ELEMS } from '../../common/constans';
+import AchivementModal from "../../components/AchivementModal";
 import Layout from "../../components/Layout";
+import Loading from "../../components/Loading";
 import Nav from "../../components/Nav";
 import Ipc from "../../lib/ipc";
-import Loading from "../../components/Loading";
-import AchivementModal from "../../components/AchivementModal";
-import { FOCUS_ELEMS } from '../../common/constans';
 
 // import { achivements } from "../../mock/achivements";
 // import achivementDetail from '../../mock/achivementsDetail';
@@ -24,7 +24,7 @@ function Achivements() {
 
   const currentIndex = useRef(0);
   const focusable = useRef<any>([]);
-  
+
   useEffect(() => {
     setLoading(true);
     setLoadingText(t("Loading..."));
@@ -62,7 +62,7 @@ function Achivements() {
         index -= 1;
         currentIndex.current = index % focusable.current.length;
       }
-      
+
       const elem = focusable.current[currentIndex.current];
       const keyboardEvent = new KeyboardEvent('keydown', {
         key: 'Tab',
@@ -119,7 +119,7 @@ function Achivements() {
 
   const formatTime = isoString => {
     const date = moment(isoString).local();
-    return date.format('YYYY-MM-DD HH:mm:ss');
+    return date.format(t('dateFormat', {defaultValue: 'YYYY-MM-DD HH:mm:ss'}));
   };
 
   const resetNavigationElems = () => {
@@ -187,5 +187,4 @@ export default Achivements;
 export const getStaticProps = makeStaticProperties(["common", "cloud"]);
 
 // eslint-disable-next-line react-refresh/only-export-components
-export {getStaticPaths};
-
+export { getStaticPaths };
