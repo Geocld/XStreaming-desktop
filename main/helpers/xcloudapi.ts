@@ -432,7 +432,7 @@ export default class xCloudApi {
             );
 
             const lst = [];
-            for (let item of computedCandidates) {
+            for (const item of computedCandidates) {
               if (item.candidate === "a=end-of-candidates") {
                 continue;
               }

@@ -10,6 +10,7 @@ const getSettingsMetas = (t) => {
         description: t('Set language of XStreaming'),
         data: [
           {value: 'en', label: 'English'},
+          {value: 'pt', label: 'Português do Brasil'},
           {value: 'zh', label: '简体中文'},
           {value: 'zht', label: '繁體中文'},
           {value: 'jp', label: '日本語'},

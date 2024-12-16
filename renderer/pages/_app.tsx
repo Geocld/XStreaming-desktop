@@ -1,7 +1,7 @@
-import React from "react";
 import { NextUIProvider } from "@nextui-org/react";
+import { appWithTranslation } from 'next-i18next';
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { appWithTranslation } from 'next-i18next'
+import React from "react";
 
 import { UserProvider } from "../context/userContext";
 import "../styles.css";
@@ -25,8 +25,6 @@ const  App = ({ Component, pageProps }) => {
             "\n" +
             event.reason.body
         );
-      } else {
-        alert(event.reason);
       }
     };
     window.addEventListener("unhandledrejection", errorHandler);

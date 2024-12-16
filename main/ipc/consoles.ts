@@ -1,5 +1,5 @@
-import IpcBase from './base'
 import Http from '../helpers/xhttp'
+import IpcBase from './base'
 
 import UUID from 'uuid-1345'
 const nextUUID = () => UUID.v3({ namespace: '6ba7b811-9dad-11d1-80b4-00c04fd430c8', name: Date.now().toString() })
@@ -18,11 +18,11 @@ export default class IpcConsoles extends IpcBase {
     ) {
         console.log('[sendCommand]:', consoleId, commandType, command);
         const http = new Http();
-    
+
         if (params === undefined) {
           params = [];
         }
-    
+
         const postParams = {
           destination: 'Xbox',
           type: commandType,
@@ -32,7 +32,7 @@ export default class IpcConsoles extends IpcBase {
           parameters: params,
           linkedXboxId: consoleId,
         };
-    
+
         return new Promise((resolve, reject) => {
           http
             .post(
