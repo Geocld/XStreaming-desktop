@@ -1,6 +1,7 @@
 import Http from './lib/http'
 import crypto, { subtle, KeyObject } from 'crypto'
 import { exportJWK } from 'jose'
+import { dialog } from "electron";
 
 import DeviceToken from './lib/tokens/devicetoken'
 import SisuToken, { ISisuToken } from './lib/tokens/sisutoken'
@@ -31,6 +32,9 @@ export default class Xal {
     keys
     jwtKeys
 
+    deviceTokenRetryCount
+    tokenStore
+
     _app = {
         AppId: '000000004c20a908', //'000000004c12ae6f', // 0000000048183522 = working, but minecraft --<<< 000000004c12ae6f works, xbox app
         TitleId: '328178078', //'328178078', // 1016898439 = working
@@ -40,12 +44,14 @@ export default class Xal {
     constructor(tokenStore?:TokenStore){
         if(tokenStore && tokenStore._jwtKeys){
             this.setKeys(tokenStore._jwtKeys.jwt).then((keys) => {
-                // console.log('Keys loaded:', keys)
+                console.log('Keys loaded:', keys)
             }).catch((error) => {
                 console.log('Failed to load keys:', error)
             })
-        }
 
+            this.tokenStore = tokenStore
+        }
+        this.deviceTokenRetryCount = 0
     }
 
     setKeys(orgJwtKey){
@@ -138,8 +144,23 @@ export default class Xal {
             })
             .catch(error => {
                 if (error.statuscode == 400) {
-                    console.log('device token get error, retry...')
-                    return this.getDeviceTokenHack().then(resolve).catch(reject)
+                    if (this.deviceTokenRetryCount < 20) {
+                        console.log('device token get error, retry...')
+                        this.deviceTokenRetryCount += 1
+                        return this.getDeviceTokenHack().then(resolve).catch(reject)
+                    } else {
+                        // Clear data 
+                        dialog.showMessageBox({
+                            message:
+                                "Error: Failed to refresh device token:" +
+                                JSON.stringify(error) + 
+                                ", Please login again.",
+                            type: "error",
+                        });
+                        this.tokenStore.clear && this.tokenStore.clear();
+                        reject(error)
+                    }
+                    
                 } else {
                     reject(error)
                 }

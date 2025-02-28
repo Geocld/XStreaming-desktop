@@ -4,8 +4,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  Button,
   Tabs,
   Tab,
   Progress,
@@ -111,11 +109,11 @@ function AchivementModal(props) {
               }
             </div>
           </ModalBody>
-          <ModalFooter>
+          {/* <ModalFooter>
             <Button color="danger" onPress={handleClose}>
               {t('Close')}
             </Button>
-          </ModalFooter>
+          </ModalFooter> */}
         </>
       </ModalContent>
     </Modal>

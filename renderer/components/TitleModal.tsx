@@ -34,6 +34,18 @@ function TitleModal(props) {
     });
   };
 
+  let isByorg = false;
+  if (
+    titleItem &&
+    !titleItem.XCloudTitleId &&
+    titleItem.details &&
+    titleItem.details.programs
+  ) {
+    if (titleItem.details.programs.indexOf('BYOG') > -1) {
+      isByorg = true;
+    }
+  }
+
   return (
     <Modal
       isOpen={true}
@@ -59,6 +71,11 @@ function TitleModal(props) {
               <div className="w-2/3 pl-5">
                 <p>{titleItem.PublisherName}</p>
                 <p>{titleItem.ProductDescription || ""}</p>
+                {
+                  isByorg && (
+                    <p className="text-red-500">{t('byorg')}</p>
+                  )
+                }
                 <div className="pt-5 flex gap-4">
                   {titleItem.Categories.map((item, idx) => {
                     return (
