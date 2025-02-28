@@ -106,7 +106,7 @@ jobs:
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: XStreaming.flatpak
-          manifest-path: flatpak/io.github.geocld.xstreaming.yml
+          manifest-path: flatpak/io.github.Geocld.XStreaming.yml
           cache-key: flatpak-builder-${{ github.sha }}
 
       - name: Release flatpak
