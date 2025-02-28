@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>io.github.Geocld.XStreaming</id>
+  <launchable type="desktop-id">io.github.Geocld.XStreaming.desktop</launchable>
+  <name>XStreaming</name>
+  <project_license>MIT</project_license>
+  <developer_name>Geocld</developer_name>
+  <summary>XStreaming is an open-source client for xCloud and Xbox home streaming</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <url type="homepage">https://github.com/Geocld/XStreaming-desktop</url>
+  <url type="help">https://github.com/Geocld/XStreaming-desktop/issues</url>
+  <url type="bugtracker">https://github.com/Geocld/XStreaming-desktop/issues</url>
+  <description>
+    <p>Xbox streaming client, you can play Xbox games anywhere.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/console.jpg</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud2.jpg</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/settings.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.4.0" date="2025-02-28">
+     <description>
+        <ul>
+          <li>First full release</li>
+        </ul>
+     </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

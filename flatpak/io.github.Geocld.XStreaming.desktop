@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=XStreaming
+Comment=Xbox streaming client, you can play Xbox games anywhere.
+Icon=io.github.Geocld.XStreaming
+Exec=run.sh
+Terminal=false
+StartupWMClass=XStreaming
+Categories=Network;Game;
+Keywords=Game;Streaming;Xbox;xCloud;Console;
