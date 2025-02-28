@@ -63,7 +63,7 @@ modules:
       - type: inline
         dest-filename: .yarnrc
         contents: |
-          yarn-offline-mirror "/run/build/Xstreaming/flatpak-node/yarn-mirror"
+          yarn-offline-mirror "/run/build/XStreaming/flatpak-node/yarn-mirror"
           yarn-offline-mirror-pruning true
       # Wrapper to launch the app
       - type: script
@@ -75,4 +75,4 @@ modules:
           - export LD_LIBRARY_PATH=/app/extralib:${LD_LIBRARY_PATH}
           - echo runtime LD_LIBRARY_PATH = $LD_LIBRARY_PATH
           - echo runtime ARCH = $(uname -m)-$(uname -s | tr '[:upper:]' '[:lower:]')
-          - zypak-wrapper.sh /app/main/Xstreaming "$@"
+          - zypak-wrapper.sh /app/main/XStreaming "$@"
