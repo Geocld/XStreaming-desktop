@@ -14,6 +14,7 @@ export const defaultSettings = {
   vibration: true,
   vibration_mode: "Native",
   gamepad_kernal: "Native",
+  gamepad_index: -1,
   dead_zone: 0.1,
   edge_compensation: 0,
   force_trigger_rumble: '',

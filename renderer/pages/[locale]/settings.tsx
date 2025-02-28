@@ -352,13 +352,13 @@ function Settings() {
             {(locale === "zh" || locale === "zht") && (
               <Card className="setting-item">
                 <CardBody>
-                  <div className="setting-title">反馈及支持</div>
+                  <div className="setting-title">支持及交流</div>
                   <div className="setting-description">
-                    你可以在这里反正使用问题或支持XStreaming的开发
+                    支持开发或交流更多串流技术
                   </div>
 
                   <Button color="primary" onClick={() => setShowFeedback(true)}>
-                    反馈
+                    加群
                   </Button>
                 </CardBody>
               </Card>
@@ -375,6 +375,14 @@ function Settings() {
                 </Card>
               )
             }
+
+            <Card className="setting-item">
+              <CardBody>
+                <Button color="danger" onClick={handleLogout}>
+                  {t("Clear cache")}
+                </Button>
+              </CardBody>
+            </Card>
 
             <Card className="setting-item">
               <CardBody>

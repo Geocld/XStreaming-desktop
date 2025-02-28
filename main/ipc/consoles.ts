@@ -62,7 +62,8 @@ export default class IpcConsoles extends IpcBase {
               }
             })
             .catch(e => {
-              reject(e);
+              resolve([]);
+              // reject(e);
             });
         });
     }

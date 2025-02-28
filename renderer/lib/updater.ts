@@ -23,6 +23,8 @@ const updater = () => {
                 version,
                 url: latest.html_url,
               });
+            } else {
+              resolve(false);
             }
           } else {
             resolve(false);

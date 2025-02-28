@@ -97,5 +97,9 @@
   "japaneast": "Japan East",
   "brazilsouth": "Brazil South",
   "australiasoutheast": "Australia SouthEast",
-  "australiaeast": "Australia East"
+  "australiaeast": "Australia East",
+  "Select gamepad": "Select gamepad",
+  "Select specified controller": "Select specified controller",
+  "Exit": "Exit",
+  "Clear cache": "Clear cache"
 }

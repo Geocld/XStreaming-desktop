@@ -171,16 +171,6 @@ const getSettingsMetas = (t) => {
         description: t("If your joystick's maximum value doesn't reach the expected level, you can set maximum value compensation"),
         data: [],
       },
-      // {
-      //   name: 'gamepad_kernal',
-      //   type: 'select',
-      //   title: t('Gamepad kernal'),
-      //   description: t('Select gamepad kernal'),
-      //   data: [
-      //     {value: 'Native', label: 'Native'},
-      //     {value: 'Web', label: 'Web'},
-      //   ],
-      // },
       {
         name: 'vibration',
         type: 'radio',
@@ -205,6 +195,19 @@ const getSettingsMetas = (t) => {
           {value: 'all', label: t('All')},
           {value: 'left', label: t('Left trigger')},
           {value: 'right', label: t('Right trigger')},
+        ],
+      },
+      {
+        name: 'gamepad_index',
+        type: 'radio',
+        title: t('Select gamepad'),
+        description: t('Select specified controller'),
+        data: [
+          {value: -1, label: t('Auto')},
+          {value: 0, label: '1'},
+          {value: 1, label: '2'},
+          {value: 2, label: '3'},
+          {value: 3, label: '4'},
         ],
       },
     ],

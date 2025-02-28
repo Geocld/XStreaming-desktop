@@ -81,6 +81,9 @@ function Stream() {
       // Set gamepad kernal
       xPlayer.setGamepadKernal("Web");
 
+      // Set gamepad index
+      xPlayer.setGamepadIndex(settings.gamepad_index);
+
       // Set vibration
       xPlayer.setVibration(settings.vibration);
       xPlayer.setVibrationMode("Webview");
@@ -469,6 +472,7 @@ function Stream() {
 
   const onDisconnect = () => {
     setLoading(true);
+    setShowPerformance(false);
     setLoadingText(t("Disconnecting..."));
     xPlayer && xPlayer.close();
 
