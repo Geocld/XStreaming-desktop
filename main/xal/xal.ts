@@ -181,8 +181,9 @@ export default class Xal {
                 const HttpClient = new Http()
                 HttpClient.postRequest('device.auth.xboxlive.com', '/device/authenticate', headers, body).then((response) => {
                     resolve(new DeviceToken(response.body()))
-
                 }).catch((error) => {
+                    // Refresh jwtKeys
+                    this.jwtKeys = null;
                     reject(error)
                 })
             })
