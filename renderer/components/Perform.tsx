@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "next-i18next";
+import { useSettings } from "../context/userContext";
 
 function Perform({ xPlayer, connectState }) {
   const { t } = useTranslation('cloud');
+  const { settings } = useSettings();
   const [performance, setPerformance] = useState<any>({});
 
   useEffect(() => {
@@ -24,10 +26,18 @@ function Perform({ xPlayer, connectState }) {
     };
   }, [xPlayer, connectState]);
 
+  let resolutionText = '';
+  if (performance.resolution) {
+    resolutionText = performance.resolution;
+    if (settings.resolution === 1081) {
+      resolutionText = resolutionText + '(HQ)';
+    }
+  }
+
   return (
     <div id="performances">
       <div className="px-1">
-        {t("Resolution")}: {performance.resolution || "--"}
+        {t("Resolution")}: {resolutionText || "--"}
       </div>
       <div className="px-1">
         {t("RTT")}: {performance.rtt || "--"}

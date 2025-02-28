@@ -210,8 +210,8 @@ export default class xCloudApi {
 
     if (settings.resolution == 1080) {
       osName = 'windows';
-    } else if (settings.resolution === 1081) {
-      osName = this._type === "home" ? "windows" : "tizen";
+    } else if (settings.resolution === 1081) { // 1080 HQ
+      osName = "tizen";
     }
 
     const deviceInfo = JSON.stringify({
@@ -219,8 +219,8 @@ export default class xCloudApi {
         env: {
           clientAppId: "www.xbox.com",
           clientAppType: "browser",
-          clientAppVersion: "24.17.36",
-          clientSdkVersion: "10.1.14",
+          clientAppVersion: "26.1.91",
+          clientSdkVersion: "10.3.7",
           httpEnvironment: "prod",
           sdkInstallId: "",
         },
@@ -248,7 +248,7 @@ export default class xCloudApi {
         },
         browser: {
           browserName: "chrome",
-          browserVersion: "125.0",
+          browserVersion: "130.0",
         },
       },
     });
