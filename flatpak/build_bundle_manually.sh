@@ -13,8 +13,8 @@ export PATH=${PATH}:${HOME}/.local/bin
 cd ..
 
 flatpak-node-generator yarn ../yarn.lock -o ./yarn-sources.json
-flatpak-builder --force-clean build-dir ./dev.Geocld.XStreaming.yml
+flatpak-builder --force-clean build-dir ./dev.Geocld.XStreamingDesktop.yml
 flatpak build-export export-dir build-dir
-flatpak build-bundle export-dir XStreaming.flatpak dev.Geocld.XStreaming --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+flatpak build-bundle export-dir XStreamingDesktop.flatpak dev.Geocld.XStreamingDesktop --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 
 echo done

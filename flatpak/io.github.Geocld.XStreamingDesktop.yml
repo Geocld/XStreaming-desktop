@@ -21,14 +21,14 @@ build-options:
   env:
     NPM_CONFIG_LOGLEVEL: info
 modules:
-  - name: XStreaming
+  - name: XStreamingDesktop
     buildsystem: simple
     build-options:
       env:
-        XDG_CACHE_HOME: /run/build/XStreaming/flatpak-node/cache
-        npm_config_cache: /run/build/XStreaming/flatpak-node/npm-cache
+        XDG_CACHE_HOME: /run/build/XStreamingDesktop/flatpak-node/cache
+        npm_config_cache: /run/build/XStreamingDesktop/flatpak-node/npm-cache
         npm_config_offline: 'true'
-        yarn_config_cache: /run/build/XStreaming/flatpak-node/yarn-mirror
+        yarn_config_cache: /run/build/XStreamingDesktop/flatpak-node/yarn-mirror
     build-commands:
       - |
         if [ "$FLATPAK_ARCH" = "x86_64" ]; then
@@ -42,9 +42,9 @@ modules:
       - yarn --offline
       - yarn run flatpak-build --offline -- --linux
       # Add icon, metadata and desktop file
-      - install -Dm 644 flatpak/io.github.Geocld.XStreaming.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
-      - install -Dm 644 flatpak/io.github.Geocld.XStreaming.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm 644 flatpak/io.github.Geocld.XStreaming.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
+      - install -Dm 644 flatpak/io.github.Geocld.XStreamingDesktop.png ${FLATPAK_DEST}/share/icons/hicolor/512x512/apps/${FLATPAK_ID}.png
+      - install -Dm 644 flatpak/io.github.Geocld.XStreamingDesktop.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm 644 flatpak/io.github.Geocld.XStreamingDesktop.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
       # Bundle app and dependencies
       - cp -a dist/linux*unpacked /app/main
       # Install app wrapper
@@ -70,7 +70,7 @@ modules:
       - type: inline
         dest-filename: .yarnrc
         contents: |
-          yarn-offline-mirror "/run/build/XStreaming/flatpak-node/yarn-mirror"
+          yarn-offline-mirror "/run/build/XStreamingDesktop/flatpak-node/yarn-mirror"
           yarn-offline-mirror-pruning true
       # Wrapper to launch the app
       - type: script
@@ -82,4 +82,4 @@ modules:
           - export LD_LIBRARY_PATH=/app/extralib:${LD_LIBRARY_PATH}
           - echo runtime LD_LIBRARY_PATH = $LD_LIBRARY_PATH
           - echo runtime ARCH = $(uname -m)-$(uname -s | tr '[:upper:]' '[:lower:]')
-          - zypak-wrapper.sh /app/main/XStreaming "$@"
+          - zypak-wrapper.sh /app/main/XStreamingDesktop "$@"

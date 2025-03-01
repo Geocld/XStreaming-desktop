@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-  <id>io.github.Geocld.XStreaming</id>
-  <launchable type="desktop-id">io.github.Geocld.XStreaming.desktop</launchable>
-  <name>XStreaming</name>
+  <id>io.github.Geocld.XStreamingDesktop</id>
+  <launchable type="desktop-id">io.github.Geocld.XStreamingDesktop.desktop</launchable>
+  <name>XStreamingDesktop</name>
   <project_license>MIT</project_license>
   <developer_name>Geocld</developer_name>
   <summary>XStreaming is an open-source client for xCloud and Xbox home streaming</summary>
