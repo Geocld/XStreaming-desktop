@@ -51,12 +51,6 @@ modules:
       #   tag: v1.4.0
       #   commit: 862b0e2502eeb9539126ba7a8d4aeb630a41b148
       #   dest: main
-      - type: git
-        url: https://github.com/Originalimoc/amd-patched-mesa
-        dest: extralib
-        commit: "a70058baf35f1823613f2577c30a477e93cd106a"
-        only-arches:
-          - x86_64
       - yarn-sources.json
       - type: inline
         dest-filename: .yarnrc
