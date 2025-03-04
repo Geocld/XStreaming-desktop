@@ -28,6 +28,14 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.4.1" date="2025-03-04">
+      <description>
+          <ul>
+            <li>Fix:</li>
+            <li>Controller not working.</li>
+          </ul>
+      </description>
+    </release>
     <release version="1.4.0" date="2025-02-28">
      <description>
         <ul>
