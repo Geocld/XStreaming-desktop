@@ -29,6 +29,7 @@ If you are looking for an Android Xbox streaming application, you can use [XStre
 - Support gamepad vibration
 - Supports rumble on xCloud without any proxy in some regions.
 - IPv6
+- Trigger rumble
 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/console.jpg" /> 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg" />
@@ -37,7 +38,13 @@ If you are looking for an Android Xbox streaming application, you can use [XStre
 
 ## Steam Deck
 
-For Steam Deck User, please read [XStreaming Steam Deck Guide](./wiki/steam-deck/README.md)
+### Installing from Flathub
+`XStreaming` is now available on Flathub. You can directly search for XStreaming in the application store (Discover) in desktop mode on your Steam Deck to install and receive future updates.
+
+[![Build/release](https://flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/io.github.Geocld.XStreamingDesktop)
+
+### Manual Installation
+For manual installation, please refer to the [XStreaming Steam Deck Guide](./wiki/steam-deck/README.md)
 
 ## Local Development
 

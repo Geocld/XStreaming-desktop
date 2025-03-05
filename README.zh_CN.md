@@ -27,6 +27,7 @@ XStreaming 是一款开源的 Xbox/云游戏串流移动端客户端，借鉴了
 - 支持手柄按键映射
 - 免代理云游戏
 - IPv6 优先连接支持
+- 扳机振动
 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/console.jpg" /> 
 <img src="https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg" />
@@ -35,7 +36,14 @@ XStreaming 是一款开源的 Xbox/云游戏串流移动端客户端，借鉴了
 
 ## Steam Deck
 
-Steam Deck 用户请参阅 [XStreaming Steam Deck 指南](./wiki/steam-deck/README.zh_CN.md)
+### 从Flathub安装
+`XStreaming`已经上架Flathub，你可以直接在SteamDeck的桌面模式，使用应用商店（Discover）直接搜索XStreaming即可下载安装和后续的更新。
+
+[![Build/release](https://flathub.org/assets/badges/flathub-badge-en.svg)](https://flathub.org/apps/io.github.Geocld.XStreamingDesktop)
+
+
+### 手动安装
+手动安装请参阅 [XStreaming Steam Deck 指南](./wiki/steam-deck/README.zh_CN.md)
 
 ## 本地开发
 
