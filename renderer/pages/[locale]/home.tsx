@@ -279,7 +279,7 @@ function Home() {
       <AuthModal show={showLoginModal} onConfirm={handleLogin} />
 
       <Layout>
-        <div className="gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6">
+        <div className="gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
           {consoles.map((console) => {
             let consoleName: string
             switch (console.consoleType) {
