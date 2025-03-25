@@ -26,6 +26,9 @@ const SettingItem = (props) => {
     if (item.name === 'theme') {
       const localTheme = localStorage.getItem('theme') || 'xbox-dark'
       setDefaultValue(localTheme)
+    } else if (item.name === 'fontSize') {
+      const localTheme = localStorage.getItem('fontSize') || '18'
+      setDefaultValue(localTheme)
     } else {
       setDefaultValue(settings[item.name])
     }
@@ -66,6 +69,9 @@ const SettingItem = (props) => {
       } else if (key === 'theme') {
         localStorage.setItem('theme', value)
         props.onRestartWarn && props.onRestartWarn()
+      } else if (key === 'fontSize') {
+        localStorage.setItem('fontSize', value)
+        document.documentElement.style.fontSize = value + 'px';
       } else {
         setSettings({
           ...settings,

@@ -240,6 +240,11 @@ function Stream() {
                   });
               }, 30 * 1000);
             }
+
+            // Refresh video player
+            if (settings.display_options) {
+              refreshPlayer(settings.display_options)
+            }
           }, 500);
         } else if (event.state === "closed") {
           console.log(":: We are disconnected!");
@@ -360,6 +365,7 @@ function Stream() {
     return () => {
       if (xPlayer !== undefined) {
         xPlayer.close();
+        setxPlayer(null);
       }
 
       if (keepaliveInterval.current) {

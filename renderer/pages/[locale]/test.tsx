@@ -200,7 +200,7 @@ function GamepadTester() {
             console.log("gamepads:", gamepads);
             for (let i = 0; i < gamepads.length; i++) {
               const gp = gamepads[i];
-              if (gp) {
+              if (gp && gp.vibrationActuator) {
                 gp.vibrationActuator.playEffect("dual-rumble", {
                   startDelay: 0,
                   duration: 1000,
@@ -218,10 +218,9 @@ function GamepadTester() {
           color="secondary"
           onClick={() => {
             const gamepads = navigator.getGamepads();
-            console.log("gamepads:", gamepads);
             for (let i = 0; i < gamepads.length; i++) {
               const gp = gamepads[i];
-              if (gp) {
+              if (gp && gp.vibrationActuator) {
                 // @ts-ignore
                 if (gp.vibrationActuator.effects && gp.vibrationActuator.effects.includes('trigger-rumble')) {
                   gp.vibrationActuator.playEffect('trigger-rumble', {

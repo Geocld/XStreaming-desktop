@@ -7,27 +7,40 @@
   <developer_name>Geocld</developer_name>
   <summary>XStreaming is an open-source client for xCloud and Xbox home streaming</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <url type="homepage">https://github.com/Geocld/XStreaming-desktop</url>
-  <url type="help">https://github.com/Geocld/XStreaming-desktop/issues</url>
-  <url type="bugtracker">https://github.com/Geocld/XStreaming-desktop/issues</url>
+  <url type="homepage">https://github.com/Geocld/XStreamingDesktop</url>
+  <url type="help">https://github.com/Geocld/XStreamingDesktop/issues</url>
+  <url type="bugtracker">https://github.com/Geocld/XStreamingDesktop/issues</url>
   <description>
     <p>Xbox streaming client, you can play Xbox games anywhere.</p>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/console.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreamingDesktop/main/images/console.jpg</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreamingDesktop/main/images/xcloud.jpg</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/xcloud2.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreamingDesktop/main/images/xcloud2.jpg</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://raw.githubusercontent.com/Geocld/XStreaming-desktop/main/images/settings.jpg</image>
+      <image type="source">https://raw.githubusercontent.com/Geocld/XStreamingDesktop/main/images/settings.jpg</image>
     </screenshot>
   </screenshots>
   <releases>
+  <release version="1.5.0" date="2025-03-24">
+      <description>
+          <ul>
+            <li>Fixed:</li>
+            <li>Stream black screen in some case.</li>
+          </ul>
+          <ul>
+            <li>Features:</li>
+            <li>New logo</li>
+            <li>Stick maping in keyboard supported.</li>
+          </ul>
+      </description>
+    </release>
     <release version="1.4.1" date="2025-03-04">
       <description>
           <ul>

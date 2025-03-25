@@ -32,6 +32,14 @@ function KeyboardMap() {
     "RightTrigger",
     "LeftThumb",
     "RightThumb",
+    "LeftThumbXAxisPlus",
+    "LeftThumbXAxisMinus",
+    "LeftThumbYAxisPlus",
+    "LeftThumbYAxisMinus",
+    "RightThumbXAxisPlus",
+    "RightThumbXAxisMinus",
+    "RightThumbYAxisPlus",
+    "RightThumbYAxisMinus"
   ];
   const { theme } = useTheme();
   const { settings, setSettings } = useSettings();
@@ -120,6 +128,30 @@ function KeyboardMap() {
               break;
             case "RightThumb":
               fullBtnText = "Right Thumbstick";
+              break;
+            case "LeftThumbXAxisPlus":
+              fullBtnText = "Left Stick +x";
+              break;
+            case "LeftThumbXAxisMinus":
+              fullBtnText = "Left Stick -x";
+              break;
+            case "LeftThumbYAxisPlus":
+              fullBtnText = "Left Stick +y";
+              break;
+            case "LeftThumbYAxisMinus":
+              fullBtnText = "Left Stick -y";
+              break;
+            case "RightThumbXAxisPlus":
+              fullBtnText = "Right Stick +x";
+              break;
+            case "RightThumbXAxisMinus":
+              fullBtnText = "Right Stick -x";
+              break;
+            case "RightThumbYAxisPlus":
+              fullBtnText = "Right Stick +y";
+              break;
+            case "RightThumbYAxisMinus":
+              fullBtnText = "Right Stick -y";
               break;
             default:
               fullBtnText = btn;

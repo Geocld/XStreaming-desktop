@@ -86,5 +86,11 @@
   "Select gamepad": "指定手柄",
   "Select specified controller": "选择指定手柄",
   "Exit": "退出",
-  "Clear cache": "清空缓存"
+  "Clear cache": "清空缓存",
+  "Font Size": "字体大小",
+  "Set the app font size": "设置应用字体大小",
+  "Small": "小",
+  "Normal": "正常",
+  "Big": "大",
+  "Super Big": "超大"
 }

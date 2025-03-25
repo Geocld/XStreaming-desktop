@@ -73,6 +73,19 @@ const getSettingsMetas = (t) => {
           {value: false, label: t('Disable')},
         ],
       },
+      {
+        name: 'fontSize',
+        type: 'radio',
+        title: t('Font Size'),
+        needRestart: true,
+        description: t('Set the app font size'),
+        data: [
+          {value: '14', label: t('Small')},
+          {value: '16', label: t('Normal')},
+          {value: '18', label: t('Big')},
+          {value: '20', label: t('Super Big')},
+        ],
+      },
     ],
     streaming: [
       {

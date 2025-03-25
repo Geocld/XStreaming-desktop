@@ -87,5 +87,11 @@
   "Select gamepad": "Select gamepad",
   "Select specified controller": "Select specified controller",
   "Exit": "Exit",
-  "Clear cache": "Clear cache"
+  "Clear cache": "Clear cache",
+  "Font Size": "Font Size",
+  "Set the app font size": "Set the app font size",
+  "Small": "Small",
+  "Normal": "Normal",
+  "Big": "Big",
+  "Super Big": "Super Big"
 }

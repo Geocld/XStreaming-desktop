@@ -99,5 +99,11 @@
   "australiaeast": "Leste da Austrália",
   "Select gamepad": "Selecionar controle",
   "Select specified controller": "Selecionar controle especificado",
-  "Clear cache": "Clear cache"
+  "Clear cache": "Clear cache",
+  "Font Size": "Font Size",
+  "Set the app font size": "Set the app font size",
+  "Small": "Small",
+  "Normal": "Normal",
+  "Big": "Big",
+  "Super Big": "Super Big"
 }

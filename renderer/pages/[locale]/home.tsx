@@ -65,6 +65,12 @@ function Home() {
     if (localTheme === 'xbox-light') {
       setTheme(localTheme)
     }
+
+    const localFontSize = localStorage.getItem('fontSize');
+    if (localFontSize !== '16') {
+      document.documentElement.style.fontSize = localFontSize + 'px';
+    }
+    
     setLoading(true);
     setLoadingText(t("Loading..."));
 
@@ -279,7 +285,7 @@ function Home() {
       <AuthModal show={showLoginModal} onConfirm={handleLogin} />
 
       <Layout>
-        <div className="gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
+        <div className="gap-4 grid grid-cols-3">
           {consoles.map((console) => {
             let consoleName: string
             switch (console.consoleType) {
