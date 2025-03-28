@@ -61,13 +61,12 @@ function Home() {
 
   useEffect(() => {
     const localTheme = localStorage.getItem('theme');
-    console.log('localTheme:', localTheme)
     if (localTheme === 'xbox-light') {
       setTheme(localTheme)
     }
 
     const localFontSize = localStorage.getItem('fontSize');
-    if (localFontSize !== '16') {
+    if (localFontSize && localFontSize !== '16') {
       document.documentElement.style.fontSize = localFontSize + 'px';
     }
     

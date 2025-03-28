@@ -74,6 +74,10 @@ function ActionBar(props) {
     props.onDisplay && props.onDisplay();
   };
 
+  const handleAudio = () => {
+    props.onAudio && props.onAudio();
+  };
+
   const handlePressNexus = () => {
     props.onPressNexus && props.onPressNexus();
   };
@@ -107,6 +111,14 @@ function ActionBar(props) {
             props.connectState === CONNECTED && (
               <DropdownItem key="display" onClick={handleDisplay}>
                 {t("Display settings")}
+              </DropdownItem>
+            )
+          }
+
+          {
+            props.connectState === CONNECTED && (
+              <DropdownItem key="display" onClick={handleAudio}>
+                {t("Audio settings")}
               </DropdownItem>
             )
           }

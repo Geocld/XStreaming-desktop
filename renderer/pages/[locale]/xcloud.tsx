@@ -36,6 +36,11 @@ function Xcloud() {
     setLoadingText(t("Loading..."));
     focusable.current = document.querySelectorAll(FOCUS_ELEMS);
 
+    const localFontSize = localStorage.getItem('fontSize');
+    if (localFontSize && localFontSize !== '16') {
+      document.documentElement.style.fontSize = localFontSize + 'px';
+    }
+
     function nextItem(index) {
       index++;
       currentIndex.current = index % focusable.current.length;

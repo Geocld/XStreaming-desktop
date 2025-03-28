@@ -45,5 +45,8 @@
   "Remote offer retrieved successfully...": "transmissão remota recuperada com sucesso...",
   "Ready to send ICE...": "Pronto para enviar o ICE...",
   "Exchange ICE successfully...": "O Exchange ICE foi bem-sucedido...",
-  "Connected": "Conectado"
+  "Connected": "Conectado",
+  "Audio": "Audio",
+  "Volume": "Volume",
+  "Audio settings": "Audio settings"
 }

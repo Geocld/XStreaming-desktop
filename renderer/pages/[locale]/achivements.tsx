@@ -29,6 +29,11 @@ function Achivements() {
     setLoading(true);
     setLoadingText(t("Loading..."));
 
+    const localFontSize = localStorage.getItem('fontSize');
+    if (localFontSize && localFontSize !== '16') {
+      document.documentElement.style.fontSize = localFontSize + 'px';
+    }
+
     Ipc.send("xCloud", "getHistoryAchivements").then(data => {
       setAchivements(data);
       setLoading(false);

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import xStreamingPlayer from "xstreaming-player";
 import ActionBar from "../../components/ActionBar";
 import Display from "../../components/Display";
+import Audio from "../../components/Audio";
 import FailedModal from "../../components/FailedModal";
 import Loading from "../../components/Loading";
 import Perform from "../../components/Perform";
@@ -36,6 +37,8 @@ function Stream() {
   const [showFailed, setShowFailed] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
+  const [showAudio, setShowAudio] = useState(false);
+  const [volume, setVolume] = useState(1);
   const [streamingType, setStreamingType] = useState('');
   const [consoleId, setConsoleId] = useState('');
   const connectStateRef = useRef("");
@@ -45,6 +48,11 @@ function Stream() {
   useEffect(() => {
     let streamType = "home";
     let serverId = router.query.serverid as string;
+
+    const localFontSize = localStorage.getItem('fontSize');
+    if (localFontSize && localFontSize !== '16') {
+      document.documentElement.style.fontSize = localFontSize + 'px';
+    }
 
     if (serverId.startsWith(XCLOUD_PREFIX)) {
       streamType = "cloud";
@@ -549,6 +557,7 @@ function Stream() {
           setShowPerformance(!showPerformance);
         }}
         onDisplay={() => setShowDisplay(true)}
+        onAudio={() => setShowAudio(true)}
         onPressNexus={handlePressNexus}
         onLongPressNexus={handleLongPressNexus}
       />
@@ -579,6 +588,19 @@ function Stream() {
           onClose={() => setShowDisplay(false)}
           onValueChange={(options) => {
             refreshPlayer(options);
+          }}
+        />
+      )}
+
+      {showAudio && (
+        <Audio
+          volume={volume}
+          onClose={() => setShowAudio(false)}
+          onValueChange={value => {
+            setVolume(value)
+            if (xPlayer) {
+              xPlayer.setAudioVolumeDirect(value)
+            }
           }}
         />
       )}

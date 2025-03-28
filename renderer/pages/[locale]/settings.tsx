@@ -44,6 +44,11 @@ function Settings() {
       setIsLogined(true);
     }
 
+    const localFontSize = localStorage.getItem('fontSize');
+    if (localFontSize && localFontSize !== '16') {
+      document.documentElement.style.fontSize = localFontSize + 'px';
+    }
+
     const _settings = getSettingsMetas(t);
     setSettings(_settings);
 

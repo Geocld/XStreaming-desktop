@@ -46,5 +46,8 @@
   "Configuring ICE, waiting for response...": "正在配置ICE，正在等待響應...",
   "Connected": "連接成功",
   "Connecting...": "正在連接...",
-  "Disconnecting...": "正在斷開連接..."
+  "Disconnecting...": "正在斷開連接...",
+  "Audio": "声音",
+  "Volume": "音量",
+  "Audio settings": "声音设置"
 }

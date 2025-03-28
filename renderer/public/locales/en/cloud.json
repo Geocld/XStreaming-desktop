@@ -36,5 +36,8 @@
   "Search": "Search",
   "NAT failed. If you are trying to stream remotely, please ensure that you have a public IPV4/6 address and that your router has port forwarding enabled for ports 9002/3074.": "NAT failed. If you are trying to stream remotely, please ensure that you have a public IPV4/6 address and that your router has port forwarding enabled for ports 9002/3074.",
   "The terminal seems to have been without a screen for a long time. Please try reconnecting.": "The terminal seems to have been without a screen for a long time. Please try reconnecting.",
-  "Keep waiting": "Keep waiting"
+  "Keep waiting": "Keep waiting",
+  "Audio": "Audio",
+  "Volume": "Volume",
+  "Audio settings": "Audio settings"
 }
