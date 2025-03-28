@@ -28,7 +28,16 @@
     </screenshot>
   </screenshots>
   <releases>
-  <release version="1.5.0" date="2025-03-24">
+    <release version="1.6.0" date="2025-03-28">
+      <description>
+          <ul>
+            <li>Features:</li>
+            <li>Audio volume control supported</li>
+            <li>Send text in stream view</li>
+          </ul>
+      </description>
+    </release>
+    <release version="1.5.0" date="2025-03-24">
       <description>
           <ul>
             <li>Fixed:</li>
