@@ -78,6 +78,10 @@ function ActionBar(props) {
     props.onAudio && props.onAudio();
   };
 
+  const handleText = () => {
+    props.onText && props.onText();
+  };
+
   const handlePressNexus = () => {
     props.onPressNexus && props.onPressNexus();
   };
@@ -117,8 +121,16 @@ function ActionBar(props) {
 
           {
             props.connectState === CONNECTED && (
-              <DropdownItem key="display" onClick={handleAudio}>
+              <DropdownItem key="audio" onClick={handleAudio}>
                 {t("Audio settings")}
+              </DropdownItem>
+            )
+          }
+
+          {
+            (props.connectState === CONNECTED && props.type !== 'cloud') && (
+              <DropdownItem key="text" onClick={handleText}>
+                {t("Send text")}
               </DropdownItem>
             )
           }

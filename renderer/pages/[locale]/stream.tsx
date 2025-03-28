@@ -10,6 +10,7 @@ import FailedModal from "../../components/FailedModal";
 import Loading from "../../components/Loading";
 import Perform from "../../components/Perform";
 import WarningModal from "../../components/WarningModal";
+import TextModal from "../../components/TextModal";
 import { useSettings } from "../../context/userContext";
 import { getStaticPaths, makeStaticProperties } from "../../lib/get-static";
 import Ipc from "../../lib/ipc";
@@ -38,6 +39,7 @@ function Stream() {
   const [showWarning, setShowWarning] = useState(false);
   const [showDisplay, setShowDisplay] = useState(false);
   const [showAudio, setShowAudio] = useState(false);
+  const [showTextModal, setShowTextModal] = useState(false);
   const [volume, setVolume] = useState(1);
   const [streamingType, setStreamingType] = useState('');
   const [consoleId, setConsoleId] = useState('');
@@ -484,6 +486,13 @@ function Stream() {
     });
   }
 
+  const handleSendText = (text: string) => {
+    Ipc.send("consoles", "sendText", {
+      consoleId,
+      text
+    });
+  }
+
   const onDisconnect = () => {
     setLoading(true);
     setShowPerformance(false);
@@ -558,6 +567,7 @@ function Stream() {
         }}
         onDisplay={() => setShowDisplay(true)}
         onAudio={() => setShowAudio(true)}
+        onText={() => setShowTextModal(true)}
         onPressNexus={handlePressNexus}
         onLongPressNexus={handleLongPressNexus}
       />
@@ -591,6 +601,22 @@ function Stream() {
           }}
         />
       )}
+
+      {
+        showTextModal && (
+          <TextModal 
+            onClose={() => setShowTextModal(false)}
+            onConfirm={value => {
+              let text = value.trim()
+              if (!text) return
+              if (text.length > 150) {
+                text = text.substring(0, 150);
+              }
+              handleSendText(text)
+            }}
+          />
+        )
+      }
 
       {showAudio && (
         <Audio

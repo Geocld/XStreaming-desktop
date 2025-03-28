@@ -33,7 +33,7 @@ export default class IpcConsoles extends IpcBase {
           linkedXboxId: consoleId,
         };
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           http
             .post(
               'xccs.xboxlive.com',
@@ -87,7 +87,6 @@ export default class IpcConsoles extends IpcBase {
     }
 
     powerOn(consoleId: string) {
-        console.log('consoleId:', consoleId)
         return new Promise((resolve, reject) => {
             this.sendCommand(consoleId, 'Power', 'WakeUp').then(res => {
                 resolve(res)
@@ -95,6 +94,15 @@ export default class IpcConsoles extends IpcBase {
                 reject(e)
             })
         });
+    }
+
+    sendText(params) {
+      const { consoleId, text } = params
+      return this.sendCommand(consoleId, 'Shell', 'InjectString', [
+        {
+          replacementString: text,
+        },
+      ]);
     }
 
     powerOff(consoleId: string) {
